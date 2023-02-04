@@ -1,4 +1,6 @@
 import DashboardLayout from '../layout/DashboardLayout.vue'
+import LayoutMembre from '../layout/LayoutMembre.vue'
+import Index from '../layout/Index.vue'
 // GeneralViews
 import NotFound from '../pages/NotFoundPage.vue'
 
@@ -19,8 +21,8 @@ import Upgrade from 'src/pages/Upgrade.vue'
 const routes = [
   {
     path: '/',
-    component: DashboardLayout,
-    redirect: '/admin/overview'
+    component: Index,
+    name: 'index'
   },
   {
     path: '/admin',
@@ -84,6 +86,17 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/membre',
+    component: LayoutMembre,
+    redirect: '/membre/overview',
+    children: [
+      {
+        path: 'overview',
+        name: 'Overview',
+        component: Overview
+      }]}
+      ,
   { path: '*', component: NotFound }
 ]
 

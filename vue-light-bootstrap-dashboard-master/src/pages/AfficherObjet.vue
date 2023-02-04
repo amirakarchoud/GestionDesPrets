@@ -51,13 +51,7 @@
       </div>
 
      
-      <div v-if = "responseAvailable == true">
-        <hr>
-        <p>
-            <i>{{result}}</i>
-        </p>
-        <hr>
-</div>
+     
 
 
 

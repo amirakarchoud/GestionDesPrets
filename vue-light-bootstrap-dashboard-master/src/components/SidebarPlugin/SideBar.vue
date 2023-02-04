@@ -7,7 +7,7 @@
       <div class="logo">
         <a href="#" class="simple-text logo__container">
             <div class="" style="margin:0px; width:70px; height:60px;">
-                <img src="img/logo.jpeg"  alt="" style="margin:0px; width:60px; height:40px; border-radius: 20%;">
+                <img src="../../../public/img/logo.jpeg"  alt="" style="margin:0px; width:60px; height:40px; border-radius: 20%;">
             </div>
           {{title}}
         </a>
