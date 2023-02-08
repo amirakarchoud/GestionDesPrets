@@ -3,7 +3,10 @@
     <thead>
       <slot name="columns">
         <tr>
-          <th v-for="column in columns" :key="column">{{column}}</th>
+          <th> Label</th>
+          <th> Etat</th>
+          <th> Type</th>
+          <th> Groupe</th>
           <th> Modifier</th>
           <th> Supprimer</th>
         </tr>
@@ -12,10 +15,11 @@
     <tbody>
     <tr v-for="(item, index) in data" :key="index">
       <slot :row="item">
-        <td >{{itemValue(item, "_id")}}</td>
+        
         <td >{{itemValue(item, "label")}}</td>
-        <td >{{itemValue(item, "borrowed")}}</td>
-        <td >{{itemValue(item, "type")}}</td>
+        <td >{{borrowedStatus(item.borrowed)}}</td>
+        <td >{{item.type.label}}</td>
+        <td >{{item.type.group.label}}</td>
         <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </td>
         <td><button class="btn btn-info"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
@@ -24,6 +28,7 @@
   </table>
 </template>
 <script>
+
   export default {
     name: 'lo-table',
     props: {
@@ -36,10 +41,17 @@
       },
       itemValue (item, column) {
         return item[column.toLowerCase()]
-      }
+      },
+      borrowedStatus(borrowed) {
+    return borrowed ? 'Emprunte' : 'Disponible';
+  }
+     
+      
     }
   }
+
 </script>
+
 <style>
 
 </style>
