@@ -4,18 +4,6 @@
     <form>
 
 
-    <div class="row">
-        <div class="col-md-5">
-          <base-input type="text"
-                    label="Identifiant du l'objet"
-                    placeholder="ID"
-                    v-model="user.id">
-          </base-input>
-        </div>
-        
-      </div>
-
-
 
 
       <div class="row">
@@ -31,19 +19,6 @@
 
 
 
-      <div class="row">
-        <div class="col-md-6" >
-        <label for="group">Groupe </label>
-         <br>
-          <select v-model="selected" style="width:280px; height:40px; border:1px solid #d8e1e6;">
-          <option disabled value="">Veuillez selectionner un groupe</option>
-        <option v-for="option in options" :value="option.value">
-             {{ option.text }}
-         </option>
-          </select>
-        </div>
-       
-      </div>
 
 
 
@@ -106,17 +81,10 @@
           postalCode: '',
           aboutMe: `Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.`
         },
-        selected: 'A',
-      options: [
-        { text: 'Cles', value: 'A' },
-        { text: 'Badges', value: 'B' },
-        { text: 'Cartes', value: 'C' }
-      ],
+       
       selectedT: 'A',
       optionsT: [
-        { text: 'Bureau', value: '111111111111111111111111' },
-        { text: 'Salles', value: '222222222222222222222222' },
-        { text: 'Labo', value: '333333333333333333333333' }
+        
       ]
       }
     },
@@ -156,9 +124,56 @@
       this.errorMessage = error;
       console.error('There was an error!', error);
     });
-}
+},
 
+getTypes () { 
+      this.responseAvailable = false;
+
+      fetch("http://localhost:3000/objectType", {
+    "method": "GET",
+    headers: {
+      "Content-Type": "application/json"
     }
+})
+.then(async response => {
+      const data = await response.json();
+
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response statusText
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      this.optionsT= data.map(o => {
+  return {
+    text: o.label,
+    value: o._id
+  };
+          });
+
+     /*  console.log(data);
+      for (let i = 0; i < data.length; i++) {
+  
+   this.optionsT[i].value = data[i]._id;
+   this.optionsT[i].text = data[i].label;
+
+  console.log( data[i].label , data[i]._id); }*/
+
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("There was an error!", error);
+    });
+    },
+
+    },
+
+beforeMount(){
+  //this.test();
+   this.getTypes();
+ },
+
   }
 
 </script>
