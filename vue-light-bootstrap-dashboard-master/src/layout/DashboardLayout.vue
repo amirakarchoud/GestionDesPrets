@@ -6,7 +6,7 @@
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Tableau de bord</p>
       </sidebar-link>
-      <sidebar-link to="/admin/user">
+      <sidebar-link to="/admin/listesDemandes">
         <i class="nc-icon nc-circle-09"></i>
         <p>Gestion des demandes</p>
       </sidebar-link>
