@@ -21,7 +21,7 @@
         <td >{{item.type.label}}</td>
         <td >{{item.type.group.label}}</td>
         <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </td>
-        <td><button class="btn btn-info"><i class="fa fa-trash-o"></i></button> </td>
+        <td><button class="btn btn-info" @click.prevent="deleteObject(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
     </tbody>
@@ -44,6 +44,30 @@
       },
       borrowedStatus(borrowed) {
     return borrowed ? 'Emprunte' : 'Disponible';
+  },
+
+  async deleteObject(id) {
+    const requestOptions = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id: id })
+  };
+  fetch(`http://localhost:3000/object/${id}`, requestOptions)
+    .then(async response => {
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+      }
+
+      // reload the page
+      location.reload();
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error('There was an error!', error);
+    });
   }
      
       
