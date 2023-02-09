@@ -8,6 +8,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
+import ModifierObjet from 'src/pages/ModifierObjet.vue'
 
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
@@ -43,6 +44,11 @@ const routes = [
         path: 'objetadd',
         name: 'Ob',
         component: AjouterObjet
+      },
+      {
+        path: 'objetmodif/:id',
+        name: 'Obmod',
+        component: ModifierObjet
       },
       {
         path: 'objet',

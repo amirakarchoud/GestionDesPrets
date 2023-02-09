@@ -20,7 +20,7 @@
         <td >{{borrowedStatus(item.borrowed)}}</td>
         <td >{{item.type.label}}</td>
         <td >{{item.type.group.label}}</td>
-        <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </td>
+        <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
         <td><button class="btn btn-info" @click.prevent="deleteObject(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
