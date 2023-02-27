@@ -49,6 +49,7 @@
 
 
 <script>
+import Notifications from 'vue-notification'
 
   export default {
     name: 'lo-table',

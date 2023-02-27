@@ -1,4 +1,5 @@
 <template>
+  <div>
   <card>
     <h4 slot="header" class="card-title">Modifier un objet</h4>
     <form>
@@ -42,7 +43,7 @@
       
        
       <div class="text-center">
-        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="created">
+        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="showConfirmationModal">
           Modifier
         </button>
         <router-link to="/admin/objet"> 
@@ -53,16 +54,56 @@
       <div class="clearfix"></div>
     </form>
   </card>
+
+
+  <div class="modal" v-if="showModal">
+    <div class="modal-content">
+      <p>Etes vous sur de modifier cet objet ?</p>
+      <div class="modal-buttons">
+        <button class="btn btn-danger" @click="created()">Modifier</button>
+        <button class="btn btn-secondary" @click="hideConfirmationModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
 </template>
 <script>
   import Card from 'src/components/Cards/Card.vue'
+  import Notifications from 'vue-notification'
 
   export default {
     components: {
-      Card
+      Card,
+      Notifications
     },
     data () {
       return {
+        showModal: false,
+        notifications: {
+          success:{
+          title: 'Objet a été modifié avec succès!',
+         
+          type: 'success',
+          duration: 3000,
+          position: 'top-right',
+          color: '#ffffff'
+          },
+          failure:{
+           
+          title: 'Erreur!',
+          
+          type: 'error',
+          duration: 5000,
+          position: 'top-right',
+          
+          }
+        
+      },
+      objectId: null,
         object:{},
         idm:'',
         data:{
@@ -79,6 +120,16 @@
       }
     },
     methods: {
+
+
+      showConfirmationModal() {
+      //this.objectId = id;
+      this.showModal = true;
+    },
+    hideConfirmationModal() {
+      this.showModal = false;
+    },
+
       
   get () {
     const id = this.$route.params.id;
@@ -112,13 +163,21 @@
       if (!response.ok) {
         // get error message from body or default to response status
         const error = (data && data.message) || response.status;
+        this.$notify(this.notifications.failure);
         return Promise.reject(error);
       }
 
       this.postId = data.id;
+      this.hideConfirmationModal();
+      console.log("notif")
+      console.log(this.notifications);
+      this.$notify(this.notifications.success);
+      this.$router.push('/admin/objet');
+      
     })
     .catch(error => {
       this.errorMessage = error;
+      this.$notify(this.notifications.failure);
       console.error('There was an error!', error);
     });
 },
