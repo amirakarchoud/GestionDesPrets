@@ -1,4 +1,5 @@
 <template>
+   <div>
   <table class="table">
     <thead>
       <slot name="columns">
@@ -21,12 +22,32 @@
         <td >{{item.type.label}}</td>
         <td >{{item.type.group.label}}</td>
         <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
-        <td><button class="btn btn-info" @click.prevent="deleteObject(item._id)"><i class="fa fa-trash-o"></i></button> </td>
+        <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
     </tbody>
   </table>
+
+
+ 
+  <div class="modal" v-if="showModal">
+    <div class="modal-content">
+      <p>Etes vous sur de supprimer cet objet ?</p>
+      <div class="modal-buttons">
+        <button class="btn btn-danger" @click="deleteObject()">Supprimer</button>
+        <button class="btn btn-secondary" @click="hideConfirmationModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
 </template>
+
+
+
+
 <script>
 
   export default {
@@ -35,7 +56,22 @@
       columns: Array,
       data: Array
     },
+    data() {
+    return {
+      showModal: false,
+      objectId: null,
+    };
+  },
     methods: {
+
+      showConfirmationModal(id) {
+      this.objectId = id;
+      this.showModal = true;
+    },
+    hideConfirmationModal() {
+      this.showModal = false;
+    },
+
       hasValue (item, column) {
         return item[column.toLowerCase()] !== 'undefined'
       },
@@ -46,7 +82,8 @@
     return borrowed ? 'Emprunte' : 'Disponible';
   },
 
-  async deleteObject(id) {
+  async deleteObject() {
+    const id=this.objectId;
     const requestOptions = {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
@@ -62,6 +99,7 @@
       }
 
       // reload the page
+      this.hideConfirmationModal();
       location.reload();
     })
     .catch(error => {
@@ -77,5 +115,33 @@
 </script>
 
 <style>
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 350px;
+  background-color: #fff;
+  border-style: double;
+  border-color: #68d7ed;
+  border-width: medium;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
 
 </style>
