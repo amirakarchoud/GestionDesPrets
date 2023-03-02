@@ -50,12 +50,6 @@
 
       </div>
 
-     
-     
-
-
-
-      
     </div>
   </div>
 </template>
@@ -93,6 +87,7 @@
     etat: 'disponible',
     type: 'Carte'
   }]
+
   export default {
     components: {
       LoTable,
@@ -158,13 +153,6 @@ beforeMount(){
 
 
   }
-
-
-
-
-
- 
-
 
 </script>
 

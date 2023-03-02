@@ -8,10 +8,19 @@ import NotFound from '../pages/NotFoundPage.vue'
 import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
-
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
+import AfficherPret from 'src/pages/AfficherPret.vue'
+import AfficherPretRetourne from 'src/pages/AfficherPretRetourne.vue'
+import AfficherPretNonRetourne from 'src/pages/AfficherPretNonRetourne.vue'
+import AfficherPretAssigne from 'src/pages/AfficherPretAssigne.vue'
+import AfficherPretByid from 'src/pages/AfficherPretByid.vue'
+import AfficherDemande from 'src/pages/AfficherDemande.vue'
+import AfficherDemandeById from 'src/pages/AfficherDemandeById.vue'
+import ValiderDemande from 'src/pages/ValiderDemande.vue'
+import AfficherDemandeMember from 'src/pages/AfficherDemandeMember.vue'
+
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
@@ -48,6 +57,46 @@ const routes = [
         path: 'objet',
         name: 'Objetaff',
         component: AfficherObjet
+      },
+      {
+        path: 'pret',
+        name: 'Pretaff',
+        component: AfficherPret
+      },
+      {
+        path: 'pretRetourne',
+        name: 'PretRetourneaff',
+        component: AfficherPretRetourne
+      },
+      {
+        path: 'pretNonRetourne',
+        name: 'PretNonRetourneaff',
+        component: AfficherPretNonRetourne
+      },
+      {
+        path: 'pretAssigne',
+        name: 'PretAssigneaff',
+        component: AfficherPretAssigne
+      },
+      {
+        path: 'pretbyid/:id',
+        name: 'PretById',
+        component: AfficherPretByid 
+      },
+      {
+        path: 'demande',
+        name: 'Demandeaff',
+        component: AfficherDemande
+      },
+      {
+        path: 'validerdemande',
+        name: 'ValiderDemande',
+        component: ValiderDemande
+      },
+      {
+        path: 'demandebyid/:id',
+        name: 'DemandeById',
+        component: AfficherDemandeById 
       },
       {
         path: 'ajouterType',
@@ -95,7 +144,13 @@ const routes = [
         path: 'overview',
         name: 'Overview',
         component: Overview
-      }]}
+      },
+      {
+        path: 'demande',
+        name: 'Demandeaff',
+        component: AfficherDemandeMember
+      },
+    ]}
       ,
   { path: '*', component: NotFound }
 ]
