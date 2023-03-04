@@ -16,7 +16,7 @@
               <p class="category"></p></h5>
       </div></div><div class="row justify-content-center">
       <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un objet</router-link> </button></div>
-      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i>  Gestion des groupes</button></div>
+      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i><router-link to="/admin/groupe"> Gestion des groupes</router-link> </button></div>
       <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><router-link to="/admin/ajouterType">Gestion des types</router-link></button></div></div>
       
       

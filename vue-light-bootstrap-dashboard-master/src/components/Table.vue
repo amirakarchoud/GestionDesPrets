@@ -13,7 +13,7 @@
     <tr v-for="(item, index) in data" :key="index">
       <slot :row="item">
         <td v-for="column in columns" :key="column" v-if="hasValue(item, column)">{{itemValue(item, column)}}</td>
-        <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </td>
+        <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></button> </td>
         <td><button class="btn btn-info"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
@@ -38,5 +38,4 @@
   }
 </script>
 <style>
-
 </style>
