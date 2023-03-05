@@ -1,5 +1,18 @@
 <template>
    <div>
+    <div class="search-select-container">
+    <div class="search-box">
+      <input type="text" v-model="searchText" placeholder="Rechercher Label...">
+      <i class="nc-icon nc-zoom-split"></i>
+    </div>
+    <div class="select-box">
+      <select v-model="selectedType">
+        <option value="">Tous les groupes</option>
+        <option v-for="g in groups" :value="g.value" > {{ g.text }} </option>
+      </select>
+    </div>
+  </div>
+
   <table class="table">
     <thead>
       <slot name="columns">
@@ -14,7 +27,7 @@
       </slot>
     </thead>
     <tbody>
-    <tr v-for="(item, index) in data" :key="index">
+    <tr v-for="(item, index) in filteredDataByText" :key="index">
       <slot :row="item">
         
         <td >{{itemValue(item, "label")}}</td>
@@ -55,13 +68,32 @@ import Notifications from 'vue-notification'
     name: 'lo-table',
     props: {
       columns: Array,
-      data: Array
+      data: Array,
+      groups:Array
     },
     data() {
     return {
       showModal: false,
       objectId: null,
+      selectedType: '',
+      searchText: '',
+      searchTextFocus: false,
+      selectedTypeFocus: false
     };
+  },
+  computed: {
+    filteredData() {
+      if (!this.selectedType) {
+        return this.data
+      }
+      return this.data.filter(item => item.type.group._id === this.selectedType)
+    },
+    filteredDataByText() {
+      if (!this.searchText) {
+        return this.filteredData;
+      }
+      return this.filteredData.filter(item => item.label.toLowerCase().includes(this.searchText.toLowerCase()));
+    }
   },
     methods: {
 
@@ -142,6 +174,67 @@ import Notifications from 'vue-notification'
 
 .modal-buttons {
   margin-top: 20px;
+  border-radius:30px
+}
+
+
+.search-select-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+ 
+  padding: 5px;
+}
+.search-box input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  padding-right: 30px;
+  border: none;
+  border-radius: 20px; /* added border-radius */
+  background-color: #f9f9f9;
+  transition: border-radius 0.1s ease-out;
+}
+.search-box input[type="text"]:focus {
+  outline: none;
+  border: 2px solid #68d7ed;
+  transition: border-color 0.3s ease-out;
+}
+
+.search-box i {
+  color: #ccc;
+  margin-left: 5px;
+}
+
+
+.search-box button:hover {
+  background-color: #ddd;
+}
+
+.select-box select {
+  width: 200px;
+  padding: 8px 16px;
+  border: solid;
+  border-radius: 20px; /* added border-radius */
+  font-size: 16px;
+  border-color:lightgrey;
+  background-color: #fff;
+  transition: background-color 0.3s;
+
+}
+
+.select-box select:focus {
+  background-color: #fff;
+  outline: none;
+  border: 2px solid #68d7ed;
+  transition: border-color 0.3s ease-out;
+  
 }
 
 

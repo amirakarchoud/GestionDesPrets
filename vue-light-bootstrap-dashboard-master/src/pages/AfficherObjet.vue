@@ -39,7 +39,8 @@
             </template>
             <lo-table class="table-hover table-striped"
                      :columns="table1.columns"
-                     :data="result">
+                     :data="result"
+                     :groups="groups">
                      
             </lo-table>
           </card>
@@ -109,7 +110,8 @@
           data: [...tableData]
         },
         result:[],
-    responseAvailable: false
+    responseAvailable: false,
+    groups:[]
       }
     },
 
@@ -146,12 +148,47 @@ methods: {
       console.error("There was an error!", error);
     });
     },
+
+    getGroupes () { 
+      this.responseAvailable = false;
+
+      fetch("http://localhost:3000/objectGroup", {
+    "method": "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+})
+.then(async response => {
+      const data = await response.json();
+
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response statusText
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      this.groups= data.map(o => {
+  return {
+    text: o.label,
+    value: o._id
+  };
+          });
+          console.log("g");
+          console.log(this.groups);
+
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("There was an error!", error);
+    });
+    }
 },
 
 
 
 beforeMount(){
-  //this.test();
+  this.getGroupes();
    this.afficherOb();
  },
 
