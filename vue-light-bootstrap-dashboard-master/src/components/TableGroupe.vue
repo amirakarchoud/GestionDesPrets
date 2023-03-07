@@ -77,7 +77,7 @@ export default {
         failure: {
           title: "Erreur!",
 
-          type: "error",
+          type: "danger",
           duration: 5000,
           position: "top-right",
         },

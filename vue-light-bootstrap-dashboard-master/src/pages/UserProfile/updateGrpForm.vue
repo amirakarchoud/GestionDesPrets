@@ -93,7 +93,7 @@ export default {
         failure: {
           title: "Erreur!",
 
-          type: "error",
+          type: "danger",
           duration: 5000,
           position: "top-right",
         },
@@ -121,12 +121,14 @@ export default {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       };
-
+      const id = this.$route.params.id;
+      console.log(id);
       await fetch(
-        `http://localhost:3000/objectGroup/${this.$route.query.id}`,
+        `http://localhost:3000/objectGroup/${id}`,
         requestOptions
       ).then(async (response) => {
         const data = await response.json();
+        console.log(this.data);
         // check for error response
         if (!response.ok) {
           // get error message from body or default to response statusText
@@ -135,6 +137,7 @@ export default {
         }
         this.responseAvailable = true;
       });
+      this.data = data;
     },
 
     update() {
@@ -156,7 +159,6 @@ export default {
           if (!response.ok) {
             // get error message from body or default to response status
             const error = (data && data.message) || response.status;
-            this.$notify(this.notifications.failure);
             return Promise.reject(error);
           }
           this.postId = data.id;
@@ -174,8 +176,8 @@ export default {
     },
 
     beforeMount() {
+      console.log(this.$route.params.id);
       this.getGroupById();
-      console.log(data);
     },
   },
 };

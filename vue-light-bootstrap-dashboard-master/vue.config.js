@@ -6,6 +6,10 @@ function resolveSrc(_path) {
 }
 
 module.exports = {
+  // devServer: {
+
+  //   host: 'localhost'
+  //   },
   lintOnSave: false,
   configureWebpack: {
     // Set up all the aliases we use in our app.
@@ -21,6 +25,7 @@ module.exports = {
       })
     ]
   },
+  
   pwa: {
     name: 'Vue Light Bootstrap Dashboard',
     themeColor: '#344675',
