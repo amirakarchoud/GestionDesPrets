@@ -42,7 +42,7 @@
             class="btn btn-info btn-fill float-right"
             @click.prevent="showConfirmationModal"
           >
-            Modifier Un Groupe
+            Modifier
           </button>
           <router-link to="/admin/groupe">
             <button
@@ -100,12 +100,14 @@ export default {
       },
       groupeId: null,
       groupe: {},
-      idm: "",
       data: {
         label: "",
         description: "",
       },
     };
+  },
+  beforeMount() {
+    this.getGroupById();
   },
   methods: {
     showConfirmationModal() {
@@ -122,13 +124,12 @@ export default {
         headers: { "Content-Type": "application/json" },
       };
       const id = this.$route.params.id;
-      console.log(id);
       await fetch(
         `http://localhost:3000/objectGroup/${id}`,
         requestOptions
       ).then(async (response) => {
         const data = await response.json();
-        console.log(this.data);
+        this.data = data;
         // check for error response
         if (!response.ok) {
           // get error message from body or default to response statusText
@@ -137,7 +138,6 @@ export default {
         }
         this.responseAvailable = true;
       });
-      this.data = data;
     },
 
     update() {
@@ -154,7 +154,6 @@ export default {
       fetch(`http://localhost:3000/objectGroup/${id}`, requestOptions)
         .then(async (response) => {
           const data = await response.json();
-          console.log(data);
           // check for error response
           if (!response.ok) {
             // get error message from body or default to response status
@@ -163,8 +162,6 @@ export default {
           }
           this.postId = data.id;
           this.hideConfirmationModal();
-          console.log("notif");
-          console.log(this.notifications);
           this.$notify(this.notifications.success);
           this.$router.push("/admin/groupe");
         })
@@ -174,32 +171,7 @@ export default {
           console.error("There was an error!", error);
         });
     },
-
-    beforeMount() {
-      console.log(this.$route.params.id);
-      this.getGroupById();
-    },
   },
 };
 </script>
 <style></style>
-
-// console.log(this.$route.query.id); // const requestOptions = { // method:
-'PUT', // headers: { 'Content-Type': 'application/json' }, // body:
-JSON.stringify({data:{label:this.data.label , description:this.data.description
-}}) // }; // await
-fetch(`http://localhost:3000/objectGroup/${this.$route.query.id}`,
-requestOptions) // .then(async response => { // // check for error response //
-if (!response.ok) { // // get error message from body or default to response
-status // const error = (data && data.message) || response.status; // return
-Promise.reject(error); // } // // reload the page // location.reload(); // }) //
-.catch(error => { // this.errorMessage = error; // console.error('There was an
-error!', error); // }); // }, // async getGroupById () { //
-this.responseAvailable = false; // const requestOptions = { // method: 'GET', //
-headers: { 'Content-Type': 'application/json' }, // }; // await
-fetch(`http://localhost:3000/objectGroup/${this.$route.query.id}`,
-requestOptions) // .then(async response => { // const data = await
-response.json(); // // check for error response // if (!response.ok) { // // get
-error message from body or default to response statusText // const error = (data
-&& data.message) || response.statusText; // return Promise.reject(error); // }
-// this.responseAvailable=true; // }); // },

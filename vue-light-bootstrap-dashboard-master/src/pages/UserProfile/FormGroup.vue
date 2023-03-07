@@ -41,7 +41,7 @@
           class="btn btn-info btn-fill float-right"
           @click.prevent="created"
         >
-          Ajouter Un Groupe
+          Valider
         </button>
         <router-link to="/admin/groupe">
           <button
@@ -88,23 +88,15 @@ export default {
           color: "#ffffdf",
         },
       },
-
-      selected: "A",
-      options: [],
     };
   },
   methods: {
-    updateProfile() {
-      alert("Your data: " + JSON.stringify(this.user));
-    },
-
     testClic() {
       console.log(this.data);
     },
 
     created() {
       // POST request using fetch with error handling
-      console.log(this.data);
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
