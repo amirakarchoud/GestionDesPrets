@@ -10,9 +10,12 @@ import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
 import ModifierObjet from 'src/pages/ModifierObjet.vue'
 
+import ModifierType from 'src/pages/ModifierType.vue'
+
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
+import AfficherType from 'src/pages/AfficherType.vue'
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
@@ -51,9 +54,19 @@ const routes = [
         component: ModifierObjet
       },
       {
+        path: 'typemodif/:id',
+        name: 'Typemod',
+        component: ModifierType
+      },
+      {
         path: 'objet',
         name: 'Objetaff',
         component: AfficherObjet
+      },
+      {
+        path: 'type',
+        name: 'Typeaff',
+        component: AfficherType
       },
       {
         path: 'ajouterType',

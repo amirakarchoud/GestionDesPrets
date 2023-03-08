@@ -12,14 +12,26 @@
           <base-input type="text"
                     label="Label"
                     placeholder="Nom objet"
-                    v-model="data.label">
+                    v-model="data.label" style="width:280px;">
           </base-input>
         </div>
         
       </div>
 
 
-
+      <div class="row">
+        <div class="col-md-6" >
+        <label for="group">Groupe </label>
+         <br>
+          <select v-model="group" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+          <option disabled value="">Veuillez selectionner un groupe</option>
+        <option v-for="option in optionsG" :value="option.value">
+             {{ option.text }}
+         </option>
+          </select>
+        </div>
+       
+      </div>
 
 
 
@@ -112,13 +124,33 @@
           borrowed:false
           
         },
-        
+        types:[],
       selectedT: 'A',
       optionsT: [
+        
+      ],
+      group:'',
+      optionsG: [
         
       ]
       }
     },
+    watch: {
+  'group'(newValue, oldValue) {
+    console.log("watch");
+    if (newValue !== oldValue) {
+      console.log("watch in");
+      this.getTypes(newValue);
+      console.log("watch after");
+      console.log(this.optionsT);
+    }
+  }
+},
+computed: {
+    hasEmptyRequiredFields() {
+      return !this.data.label || !this.data.type;
+    }
+  },
     methods: {
 
 
@@ -182,7 +214,30 @@
     });
 },
 
-getTypes () { 
+getTypes (id) { 
+  console.log("types");
+
+  console.log(this.types);
+   
+       this.optionsT=[];
+       
+       
+      this.optionsT= this.types.filter(o=>o.group==id).map(o => {
+  return {
+    text: o.label,
+    value: o._id
+  };
+          });
+
+    
+    
+    
+    },
+
+
+
+
+    getTypesAll () { 
       this.responseAvailable = false;
 
       fetch("http://localhost:3000/objectType", {
@@ -201,20 +256,45 @@ getTypes () {
         return Promise.reject(error);
       }
       this.responseAvailable=true;
-      this.optionsT= data.map(o => {
+      this.types= data;
+
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("There was an error!", error);
+    });
+    },
+
+    
+
+
+
+
+    getGroupes () { 
+      this.responseAvailable = false;
+
+      fetch("http://localhost:3000/objectGroup", {
+    "method": "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+})
+.then(async response => {
+      const data = await response.json();
+
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response statusText
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      this.optionsG= data.map(o => {
   return {
     text: o.label,
     value: o._id
   };
           });
-
-     /*  console.log(data);
-      for (let i = 0; i < data.length; i++) {
-  
-   this.optionsT[i].value = data[i]._id;
-   this.optionsT[i].text = data[i].label;
-
-  console.log( data[i].label , data[i]._id); }*/
 
     })
     .catch(error => {
@@ -224,10 +304,10 @@ getTypes () {
     },
 
     },
-
 beforeMount(){
   //this.test();
-   this.getTypes();
+  this.getTypesAll ()
+  this.getGroupes();
    this.get();
  },
 

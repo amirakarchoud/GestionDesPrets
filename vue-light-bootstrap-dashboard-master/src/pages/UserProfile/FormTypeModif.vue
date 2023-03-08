@@ -1,6 +1,7 @@
 <template>
+  <div>
   <card>
-    <h4 slot="header" class="card-title">Ajouter un Type</h4>
+    <h4 slot="header" class="card-title">Modifier un type</h4>
     <form>
 
 
@@ -16,6 +17,7 @@
         </div>
         
       </div>
+
 
 
 
@@ -41,8 +43,8 @@
       
        
       <div class="text-center">
-        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="created" :disabled="hasEmptyRequiredFields">
-          Ajouter Un Type
+        <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="showConfirmationModal">
+          Modifier
         </button>
         <router-link to="/admin/type"> 
          <button type="submit" class="btn btn-info btn-fill float-right"  style="margin-right:10px">
@@ -52,6 +54,22 @@
       <div class="clearfix"></div>
     </form>
   </card>
+
+
+  <div class="modal" v-if="showModal">
+    <div class="modal-content">
+      <p>Etes vous sur de modifier ce Type d'objet ?</p>
+      <div class="modal-buttons">
+        <button class="btn btn-danger" @click="created()">Modifier</button>
+        <button class="btn btn-secondary" @click="hideConfirmationModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
 </template>
 <script>
   import Card from 'src/components/Cards/Card.vue'
@@ -59,18 +77,15 @@
 
   export default {
     components: {
-      Card
+      Card,
+      Notifications
     },
     data () {
       return {
-        data:{
-          label:'',
-          group:''
-          
-        },
+        showModal: false,
         notifications: {
           success:{
-          title: 'Type a été ajouté avec succès!',
+          title: 'Type a été modifié avec succès!',
          
           type: 'success',
           duration: 3000,
@@ -81,41 +96,65 @@
            
           title: 'Erreur!',
           
-          type: 'warning',
-          duration: 3000,
+          type: 'error',
+          duration: 5000,
           position: 'top-right',
-          color: '#ffffdf'
           
           }
         
       },
+      objectId: null,
+        object:{},
+        idm:'',
+        data:{
+          label:'',
+          group:''
+          
+        },
+        
       selectedT: 'A',
       optionsT: [
         
       ]
-      
       }
     },
-    
-computed: {
-    hasEmptyRequiredFields() {
-      return !this.data.label || !this.data.group;
-    }
-  },
     methods: {
-     
+
+
+      showConfirmationModal() {
+      //this.objectId = id;
+      this.showModal = true;
+    },
+    hideConfirmationModal() {
+      this.showModal = false;
+    },
+
+      
+  get () {
+    const id = this.$route.params.id;
+    fetch(`http://localhost:3000/objectType/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        this.data = data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+  },
 
 
 
       created() {
+        const id = this.$route.params.id;
   // POST request using fetch with error handling
   console.log(this.data);
   const requestOptions = {
-    method: 'POST',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({data:{label:this.data.label , group:this.data.group }})
   };
-  fetch('http://localhost:3000/objectType', requestOptions)
+  fetch(`http://localhost:3000/objectType/${id}`, requestOptions)
     .then(async response => {
       const data = await response.json();
 
@@ -123,14 +162,17 @@ computed: {
       if (!response.ok) {
         // get error message from body or default to response status
         const error = (data && data.message) || response.status;
-        
+        this.$notify(this.notifications.failure);
         return Promise.reject(error);
       }
 
       this.postId = data.id;
-
+      this.hideConfirmationModal();
+      console.log("notif")
+      console.log(this.notifications);
       this.$notify(this.notifications.success);
-      //this.$router.push('/admin/objet');
+      this.$router.push('/admin/type');
+      
     })
     .catch(error => {
       this.errorMessage = error;
@@ -139,8 +181,7 @@ computed: {
     });
 },
 
-
-    getGroupes () { 
+getGroups () { 
       this.responseAvailable = false;
 
       fetch("http://localhost:3000/objectGroup", {
@@ -176,7 +217,9 @@ computed: {
     },
 
 beforeMount(){
-  this.getGroupes();
+  //this.test();
+   this.getGroups();
+   this.get();
  },
 
   }

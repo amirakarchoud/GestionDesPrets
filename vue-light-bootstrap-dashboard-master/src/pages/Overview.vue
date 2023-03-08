@@ -209,8 +209,8 @@
         deleteTooltip: 'Remove',
         pieChart: {
           data: {
-            labels: ['40%', '60%'],
-            series: [0, 0]
+            labels: [],
+            series: []
           }
         },
         barChart: {
@@ -239,19 +239,7 @@
             }]
           ]
         },
-        tableData: {
-          data: [
-            {title: 'Sign contract for "What are conference organizers afraid of?"', checked: false},
-            {title: 'Lines From Great Russian Literature? Or E-mails From My Boss?', checked: true},
-            {
-              title: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-              checked: true
-            },
-            {title: 'Create 4 Invisible User Experiences you Never Knew About', checked: false},
-            {title: 'Read "Following makes Medium better"', checked: false},
-            {title: 'Unfollow 5 enemies from twitter', checked: false}
-          ]
-        }
+        tableData: {}
       }
     },
 
@@ -280,13 +268,24 @@
     const NotborrowedObjs = data.filter(obj => obj.borrowed === false);
     this.dispo = NotborrowedObjs.length;
       this.nbrObj = data.length;
-      this.pieChart.data.series;
+      console.log("here");
+      
+    console.log("here 2");
+    console.log(this.nbrObj);
+   console.log(this.borr);
+   console.log(this.dispo);
+   console.log(Math.round(this.borr/(this.nbrObj)*100));
+   console.log(Math.round(this.dispo/(this.nbrObj)*100));
+
       this.pieChart = {
       data: {
-        labels: [`${this.borr} (${Math.round(this.borr/(this.borr+this.dispo)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.borr+this.dispo)*100)}%)`],
+        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
         series: [this.borr, this.dispo]
       }
+  
     };
+      
+      console.log(this.pieChart);
     })
     .catch(error => {
       this.errorMessage = error;
@@ -297,33 +296,6 @@
 
 
 
-
-    countPret () { 
-
-fetch("http://localhost:3000/loan", {
-"method": "GET",
-headers: {
-"Content-Type": "application/json"
-}
-})
-.then(async response => {
-const data = await response.json();
-
-// check for error response
-if (!response.ok) {
-  // get error message from body or default to response statusText
-  const error = (data && data.message) || response.statusText;
-  return Promise.reject(error);
-}
-
-this.nbrPret = data.length;
-this.pret=data.slice(0, 8);
-})
-.catch(error => {
-this.errorMessage = error;
-console.error("There was an error!", error);
-});
-},
 
 
 
@@ -369,6 +341,8 @@ fetchLoansAndCountThisMonth() {
       return response.json();
     })
     .then(data => {
+      this.nbrPret = data.length;
+      this.pret=data.slice(0, 8);
       data.forEach(loan => {
         const borrowDate = new Date(loan.date.borrow);
         const borrowMonth = borrowDate.getMonth() + 1;
@@ -390,8 +364,9 @@ fetchLoansAndCountThisMonth() {
     beforeMount(){
    this.countOb();
    this.countType();
-   this.countPret();
    this.fetchLoansAndCountThisMonth();
+  
+   
  },
   }
 </script>
