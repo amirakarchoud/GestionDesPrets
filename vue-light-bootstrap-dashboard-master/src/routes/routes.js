@@ -8,20 +8,18 @@ import NotFound from '../pages/NotFoundPage.vue'
 import Overview from 'src/pages/Overview.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
-import ModifierObjet from 'src/pages/ModifierObjet.vue'
-
-import ModifierType from 'src/pages/ModifierType.vue'
 
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
-import AfficherType from 'src/pages/AfficherType.vue'
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
 import Upgrade from 'src/pages/Upgrade.vue'
-
+import AfficherGroupe from 'src/pages/AfficherGroupe.vue'
+import AjouterGroupe from 'src/pages/AjouterGroupe.vue'
+import modifierGroupe from 'src/pages/modifierGroupe.vue'
 const routes = [
   {
     path: '/',
@@ -49,24 +47,24 @@ const routes = [
         component: AjouterObjet
       },
       {
-        path: 'objetmodif/:id',
-        name: 'Obmod',
-        component: ModifierObjet
-      },
-      {
-        path: 'typemodif/:id',
-        name: 'Typemod',
-        component: ModifierType
-      },
-      {
         path: 'objet',
         name: 'Objetaff',
         component: AfficherObjet
       },
       {
-        path: 'type',
-        name: 'Typeaff',
-        component: AfficherType
+        path: 'groupe',
+        name: 'Groupeaff',
+        component: AfficherGroupe
+      },
+      {
+        path: 'ajouterGroupe',
+        name: 'Groupeadd',
+        component: AjouterGroupe
+      },
+      {
+        path: 'modifierGroupe/:id',
+        name: 'Groupeupdate',
+        component: modifierGroupe
       },
       {
         path: 'ajouterType',
