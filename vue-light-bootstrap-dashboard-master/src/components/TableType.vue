@@ -18,6 +18,7 @@
       <slot name="columns">
         <tr>
           <th> Label</th>
+          <th> Description </th>
           <th> Groupe</th>
           <th> Modifier</th>
           <th> Supprimer</th>
@@ -29,7 +30,8 @@
       <slot :row="item">
         
         <td >{{itemValue(item, "label")}}</td>
-        <td >{{item.group.label}}</td>
+        <td >{{item.description}}</td>
+        <td >{{getGroupLabel(item.group)}}</td>
         <td><router-link :to="{ name: 'Typemod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
         <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
@@ -82,7 +84,7 @@ import Notifications from 'vue-notification'
       if (!this.selectedType) {
         return this.data
       }
-      return this.data.filter(item => item.group._id === this.selectedType)
+      return this.data.filter(item => item.group=== this.selectedType)
     },
     filteredDataByText() {
       if (!this.searchText) {
@@ -92,6 +94,10 @@ import Notifications from 'vue-notification'
     }
   },
     methods: {
+      getGroupLabel(groupId) {
+    const group = this.groups.find(group => group.value === groupId);
+    return group ? group.text : '';
+  },
 
       showConfirmationModal(id) {
       this.objectId = id;

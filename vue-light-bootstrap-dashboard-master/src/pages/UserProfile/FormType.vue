@@ -17,6 +17,17 @@
         
       </div>
 
+      <div class="row">
+        <div class="col-md-5">
+          <textarea type="text"
+                    label="Description"
+                    placeholder="Description Type"
+                    v-model="data.description" style="width:280px;border:1px solid #d8e1e6;">
+          </textarea>
+        </div>
+        
+      </div>
+
 
 
 
@@ -65,6 +76,7 @@
       return {
         data:{
           label:'',
+          description:'',
           group:''
           
         },
@@ -99,7 +111,7 @@
     
 computed: {
     hasEmptyRequiredFields() {
-      return !this.data.label || !this.data.group;
+      return !this.data.label || !this.data.group || !this.data.description;
     }
   },
     methods: {
@@ -113,7 +125,7 @@ computed: {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({data:{label:this.data.label , group:this.data.group }})
+    body: JSON.stringify({data:{label:this.data.label,description:this.data.description , group:this.data.group }})
   };
   fetch('http://localhost:3000/objectType', requestOptions)
     .then(async response => {
@@ -130,7 +142,7 @@ computed: {
       this.postId = data.id;
 
       this.$notify(this.notifications.success);
-      //this.$router.push('/admin/objet');
+      this.$router.push('/admin/type');
     })
     .catch(error => {
       this.errorMessage = error;

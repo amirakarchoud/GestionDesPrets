@@ -152,7 +152,7 @@ methods: {
 
 beforeMount(){
   this.getGroupes();
-   this.afficherType();
+   this.afficherTy();
  },
 
 

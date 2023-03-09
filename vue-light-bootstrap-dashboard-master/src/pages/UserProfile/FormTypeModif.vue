@@ -18,6 +18,17 @@
         
       </div>
 
+      <div class="row">
+        <div class="col-md-5">
+          <textarea type="text"
+                    label="Description"
+                    placeholder="Description Type"
+                    v-model="data.description" style="width:280px;border:1px solid #d8e1e6;">
+          </textarea>
+        </div>
+        
+      </div>
+
 
 
 
@@ -108,6 +119,7 @@
         idm:'',
         data:{
           label:'',
+          description:'',
           group:''
           
         },
@@ -152,7 +164,7 @@
   const requestOptions = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({data:{label:this.data.label , group:this.data.group }})
+    body: JSON.stringify({data:{label:this.data.label,description:this.data.description  , group:this.data.group }})
   };
   fetch(`http://localhost:3000/objectType/${id}`, requestOptions)
     .then(async response => {
