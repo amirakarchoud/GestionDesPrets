@@ -242,8 +242,27 @@
         tableData: {}
       }
     },
+    watch: {
+  nbrObj: function() {
+    this.updatePieChart();
+  },
+  borr: function() {
+    this.updatePieChart();
+  },
+  dispo: function() {
+    this.updatePieChart();
+  }
+},
 
     methods:{
+      updatePieChart() {
+    this.pieChart = {
+      data: {
+        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
+        series: [this.borr, this.dispo]
+      }
+    };
+  },
       countOb () { 
 
       fetch("http://localhost:3000/object", {
@@ -360,6 +379,11 @@ fetchLoansAndCountThisMonth() {
 
 
     },
+    mounted() {
+  Promise.all([this.countOb(), this.countType(), this.fetchLoansAndCountThisMonth()]).then(() => {
+    this.updatePieChart();
+  });
+},
 
     beforeMount(){
    this.countOb();
