@@ -16,8 +16,8 @@
               <p class="category"></p></h5>
       </div></div><div class="row justify-content-center">
       <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un objet</router-link> </button></div>
-      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i>  Gestion des groupes</button></div>
-      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><router-link to="/admin/type">Gestion des types</router-link></button></div></div>
+      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i><router-link to="/admin/groupe"> Gestion des groupes</router-link> </button></div>
+      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><router-link to="/admin/ajouterType">Gestion des types</router-link></button></div></div>
       
       
       
@@ -39,8 +39,7 @@
             </template>
             <lo-table class="table-hover table-striped"
                      :columns="table1.columns"
-                     :data="result"
-                     :groups="groups">
+                     :data="result">
                      
             </lo-table>
           </card>
@@ -110,8 +109,7 @@
           data: [...tableData]
         },
         result:[],
-    responseAvailable: false,
-    groups:[]
+    responseAvailable: false
       }
     },
 
@@ -148,47 +146,12 @@ methods: {
       console.error("There was an error!", error);
     });
     },
-
-    getGroupes () { 
-      this.responseAvailable = false;
-
-      fetch("http://localhost:3000/objectGroup", {
-    "method": "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-})
-.then(async response => {
-      const data = await response.json();
-
-      // check for error response
-      if (!response.ok) {
-        // get error message from body or default to response statusText
-        const error = (data && data.message) || response.statusText;
-        return Promise.reject(error);
-      }
-      this.responseAvailable=true;
-      this.groups= data.map(o => {
-  return {
-    text: o.label,
-    value: o._id
-  };
-          });
-          console.log("g");
-          console.log(this.groups);
-
-    })
-    .catch(error => {
-      this.errorMessage = error;
-      console.error("There was an error!", error);
-    });
-    }
 },
 
 
 
 beforeMount(){
-  this.getGroupes();
+  //this.test();
    this.afficherOb();
  },
 

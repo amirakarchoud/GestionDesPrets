@@ -5,14 +5,14 @@
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-warning">
-              <i class="nc-icon nc-app text-warning"></i>
+              <i class="nc-icon nc-chart text-warning"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Nombre des Objets</p>
-              <h4 class="card-title" >{{nbrObj}}</h4>
+              <p class="card-category">Capacity</p>
+              <h4 class="card-title">105GB</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-refresh"></i>Mis à jour
+              <i class="fa fa-refresh"></i>Updated now
             </div>
           </stats-card>
         </div>
@@ -20,14 +20,14 @@
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-success">
-              <i class="nc-icon nc-single-copy-04 text-success"></i>
+              <i class="nc-icon nc-light-3 text-success"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Nombre des Prêts</p>
-              <h4 class="card-title">{{nbrPret}}</h4>
+              <p class="card-category">Revenue</p>
+              <h4 class="card-title">$1,345</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-calendar-o"></i>Mis à jour
+              <i class="fa fa-calendar-o"></i>Last day
             </div>
           </stats-card>
         </div>
@@ -35,14 +35,14 @@
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-danger">
-              <i class="nc-icon nc-badge text-danger"></i>
+              <i class="nc-icon nc-vector text-danger"></i>
             </div>
             <div slot="content">
-              <p class="card-category">objets empruntés ce mois</p>
-              <h4 class="card-title">{{numLoansThisMonth}}</h4>
+              <p class="card-category">Errors</p>
+              <h4 class="card-title">23</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-clock-o"></i>Mis à jour
+              <i class="fa fa-clock-o"></i>Last day
             </div>
           </stats-card>
         </div>
@@ -50,72 +50,57 @@
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-info">
-              <i class="nc-icon nc-tag-content text-primary"></i>
+              <i class="nc-icon nc-favourite-28 text-primary"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Nombre des types</p>
-              <h4 class="card-title">{{nbrType}}</h4>
+              <p class="card-category">Followers</p>
+              <h4 class="card-title">+45</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-refresh"></i>Mis à jour
+              <i class="fa fa-refresh"></i>Updated now
             </div>
           </stats-card>
         </div>
 
       </div>
-
-
-
-
       <div class="row">
         <div class="col-md-8">
-          <div class="card"><!----><!---->
-<div class="card-body">
-  <div class="container">
-    <div class="image-container">
-      <br>
-      <br>
-      <img src="../../public/img/logo.jpeg" class="blurred-image" alt="img">
-    </div>
-    <div class="text-container">
-      <h1>Gestion des <u style="text-decoration: underline;
-  text-decoration-color: #68d7ed;">Prêts</u> et des <u style="text-decoration: underline;
-  text-decoration-color: #68d7ed;">objets</u></h1>
-  <br>
-      <p>Interface de gestion des prêts et objets du laboratoire d'informatique de Paris-Nord . </p>
-      <br>
-      <br>
-      <br>
-      <br>
-      
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
+          <chart-card :chart-data="lineChart.data"
+                      :chart-options="lineChart.options"
+                      :responsive-options="lineChart.responsiveOptions">
+            <template slot="header">
+              <h4 class="card-title">Users Behavior</h4>
+              <p class="card-category">24 Hours performance</p>
+            </template>
+            <template slot="footer">
+              <div class="legend">
+                <i class="fa fa-circle text-info"></i> Open
+                <i class="fa fa-circle text-danger"></i> Click
+                <i class="fa fa-circle text-warning"></i> Click Second Time
+              </div>
+              <hr>
+              <div class="stats">
+                <i class="fa fa-history"></i> Updated 3 minutes ago
+              </div>
+            </template>
+          </chart-card>
         </div>
 
         <div class="col-md-4">
           <chart-card :chart-data="pieChart.data" chart-type="Pie">
             <template slot="header">
-              <h4 class="card-title">Les objets</h4>
-              <p class="card-category">Statistiques selon l'etat</p>
+              <h4 class="card-title">Email Statistics</h4>
+              <p class="card-category">Last Campaign Performance</p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Emprunté
-                <i class="fa fa-circle text-danger"></i> Disponible
+                <i class="fa fa-circle text-info"></i> Open
+                <i class="fa fa-circle text-danger"></i> Bounce
+                <i class="fa fa-circle text-warning"></i> Unsubscribe
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-clock-o"></i> 
+                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
               </div>
             </template>
           </chart-card>
@@ -130,13 +115,13 @@
             :chart-responsive-options="barChart.responsiveOptions"
             chart-type="Bar">
             <template slot="header">
-              <h4 class="card-title">Les Prêts</h4>
-              <p class="card-category">Statistiques</p>
+              <h4 class="card-title">2014 Sales</h4>
+              <p class="card-category">All products including Taxes</p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Validé
-                <i class="fa fa-circle text-danger"></i> En cours
+                <i class="fa fa-circle text-info"></i> Tesla Model S
+                <i class="fa fa-circle text-danger"></i> BMW 5 Series
               </div>
               <hr>
               <div class="stats">
@@ -149,10 +134,10 @@
         <div class="col-md-6">
           <card>
             <template slot="header">
-              <h5 class="title">Les demandes des Prêts</h5>
-              <p class="category">Historique</p>
+              <h5 class="title">Tasks</h5>
+              <p class="category">Backend development</p>
             </template>
-            <l-table :data="this.pret"
+            <l-table :data="tableData.data"
                      :columns="tableData.columns">
               <template slot="columns"></template>
 
@@ -160,7 +145,7 @@
                 <td>
                   <base-checkbox v-model="row.checked"></base-checkbox>
                 </td>
-                <td>{{row.requester}} veut emprunter {{row.objects[0].label}} le {{new Date(row.date.borrow).toLocaleDateString('en-CA')}}</td>
+                <td>{{row.title}}</td>
                 <td class="td-actions text-right">
                   <button type="button" class="btn-simple btn btn-xs btn-info" v-tooltip.top-center="editTooltip">
                     <i class="fa fa-edit"></i>
@@ -197,21 +182,48 @@
     },
     data () {
       return {
-        nbrObj:0,
-        nbrType:0,
-        nbrPret:0,
-        borr:0,
-        dispo:0,
-        obj:[],
-        pret:[],
-        numLoansThisMonth:0,
         editTooltip: 'Edit Task',
         deleteTooltip: 'Remove',
         pieChart: {
           data: {
-            labels: [],
-            series: []
+            labels: ['40%', '20%', '40%'],
+            series: [40, 20, 40]
           }
+        },
+        lineChart: {
+          data: {
+            labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
+            series: [
+              [287, 385, 490, 492, 554, 586, 698, 695],
+              [67, 152, 143, 240, 287, 335, 435, 437],
+              [23, 113, 67, 108, 190, 239, 307, 308]
+            ]
+          },
+          options: {
+            low: 0,
+            high: 800,
+            showArea: false,
+            height: '245px',
+            axisX: {
+              showGrid: false
+            },
+            lineSmooth: true,
+            showLine: true,
+            showPoint: true,
+            fullWidth: true,
+            chartPadding: {
+              right: 50
+            }
+          },
+          responsiveOptions: [
+            ['screen and (max-width: 640px)', {
+              axisX: {
+                labelInterpolationFnc (value) {
+                  return value[0]
+                }
+              }
+            }]
+          ]
         },
         barChart: {
           data: {
@@ -239,154 +251,23 @@
             }]
           ]
         },
-        tableData: {}
-      }
-    },
-
-    methods:{
-      countOb () { 
-
-      fetch("http://localhost:3000/object", {
-    "method": "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-})
-.then(async response => {
-      const data = await response.json();
-
-      // check for error response
-      if (!response.ok) {
-        // get error message from body or default to response statusText
-        const error = (data && data.message) || response.statusText;
-        return Promise.reject(error);
-      }
-
-      this.obj=data;
-      const borrowedObjs = data.filter(obj => obj.borrowed === true);
-    this.borr = borrowedObjs.length;
-    const NotborrowedObjs = data.filter(obj => obj.borrowed === false);
-    this.dispo = NotborrowedObjs.length;
-      this.nbrObj = data.length;
-      console.log("here");
-      
-    console.log("here 2");
-    console.log(this.nbrObj);
-   console.log(this.borr);
-   console.log(this.dispo);
-   console.log(Math.round(this.borr/(this.nbrObj)*100));
-   console.log(Math.round(this.dispo/(this.nbrObj)*100));
-
-      this.pieChart = {
-      data: {
-        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
-        series: [this.borr, this.dispo]
-      }
-  
-    };
-      
-      console.log(this.pieChart);
-    })
-    .catch(error => {
-      this.errorMessage = error;
-      console.error("There was an error!", error);
-    });
-    },
-
-
-
-
-
-
-
-
-countType () { 
-
-fetch("http://localhost:3000/objectType", {
-"method": "GET",
-headers: {
-"Content-Type": "application/json"
-}
-})
-.then(async response => {
-const data = await response.json();
-
-// check for error response
-if (!response.ok) {
-  // get error message from body or default to response statusText
-  const error = (data && data.message) || response.statusText;
-  return Promise.reject(error);
-}
-
-this.nbrType = data.length;
-})
-.catch(error => {
-this.errorMessage = error;
-console.error("There was an error!", error);
-});
-},
-
-
-
-
-fetchLoansAndCountThisMonth() {
-  const today = new Date();
-  const thisMonth = today.getMonth() + 1;
-
-  fetch('http://localhost:3000/loan')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
-    })
-    .then(data => {
-      this.nbrPret = data.length;
-      this.pret=data.slice(0, 8);
-      data.forEach(loan => {
-        const borrowDate = new Date(loan.date.borrow);
-        const borrowMonth = borrowDate.getMonth() + 1;
-        if (borrowMonth === thisMonth) {
-          this.numLoansThisMonth++;
+        tableData: {
+          data: [
+            {title: 'Sign contract for "What are conference organizers afraid of?"', checked: false},
+            {title: 'Lines From Great Russian Literature? Or E-mails From My Boss?', checked: true},
+            {
+              title: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
+              checked: true
+            },
+            {title: 'Create 4 Invisible User Experiences you Never Knew About', checked: false},
+            {title: 'Read "Following makes Medium better"', checked: false},
+            {title: 'Unfollow 5 enemies from twitter', checked: false}
+          ]
         }
-      });
-    })
-    .catch(error => {
-      console.error('Error fetching loans:', error);
-    });
-}
-
-
-
-
-    },
-
-    beforeMount(){
-   this.countOb();
-   this.countType();
-   this.fetchLoansAndCountThisMonth();
-  
-   
- },
+      }
+    }
   }
 </script>
 <style>
-.container {
-  display: flex;
-}
 
-.image-container {
-  width: 50%;
-  overflow: hidden;
-}
-
-.blurred-image {
-  border-radius: 8px;
-  width: 100%;
-}
-
-.text-container {
-  width: 50%;
-  padding: 20px;
-}
 </style>
