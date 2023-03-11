@@ -18,8 +18,7 @@
       <slot name="columns">
         <tr>
           <th> Label</th>
-          <th> Etat</th>
-          <th> Type</th>
+          <th> Description </th>
           <th> Groupe</th>
           <th> Modifier</th>
           <th> Supprimer</th>
@@ -31,10 +30,9 @@
       <slot :row="item">
         
         <td >{{itemValue(item, "label")}}</td>
-        <td >{{borrowedStatus(item.borrowed)}}</td>
-        <td >{{item.type.label}}</td>
-        <td >{{item.type.group.label}}</td>
-        <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
+        <td >{{item.description}}</td>
+        <td >{{getGroupLabel(item.group)}}</td>
+        <td><router-link :to="{ name: 'Typemod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
         <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
@@ -45,7 +43,7 @@
  
   <div class="modal" v-if="showModal">
     <div class="modal-content">
-      <p>Etes vous sur de supprimer cet objet ?</p>
+      <p>Etes vous sur de supprimer ce Type ?</p>
       <div class="modal-buttons">
         <button class="btn btn-danger" @click="deleteObject()">Supprimer</button>
         <button class="btn btn-secondary" @click="hideConfirmationModal()">Cancel</button>
@@ -86,7 +84,7 @@ import Notifications from 'vue-notification'
       if (!this.selectedType) {
         return this.data
       }
-      return this.data.filter(item => item.type.group._id === this.selectedType)
+      return this.data.filter(item => item.group=== this.selectedType)
     },
     filteredDataByText() {
       if (!this.searchText) {
@@ -96,6 +94,10 @@ import Notifications from 'vue-notification'
     }
   },
     methods: {
+      getGroupLabel(groupId) {
+    const group = this.groups.find(group => group.value === groupId);
+    return group ? group.text : '';
+  },
 
       showConfirmationModal(id) {
       this.objectId = id;
@@ -111,9 +113,6 @@ import Notifications from 'vue-notification'
       itemValue (item, column) {
         return item[column.toLowerCase()]
       },
-      borrowedStatus(borrowed) {
-    return borrowed ? 'Emprunte' : 'Disponible';
-  },
 
   async deleteObject() {
     const id=this.objectId;
@@ -122,7 +121,7 @@ import Notifications from 'vue-notification'
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id: id })
   };
-  fetch(`http://localhost:3000/object/${id}`, requestOptions)
+  fetch(`http://localhost:3000/objectType/${id}`, requestOptions)
     .then(async response => {
       // check for error response
       if (!response.ok) {
