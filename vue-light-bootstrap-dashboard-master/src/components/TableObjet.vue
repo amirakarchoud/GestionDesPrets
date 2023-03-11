@@ -16,7 +16,7 @@
         <td >{{itemValue(item, "label")}}</td>
         <td >{{itemValue(item, "borrowed")}}</td>
         <td >{{itemValue(item, "type")}}</td>
-        <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </td>
+        <td><button class="btn btn-info"><i class="fa fa-pencil" ></i></button> </td>
         <td><button class="btn btn-info"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
