@@ -1,5 +1,13 @@
 <template>
   <div>
+    <div
+      style="display: flex; align-items: center; justify-content: flex-start"
+    >
+      <div class="search-wrapper">
+        <i class="nc-icon nc-zoom-split"></i>
+        <input type="text" v-model="search" placeholder="Rechercher label..." />
+      </div>
+    </div>
     <table class="table">
       <thead>
         <slot name="columns">
@@ -12,7 +20,7 @@
         </slot>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data" :key="index">
+        <tr v-for="(item, index) in filteredItems" :key="index">
           <slot :row="item">
             <td>{{ itemValue(item, "label") }}</td>
             <td>{{ itemValue(item, "description") }}</td>
@@ -64,11 +72,11 @@ export default {
   },
   data() {
     return {
+      search: "",
       showModal: false,
       notifications: {
         success: {
           title: "Le groupe a été supprimé avec succès!",
-
           type: "success",
           duration: 3000,
           position: "top-right",
@@ -76,7 +84,6 @@ export default {
         },
         failure: {
           title: "Erreur!",
-
           type: "danger",
           duration: 5000,
           position: "top-right",
@@ -84,6 +91,13 @@ export default {
       },
       groupeId: null,
     };
+  },
+  computed: {
+    filteredItems() {
+      return this.data.filter((d) => {
+        return d.label.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
+      });
+    },
   },
   methods: {
     showConfirmationModal(id) {
@@ -156,5 +170,32 @@ export default {
 }
 .modal-buttons {
   margin-top: 20px;
+}
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  margin-left: 5px;
+
+  padding: 5px;
+  border-radius: 20px;
+}
+.search-wrapper input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  padding-right: 3px;
+  border: none;
+
+  transition: border-radius 0.1s ease-out;
+}
+.search-wrapper input[type="text"]:focus {
+  outline: none;
+  border-bottom: 2px solid #68d7ed;
+  transition: border-color 0.3s ease-out;
+}
+.search-wrapper i {
+  color: grey;
+  margin-left: 5px;
 }
 </style>
