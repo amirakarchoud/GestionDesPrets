@@ -5,7 +5,7 @@
           <tr>
             <th v-for="column in columns" :key="column">{{column}}</th>
             <th> Actions </th>
-            
+
           </tr>
         </slot>
       </thead>
@@ -17,7 +17,7 @@
           <td >{{itemValue(item, "requester")}}</td>
           <td >{{itemValue(item, "manager")}}</td>
           <td >{{itemValue(item, "status")}}</td>
-          <td><router-link :to="{ name: 'DemandeById', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
+          <td><router-link :to="{ name: 'DemandeByIdAdmin', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
       </tr>
       </tbody>
     </table>
@@ -41,6 +41,5 @@
     }
   </script>
   <style>
-  
+
   </style>
-  

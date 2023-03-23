@@ -19,6 +19,11 @@ import App from "./App.vue";
 
 // LightBootstrap plugin
 import LightBootstrap from "./light-bootstrap-main";
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
 
 // router setup
 import routes from "./routes/routes";
@@ -27,6 +32,16 @@ import "./registerServiceWorker";
 // plugin setup
 Vue.use(VueRouter);
 Vue.use(LightBootstrap);
+
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+Vue.use(Toast, {
+  transition: "Vue-Toastification__bounce",
+  maxToasts: 20,
+  newestOnTop: true
+});
+
 
 // configure router
 const router = new VueRouter({
@@ -46,5 +61,5 @@ new Vue({
   el: "#app",
   render: (h) => h(App),
   router,
-  
 });
+

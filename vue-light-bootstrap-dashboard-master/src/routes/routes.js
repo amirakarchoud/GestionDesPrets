@@ -26,6 +26,10 @@ import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
 import Upgrade from 'src/pages/Upgrade.vue'
+import AjouterDemande from "@/pages/AjouterDemande.vue";
+import EditDemande from "@/pages/UserProfile/EditDemande.vue";
+import EditDemandeAdmin from "@/pages/UserProfile/EditDemandeAdmin.vue";
+
 
 const routes = [
   {
@@ -35,6 +39,7 @@ const routes = [
   },
   {
     path: '/admin',
+    name: 'admin',
     component: DashboardLayout,
     redirect: '/admin/overview',
     children: [
@@ -81,7 +86,7 @@ const routes = [
       {
         path: 'pretbyid/:id',
         name: 'PretById',
-        component: AfficherPretByid 
+        component: AfficherPretByid
       },
       {
         path: 'demande',
@@ -89,14 +94,9 @@ const routes = [
         component: AfficherDemande
       },
       {
-        path: 'validerdemande',
-        name: 'ValiderDemande',
-        component: ValiderDemande
-      },
-      {
         path: 'demandebyid/:id',
-        name: 'DemandeById',
-        component: AfficherDemandeById 
+        name: 'DemandeByIdAdmin',
+        component: AfficherDemandeById
       },
       {
         path: 'ajouterType',
@@ -132,11 +132,17 @@ const routes = [
         path: 'upgrade',
         name: 'Upgrade to PRO',
         component: Upgrade
-      }
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditDemandeAdmin',
+        component: EditDemandeAdmin
+      },
     ]
   },
   {
     path: '/membre',
+    name: 'membre',
     component: LayoutMembre,
     redirect: '/membre/overview',
     children: [
@@ -149,6 +155,26 @@ const routes = [
         path: 'demande',
         name: 'Demandeaff',
         component: AfficherDemandeMember
+      },
+      {
+        path: 'demandeAdd',
+        name: 'DemandeAdd',
+        component: AjouterDemande
+      },
+      {
+        path: 'demandebyid/:id',
+        name: 'DemandeByIdMembre',
+        component: AfficherDemandeById
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditDemande',
+        component: EditDemande
+      },
+      {
+        path: 'validerdemande',
+        name: 'ValiderDemande',
+        component: ValiderDemande
       },
     ]}
       ,

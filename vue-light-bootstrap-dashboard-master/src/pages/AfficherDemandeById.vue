@@ -5,28 +5,28 @@
          <div class="col-12 ">
   <div class="card"><!----><!---->
   <div class="card-body">
-  
-  
-  
-  
+
+
+
+
   <div class="places-buttons">
   <div class="row justify-content-center">
   <div class="col-12 ">
   <h5>
                 <p class="category"></p></h5>
         </div></div>
-        
+
         <div class="row justify-content-center">
       <!--  <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un prêt</router-link> </button></div>
       -->
-        <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div></div>
-         
+        <div class="col-md-3"><router-link :to="{path:'../demande'}"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></router-link></div></div>
+
         </div>
         </div>
         </div><!----></div>
          <!---------------->
-  
-  
+
+
         <div class="row">
           <div class="col-12">
             <card class="strpied-tabled-with-hover"
@@ -41,10 +41,10 @@
                        :data="result"
                        :dataobj="objects"
                        >
-                       
+
               </lo-table>
             </card>
-  
+
           </div>
         </div>
       </div>
@@ -69,26 +69,26 @@ export default {
         data: [...tableData],
         dataobj: [...tableData]
       },
-      
+
       result:[],
       objects: [],
       responseAvailable: false,
-   
+
     }
   },
- 
+
 
 
 methods: {
 
-  test () { 
+  test () {
     console.log(this.result);
   },
   goBack() {
       window.history.go(-1);
     },
-  afficherDemandeById () { 
-    
+  afficherDemandeById () {
+
     const id = this.$route.params.id;
     this.responseAvailable = false;
 
@@ -116,7 +116,7 @@ methods: {
 
     this.result = data;
     console.log(this.result);
-    // HEDHA JDID 
+    // HEDHA JDID
     let i = 0; // declare and initialize i here
 const promises = [];
 while (i < this.tableObject.length) {
