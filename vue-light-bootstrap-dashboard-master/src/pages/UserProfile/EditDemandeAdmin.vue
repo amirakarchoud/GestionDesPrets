@@ -11,7 +11,7 @@
           </base-input>
         </div>
       </div>
-
+     <!--
       <div class="row">
         <div class="col-md-5">
           <base-input type="text"
@@ -20,8 +20,9 @@
                       v-model="requester">
           </base-input>
         </div>
-      </div>
+      </div> -->
 
+      <!--
       <div class="row">
         <div class="col-md-5">
           <base-input type="text"
@@ -30,7 +31,7 @@
                       v-model="manager">
           </base-input>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="row">
@@ -72,14 +73,14 @@
           </select>
         </div>
       </div>
-
+      <!--
       <div class="row">
         <div class="col-md-6" >
           <label for="group">Date du pret </label>
           <br>
           <date-picker v-model="date" type="datetime"></date-picker>
         </div>
-      </div>
+      </div> -->
 
       <!--<div class="row">
         <div class="col-md-6" >
