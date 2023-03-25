@@ -21,7 +21,7 @@
                 placeholder="Choose a file or drop it here..."
                 drop-placeholder="Drop file here..."
               ></b-form-file>
-              <div class="mt-3">Selected file: {{ file ? file.name : '' }}</div>
+              <div class="mt-3">Fichier selectionné: {{ file ? file.name : '' }}</div>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
               Valider Demande
             </button>
           </router-link>
-          <router-link to="/admin/demande">
+          <router-link to="/membre/demande">
            <button type="submit" class="btn btn-info btn-fill float-right"  style="margin-right:10px">
             Retour
           </button></router-link>
@@ -70,7 +70,7 @@
                 borrower: this.data[0].borrower,
                 requester: this.data[0].requester,
                 manager: this.data[0].manager,
-                date: {borrow: this.data[0].date.borrow, return: "2030-12-12"},
+                date: {borrow: this.data[0].date.borrow},
                 status: this.data[0].status,
                 objects: this.data[0].objects,
                 signature: {

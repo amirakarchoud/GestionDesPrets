@@ -183,7 +183,20 @@
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
               }
-
+              this.$toast.success("Le type de signature a été modifié avec succès!", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
               this.postId = data.id;
             })
             .catch(error => {
