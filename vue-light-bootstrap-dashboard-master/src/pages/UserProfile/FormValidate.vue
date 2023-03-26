@@ -17,9 +17,10 @@
         <div class="row">
             <div class="col-md-5">
               <b-form-file
+                browse-text="Parcourir"
                 v-model="file"
-                placeholder="Choose a file or drop it here..."
-                drop-placeholder="Drop file here..."
+                placeholder="Choisissez un fichier ou déposez-le ici..."
+                drop-placeholder="Déposez le fichier ici..."
               ></b-form-file>
               <div class="mt-3">Fichier selectionné: {{ file ? file.name : '' }}</div>
             </div>

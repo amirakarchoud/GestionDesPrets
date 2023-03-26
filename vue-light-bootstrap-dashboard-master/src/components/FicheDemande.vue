@@ -183,7 +183,7 @@
                 const error = (data && data.message) || response.status;
                 return Promise.reject(error);
               }
-              this.$toast.success("Le type de signature a été modifié avec succès!", {
+              this.$toast.success("La signature a été bien choisi et la demande a été validée!", {
                 position: "top-right",
                 timeout: 5000,
                 closeOnClick: true,
