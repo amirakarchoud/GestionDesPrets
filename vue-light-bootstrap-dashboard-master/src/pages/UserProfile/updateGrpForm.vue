@@ -81,23 +81,6 @@ export default {
   data() {
     return {
       showModal: false,
-      notifications: {
-        success: {
-          title: "Le groupe a été modifié avec succès!",
-
-          type: "success",
-          duration: 3000,
-          position: "top-right",
-          color: "#ffffff",
-        },
-        failure: {
-          title: "Erreur!",
-
-          type: "danger",
-          duration: 5000,
-          position: "top-right",
-        },
-      },
       groupeId: null,
       groupe: {},
       data: {
@@ -162,13 +145,38 @@ export default {
           }
           this.postId = data.id;
           this.hideConfirmationModal();
-          this.$notify(this.notifications.success);
+          this.$toast.success("Le groupe a été modifié avec succès !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
           this.$router.push("/admin/groupe");
         })
         .catch((error) => {
           this.errorMessage = error;
-          this.$notify(this.notifications.failure);
-          console.error("There was an error!", error);
+          this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         });
     },
   },

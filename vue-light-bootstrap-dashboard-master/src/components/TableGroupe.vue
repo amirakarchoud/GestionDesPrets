@@ -74,21 +74,6 @@ export default {
     return {
       search: "",
       showModal: false,
-      notifications: {
-        success: {
-          title: "Le groupe a été supprimé avec succès!",
-          type: "success",
-          duration: 3000,
-          position: "top-right",
-          color: "#ffffff",
-        },
-        failure: {
-          title: "Erreur!",
-          type: "danger",
-          duration: 5000,
-          position: "top-right",
-        },
-      },
       groupeId: null,
     };
   },
@@ -127,18 +112,59 @@ export default {
           if (!response.ok) {
             // get error message from body or default to response status
             const error = (data && data.message) || response.status;
-            this.$notify(this.notifications.failure);
+            this.$toast.error("Erreur !", {
+              position: "top-right",
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: "button",
+              icon: true,
+              rtl: false,
+            });
             return Promise.reject(error);
           }
           // reload the page
           this.hideConfirmationModal();
-          this.$notify(this.notifications.success);
-          location.reload();
+
+          this.$toast.success("Le groupe a été supprimé avec succès !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
+          setTimeout(() => {
+            this.$router.go(0);
+          }, 1000);
         })
         .catch((error) => {
           this.errorMessage = error;
-          this.$notify(this.notifications.failure);
-          console.error("There was an error!", error);
+          this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         });
     },
   },

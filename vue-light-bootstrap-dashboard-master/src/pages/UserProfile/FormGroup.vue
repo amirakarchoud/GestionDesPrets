@@ -70,24 +70,6 @@ export default {
         label: "",
         description: "",
       },
-      notifications: {
-        success: {
-          title: "Le groupe a été ajouté avec succès!",
-
-          type: "success",
-          duration: 3000,
-          position: "top-right",
-          color: "#ffffff",
-        },
-        failure: {
-          title: "Erreur!",
-
-          type: "danger",
-          duration: 3000,
-          position: "top-right",
-          color: "#ffffdf",
-        },
-      },
     };
   },
   methods: {
@@ -116,14 +98,39 @@ export default {
           }
 
           this.postId = data.id;
-          this.$notify(this.notifications.success);
+          this.$toast.success("Le groupe a été ajouté avec succès !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
           this.$router.push("/admin/groupe");
           // window.location.assign("/admin/groupe#/admin/groupe");
         })
         .catch((error) => {
           this.errorMessage = error;
-          this.$notify(this.notifications.failure);
-          console.error("There was an error!", error);
+          this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         });
     },
   },

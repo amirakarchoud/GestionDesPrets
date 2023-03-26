@@ -20,12 +20,7 @@
 
               <p class="card-category"></p>
             </template>
-            <!-- <input
-              type="text"
-              id="myInput"
-              onkeyup="search()"
-              placeholder="Rechercher label"
-            /> -->
+
             <lg-table
               class="table-hover table-striped"
               :columns="table1.columns"
