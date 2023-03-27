@@ -4,15 +4,18 @@
     <form>
       <div class="row">
         <div class="col-md-5">
-          <base-input type="text"
-                      label="PRÊTTEUR"
-                      placeholder="NOM"
-                      v-model="borrower">
-          </base-input>
+          <label for="group">EMPRUNTEUR </label>
+          <br>
+          <select v-model="selectedBorrower" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+            <option disabled value="">Veuillez selectionner un emprunteur</option>
+            <option v-for="borrower in listBorrower" :value="borrower">
+              {{ borrower }}
+            </option>
+          </select>
         </div>
       </div>
 
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-5">
           <base-input type="text"
                       label="DEMANDEUR"
@@ -30,7 +33,7 @@
                       v-model="manager">
           </base-input>
         </div>
-      </div>
+      </div> -->
 
 
       <div class="row">
@@ -73,13 +76,13 @@
         </div>
       </div>
 
-      <div class="row">
+     <!-- <div class="row">
         <div class="col-md-6" >
           <label for="group">Date du pret </label>
           <br>
           <date-picker v-model="date" type="datetime"></date-picker>
         </div>
-      </div>
+      </div> -->
 
       <!--<div class="row">
         <div class="col-md-6" >
@@ -117,7 +120,8 @@ export default {
   name: "EditDemande",
   data(){
     return{
-      borrower: '',
+      listBorrower: ['lipn admin','fatma','omar'],
+      selectedBorrower:'',
       requester: '',
       manager: '',
       listGroup: [],
@@ -126,7 +130,7 @@ export default {
       selectedGroup:'',
       selectedType:'',
       selectedObject: [],
-      date: '2023-03-14' ,
+      date: '2023-12-23' ,
       dateReturn: '2090-12-30',
       checked: false,
       objectsId: []
@@ -171,7 +175,7 @@ export default {
       const requestOptions = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: {borrower: this.borrower, requester: this.requester, manager: this.manager, date: {borrow: this.date, return: this.dateReturn}, status: 'InProgress', objects: this.getObjectId(), signature: {electronic_signature: this.checked}   }})
+        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, manager: this.manager, date: {borrow: this.date}, status: 'InProgress', objects: this.getObjectId(), signature: {electronic_signature: this.checked}   }})
       };
       const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
         .then(async response => {
