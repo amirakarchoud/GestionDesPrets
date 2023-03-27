@@ -20,7 +20,7 @@
 
               <p class="card-category"></p>
             </template>
-
+            <!-- utilisation du composant lg-table importé du component TableGroupe -->
             <lg-table
               class="table-hover table-striped"
               :columns="table1.columns"
@@ -43,6 +43,7 @@ export default {
     LgTable,
     Card,
   },
+  //méthode qui retourne l'objet contenant les proriétés initialisées du tableau des groupes
   data() {
     return {
       table1: {
@@ -59,12 +60,10 @@ export default {
   },
 
   methods: {
-    test() {
-      console.log(this.result);
-    },
+    //Définition d'une méthode pour afficher les groupes
     afficherGrp() {
       this.responseAvailable = false;
-
+      //Excecution de la requête HTTP GET
       fetch("http://localhost:3000/objectGroup", {
         method: "GET",
         headers: {
@@ -74,9 +73,9 @@ export default {
         .then(async (response) => {
           const data = await response.json();
 
-          // check for error response
+          // Vérification de l'existence d'une erreur
           if (!response.ok) {
-            // get error message from body or default to response statusText
+            // Récupération du message d'erreur
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
           }
@@ -90,8 +89,8 @@ export default {
         });
     },
   },
+  //définition d'une fonction qui est exécutée avant le chargement de la page
   beforeMount() {
-    //this.test();
     this.afficherGrp();
   },
 };

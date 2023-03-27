@@ -1,7 +1,9 @@
 <template>
+  <!-- Composant pour la création du formulaire d'ajout d'un groupe -->
   <card>
     <h4 slot="header" class="card-title">Ajouter un groupe d'objet</h4>
     <form>
+      <!-- Champ label -->
       <div class="row">
         <div class="col-md-5">
           <base-input
@@ -13,17 +15,12 @@
           </base-input>
         </div>
       </div>
+      <!-- Champ description -->
 
       <div class="row">
         <div class="col-md-10">
           <label for="group">Description </label>
-
           <br />
-          <!--         <base-input type="text"
-                      label="Description"
-                      placeholder="Description"
-                      v-model="data.description">
-            </base-input>-->
           <textarea
             type="text"
             label="Description"
@@ -34,7 +31,7 @@
           </textarea>
         </div>
       </div>
-
+      <!-- Bouton de validation -->
       <div class="text-center">
         <button
           type="submit"
@@ -43,6 +40,7 @@
         >
           Valider
         </button>
+        <!-- EN cas de validation, redirection vers la page de gestion des groupes -->
         <router-link to="/admin/groupe">
           <button
             type="submit"
@@ -64,6 +62,7 @@ export default {
   components: {
     Card,
   },
+  //initialisation des données du formulaire
   data() {
     return {
       data: {
@@ -72,13 +71,11 @@ export default {
       },
     };
   },
+  //définition des méthodes du composant
   methods: {
-    testClic() {
-      console.log(this.data);
-    },
-
+    //Définition d'une méthode pour créer un groupe
     created() {
-      // POST request using fetch with error handling
+      //Enregistrer la configuration de la requête HTTP DELETE dans un objet
       const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -86,18 +83,19 @@ export default {
           data: { label: this.data.label, description: this.data.description },
         }),
       };
+      //Excecution de la requête HTTP POST
       fetch("http://localhost:3000/objectGroup", requestOptions)
         .then(async (response) => {
           const data = await response.json();
-
-          // check for error response
+          // Vérification de l'existence d'une erreur
           if (!response.ok) {
-            // get error message from body or default to response status
+            // Récupération du message d'erreur
             const error = (data && data.message) || response.status;
             return Promise.reject(error);
           }
 
           this.postId = data.id;
+          //Affichage d'une notification de succès
           this.$toast.success("Le groupe a été ajouté avec succès !", {
             position: "top-right",
             timeout: 5000,
@@ -112,9 +110,10 @@ export default {
             icon: true,
             rtl: false,
           });
+          //Redirection vers la page de gestions des groupes si la réponse est ok
           this.$router.push("/admin/groupe");
-          // window.location.assign("/admin/groupe#/admin/groupe");
         })
+        //Capter les erreurs de la requête HTTP POST
         .catch((error) => {
           this.errorMessage = error;
           this.$toast.error("Erreur !", {

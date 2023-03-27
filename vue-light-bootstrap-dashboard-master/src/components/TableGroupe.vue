@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- Composant pour la barre de recherche -->
     <div
       style="display: flex; align-items: center; justify-content: flex-start"
     >
@@ -8,6 +9,8 @@
         <input type="text" v-model="search" placeholder="Rechercher label..." />
       </div>
     </div>
+
+    <!--  Définition des colonnes du tableau des groupes d'objet  -->
     <table class="table">
       <thead>
         <slot name="columns">
@@ -19,12 +22,15 @@
           </tr>
         </slot>
       </thead>
+      <!-- Contenu du tableau  -->
       <tbody>
+        <!-- Parcourir les données existantes dans la BD et les insérer ligne par ligne dans le tableau des groupes -->
         <tr v-for="(item, index) in filteredItems" :key="index">
           <slot :row="item">
             <td>{{ itemValue(item, "label") }}</td>
             <td>{{ itemValue(item, "description") }}</td>
             <td>
+              <!-- redirection vers le formulaire de modification du groupe -->
               <router-link
                 :to="{
                   name: 'Groupeupdate',
@@ -36,6 +42,7 @@
               </router-link>
             </td>
             <td>
+              <!-- Faire apparaitre une fenêtre de confirmation lors du clic sur le bouton de suppression -->
               <button
                 class="btn btn-info"
                 @click.prevent="showConfirmationModal(item._id)"
@@ -47,7 +54,7 @@
         </tr>
       </tbody>
     </table>
-
+    <!-- Ce composant représente le contenu de la fenêtre de confirmation -->
     <div class="modal" v-if="showModal">
       <div class="modal-content">
         <p>Etes vous sûr de supprimer ce groupe ?</p>
@@ -63,55 +70,67 @@
 </template>
 
 <script>
-import Notifications from "vue-notification";
 export default {
-  name: "lg-table",
+  name: "lg-table", //définition d'un composant
+  //propriétés du composant
   props: {
     columns: Array,
     data: Array,
   },
+  //données du composant
   data() {
     return {
-      search: "",
-      showModal: false,
-      groupeId: null,
+      search: "", //chaîne de caractères pour la recherche
+      showModal: false, // variable de type booléen pour afficher ou cacher la fenêtre de confirmation
+      groupeId: null, //ID du groupe sélectionné pour la confirmation
     };
   },
   computed: {
+    //propriété permettant de définir des fonctions pour effectuer des opérations sur les données existantes
+    // fonction permettant de filtrer les données pour la recherche
     filteredItems() {
       return this.data.filter((d) => {
         return d.label.toLowerCase().indexOf(this.search.toLowerCase()) > -1;
       });
     },
   },
+  //définition des méthodes du composant
   methods: {
+    // Affichage de la fenêtre de confirmation
     showConfirmationModal(id) {
       this.groupeId = id;
       this.showModal = true;
     },
+    // cacher la fenêtre de confirmation
     hideConfirmationModal() {
       this.showModal = false;
     },
+    //vérifier si l'élément existe
     hasValue(item, column) {
       return item[column.toLowerCase()] !== "undefined";
     },
+    // récupérer la valeur de l'élément
     itemValue(item, column) {
       return item[column.toLowerCase()];
     },
-
+    //Définition d'une méthode asynchrone pour supprimer un groupe
     async deleteGrp() {
+      //récupération de l'ID du groupe à supprimer
       const id = this.groupeId;
+      //Enregistrer la configuration de la requête HTTP DELETE dans un objet
       const requestOptions = {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: id }),
       };
+      //Excecution de la requête HTTP DELETE
       await fetch(`http://localhost:3000/objectGroup/${id}`, requestOptions)
         .then(async (response) => {
-          // check for error response
+          // Vérification de l'existence d'une erreur
           if (!response.ok) {
-            // get error message from body or default to response status
+            // Récupération du message d'erreur
             const error = (data && data.message) || response.status;
+            //Affichage d'une notification d'erreur
             this.$toast.error("Erreur !", {
               position: "top-right",
               timeout: 5000,
@@ -128,9 +147,9 @@ export default {
             });
             return Promise.reject(error);
           }
-          // reload the page
+          // Si la réponse est ok, Cacher la fenêtre de confirmation de suppression
           this.hideConfirmationModal();
-
+          // Affichage d'une notification de succès
           this.$toast.success("Le groupe a été supprimé avec succès !", {
             position: "top-right",
             timeout: 5000,
@@ -145,12 +164,15 @@ export default {
             icon: true,
             rtl: false,
           });
+          //Actualisation de la page après une seconde
           setTimeout(() => {
             this.$router.go(0);
           }, 1000);
         })
+        //Capter les erreurs de la requête HTTP DELETE
         .catch((error) => {
           this.errorMessage = error;
+          //Affichage d'une notification d'erreur
           this.$toast.error("Erreur !", {
             position: "top-right",
             timeout: 5000,
@@ -170,7 +192,7 @@ export default {
   },
 };
 </script>
-
+<!-- ce bloc définit les styles des éléments -->
 <style>
 .modal {
   position: fixed;
