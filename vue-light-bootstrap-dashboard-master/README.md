@@ -65,7 +65,7 @@ Accédez à http://localhost:8080 pour accéder à l'application
 ## Structure des dossiers
 
 Voici la structure de dossiers du projet :
-
+```bash
 |- public/
 | |- img/
 |- src/
@@ -87,7 +87,7 @@ Voici la structure de dossiers du projet :
 | |- App.vue
 | |- main.js
 |- README.md
-
+```
 ### `public/`
 
 Ce dossier contient les fichiers qui seront servis directement par le navigateur, tels que l'`index.html` et les images. Les fichiers des images sont également inclus pour ajouter des icônes ou des images au site.
