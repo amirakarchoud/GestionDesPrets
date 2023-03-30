@@ -5,10 +5,14 @@ C'est une application frontale qui permet de consommer une API déjà développ�
 ## Entreprise
 
 Cette application est dédiée au service du laboratoire d'Informatique de Paris Nord LIPN.
+<div align="center">
+  <a href="https://lipn.univ-paris13.fr/" target="_blank" rel="noreferrer">
+    <img src="https://pbs.twimg.com/profile_images/1565267966987575297/sFSXlner_400x400.jpg" alt="logo lipn" width="140" height="140"/> 
+  </a>
+</div>
 
-<a href="https://lipn.univ-paris13.fr/" target="_blank" rel="noreferrer"> <img src="https://pbs.twimg.com/profile_images/1565267966987575297/sFSXlner_400x400.jpg" alt="bootstrap" width="140" height="140"/> </a>
 
-## Dépendances
+## Installation
 
 Il est important de noter que la méthode à suivre pour l'installation varie en fonction de votre système d'exploitation et de la version de chaque dépendance. Assurez-vous de lire attentivement la documentation de chaque dépendance pour obtenir des instructions d'installation plus précises.
 
@@ -28,13 +32,7 @@ Vous pouvez l'installer à l'aide de la commande :
 
 Vous pouvez télécharger et installer Docker à partir de leur site web : www.docker.com.
 
-### Vue Toast Notification
-
-```bash
-  npm install vue-toast-notification
-```
-
-## Exécuter le projet
+## Démarrage
 
 Clonez le projet avec la commande suivante ou en téléchargeant le projet en zip
 
