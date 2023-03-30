@@ -63,34 +63,35 @@ Accédez à http://localhost:8080 pour accéder à l'application
 Voici la structure de dossiers du projet :
 
 |- public/
-| |- img/
+|  |- img/
 |
 |- src/
-| |- assets/
-| | |- css/
-| | |- fonts/
-| | |- sass/
-| |
-| |- components/
-| | |- cards/
-| | |- inputs/
-| | |- notificationPlugin/
-| | |- sidebarPlugin/
-| |
-| |- directives/
-| |
-| |- layout/
-| |
-| |- pages/
-| | |- UserProfile/
-| |
-| |- routes/
-| | |- routes.js
-| |
-| |- App.vue
-| |- main.js
+|  |- assets/
+|  |  |- css/
+|  |  |- fonts/
+|  |  |- sass/
+|  |
+|  |- components/
+|  |  |- cards/
+|  |  |- inputs/
+|  |  |- notificationPlugin/
+|  |  |- sidebarPlugin/
+|  |
+|  |- directives/
+|  |
+|  |- layout/
+|  |
+|  |- pages/
+|  |  |- UserProfile/
+|  |
+|  |- routes/
+|  |  |- routes.js
+|  |
+|  |- App.vue
+|  |- main.js
 |
 |- README.md
+
 
 ### `public/`
 
