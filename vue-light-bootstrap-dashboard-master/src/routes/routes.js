@@ -73,6 +73,7 @@ const routes = [
         component: AfficherType
         },
 
+      {
         path: 'groupe',
         name: 'Groupeaff',
         component: AfficherGroupe
