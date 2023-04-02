@@ -28,6 +28,16 @@ import "./registerServiceWorker";
 Vue.use(VueRouter);
 Vue.use(LightBootstrap);
 
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+Vue.use(Toast, {
+  transition: "Vue-Toastification__bounce",
+  maxToasts: 20,
+  newestOnTop: true
+});
+
+
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes

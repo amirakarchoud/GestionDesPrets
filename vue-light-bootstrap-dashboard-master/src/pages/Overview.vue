@@ -1,7 +1,10 @@
+<!--définit le composant Vue qui est une page de tableau de bord de l'application de gestion de prêts d'objets.-->
 <template>
   <div class="content">
     <div class="container-fluid">
+      <!-- Stats cards -->
       <div class="row">
+        <!-- Carte du nombre total des objets  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-warning">
@@ -17,6 +20,7 @@
           </stats-card>
         </div>
 
+         <!-- Carte du nombre des prets  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-success">
@@ -32,6 +36,7 @@
           </stats-card>
         </div>
 
+         <!-- Carte du nombre des prets ce mois  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-danger">
@@ -47,6 +52,7 @@
           </stats-card>
         </div>
 
+         <!-- Carte du nombre total des types  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-info">
@@ -68,6 +74,7 @@
 
 
       <div class="row">
+         <!-- Carte contenant le logo et texte  -->
         <div class="col-md-8">
           <div class="card"><!----><!---->
 <div class="card-body">
@@ -91,19 +98,12 @@
     </div>
   </div>
 
-
-
-
-
-
-
-
         </div>
       </div>
         </div>
-
-        <div class="col-md-4">
-          <chart-card :chart-data="pieChart.data" chart-type="Pie">
+ <!-- Pie chart -->
+        <div class="col-md-4" v-if="nbrObj > 0">
+          <chart-card :chart-data="pieChart.data" chart-type="Pie" >
             <template slot="header">
               <h4 class="card-title">Les objets</h4>
               <p class="card-category">Statistiques selon l'etat</p>
@@ -121,9 +121,9 @@
           </chart-card>
         </div>
       </div>
-
+ <!-- Bar chart  -->
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="done > 0">
           <chart-card
             :chart-data="barChart.data"
             :chart-options="barChart.options"
@@ -135,8 +135,8 @@
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Validé
-                <i class="fa fa-circle text-danger"></i> En cours
+                <i class="fa fa-circle text-info"></i> Demandes de prêt
+                <i class="fa fa-circle text-danger"></i>Prêt En cours
               </div>
               <hr>
               <div class="stats">
@@ -147,6 +147,7 @@
         </div>
 
         <div class="col-md-6">
+           <!-- Carte du l'histprique des demandes  -->
           <card>
             <template slot="header">
               <h5 class="title">Les demandes des Prêts</h5>
@@ -197,6 +198,9 @@
     },
     data () {
       return {
+        done:0, 
+        showChart: false,
+        test:0,
         nbrObj:0,
         nbrType:0,
         nbrPret:0,
@@ -207,18 +211,23 @@
         numLoansThisMonth:0,
         editTooltip: 'Edit Task',
         deleteTooltip: 'Remove',
+        //initialisation du pie chart
         pieChart: {
           data: {
             labels: [],
             series: []
           }
         },
+
+        serieR:[0,0,0,0,0,0,0,0,0,0,0,0], // séries de valeurs des demandes de prets pour le graphique à barres
+        serieB:[0,0,0,0,0,0,0,0,0,0,0,0], // séries de valeurs des prets en cours pour le graphique à barres
+        //initialisation du bar chart
         barChart: {
           data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             series: [
-              [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-              [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
+            [],
+            []
             ]
           },
           options: {
@@ -242,11 +251,61 @@
         tableData: {}
       }
     },
+    //surveiller les changements dans nbrObj et done pour appeler les méthodes updatePieChart() et updateBChart() lorsque ces variables changent.
+    watch: {
+  nbrObj: {
+    handler(newVal, oldVal) {
+      if (newVal !== 0) {
+        this.updatePieChart();
+      }
+    }
+  
+    
+  },
+  done: {
+    handler(newVal, oldVal) {
+      if (newVal !== 0) {
+        this.updateBChart();
+      }
+    }
+  
+    
+  }
+},
 
     methods:{
-      countOb () { 
+      // met à jour les données du graphique du pieChart en fonction du nombre d'objets empruntés et non empruntés dans obj.
+      updatePieChart() {
+        console.log('nbr obj');
+        console.log(this.nbrObj);
+        if(this.nbrObj!== 0)
+    this.pieChart = {
+      data: {
+        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
+        series: [this.borr, this.dispo]
+      }
+    };
+  },
 
-      fetch("http://localhost:3000/object", {
+  //met à jour les données du barChart en fonction des séries de valeurs de demandes de prêts et de prêts en cours dans serieR et serieB.
+  updateBChart() {
+    console.log('update');
+    this.barChart = {
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [
+              this.serieR,
+              this.serieB
+            ]
+      }
+    };
+  },
+
+  //méthode qui envoie une requête GET à l'API pour récupérer les données d'objets, puis met à jour le nombre des objets (nbrObj), 
+  // nombre des objets empruntes (borr) et nombre des objets disponibles (dispo)
+  async  countOb () { 
+
+    await fetch("http://localhost:3000/object", {
     "method": "GET",
     headers: {
       "Content-Type": "application/json"
@@ -268,24 +327,7 @@
     const NotborrowedObjs = data.filter(obj => obj.borrowed === false);
     this.dispo = NotborrowedObjs.length;
       this.nbrObj = data.length;
-      console.log("here");
       
-    console.log("here 2");
-    console.log(this.nbrObj);
-   console.log(this.borr);
-   console.log(this.dispo);
-   console.log(Math.round(this.borr/(this.nbrObj)*100));
-   console.log(Math.round(this.dispo/(this.nbrObj)*100));
-
-      this.pieChart = {
-      data: {
-        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
-        series: [this.borr, this.dispo]
-      }
-  
-    };
-      
-      console.log(this.pieChart);
     })
     .catch(error => {
       this.errorMessage = error;
@@ -295,11 +337,7 @@
 
 
 
-
-
-
-
-
+// méthode qui envoie une requête GET à l'API pour récupérer les données de types d'objets, puis met à jour nbrType
 countType () { 
 
 fetch("http://localhost:3000/objectType", {
@@ -328,12 +366,12 @@ console.error("There was an error!", error);
 
 
 
-
-fetchLoansAndCountThisMonth() {
+//méthode qui envoie une requête GET à l'API pour récupérer les données de prêts, puis met à jour
+//le nombre total des prets nbrPret et remplit la variable pret avec les 8 derniers prêts enregistrés(historique des prets).
+async fetchLoansAndCountThisMonth() {
   const today = new Date();
   const thisMonth = today.getMonth() + 1;
-
-  fetch('http://localhost:3000/loan')
+  await fetch('http://localhost:3000/loan')
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
@@ -344,12 +382,35 @@ fetchLoansAndCountThisMonth() {
       this.nbrPret = data.length;
       this.pret=data.slice(0, 8);
       data.forEach(loan => {
-        const borrowDate = new Date(loan.date.borrow);
+        const r = new Date(loan.date.request);
+        const rm = r.getMonth() + 1;
+        if(loan.status=='Request')
+        {      
+          this.serieR[rm-1]=this.serieR[rm-1]+1;
+        }
+        else if(loan.status=='InProgress')
+        {  const borrowDate = new Date(loan.date.borrow);
         const borrowMonth = borrowDate.getMonth() + 1;
-        if (borrowMonth === thisMonth) {
+        console.log(borrowMonth);
+        this.serieB[borrowMonth-1]=this.serieB[borrowMonth-1]+1;
+          if (borrowMonth === thisMonth) {
           this.numLoansThisMonth++;
         }
+        }
+        
+        
       });
+      //afficher le bar chart quand les donnees sont reccuperees 
+      this.done=1;
+      this.barChart = {
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [
+              this.serieR,
+              this.serieB
+            ]
+      }
+    };
     })
     .catch(error => {
       console.error('Error fetching loans:', error);
@@ -361,14 +422,15 @@ fetchLoansAndCountThisMonth() {
 
     },
 
-    beforeMount(){
-   this.countOb();
-   this.countType();
-   this.fetchLoansAndCountThisMonth();
+async beforeMount(){
+   
+  await this.countOb();
+  this.countType();
+  await this.fetchLoansAndCountThisMonth();
+  }
   
    
- },
-  }
+ }
 </script>
 <style>
 .container {

@@ -1,10 +1,15 @@
+ <!-- Ce fichier contient un composant Vue appelé "lo-table", qui est une table de donnees des types 
+   avec des fonctionnalités de recherche et de filtrage pour les données -->
 <template>
    <div>
+     <!-- Le conteneur de recherche et de sélection -->
     <div class="search-select-container">
+        <!-- Barre de recherche par label-->
     <div class="search-box">
       <input type="text" v-model="searchText" placeholder="Rechercher Label...">
       <i class="nc-icon nc-zoom-split"></i>
     </div>
+    <!-- liste déroulante pour le filtrage par groupe -->
     <div class="select-box">
       <select v-model="selectedType">
         <option value="">Tous les groupes</option>
@@ -32,7 +37,9 @@
         <td >{{itemValue(item, "label")}}</td>
         <td >{{item.description}}</td>
         <td >{{getGroupLabel(item.group)}}</td>
+        <!-- Bouton pour modifier le type -->
         <td><router-link :to="{ name: 'Typemod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
+        <!-- Bouton pour supprimer le type -->
         <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
@@ -40,7 +47,8 @@
   </table>
 
 
- 
+  <!-- Modale de confirmation pour la suppression d'un type -->
+ <!-- Son affichage depend de la valeur du flag showModal-->
   <div class="modal" v-if="showModal">
     <div class="modal-content">
       <p>Etes vous sur de supprimer ce Type ?</p>
@@ -66,19 +74,20 @@ import Notifications from 'vue-notification'
     name: 'lo-table',
     props: {
       columns: Array,
-      data: Array,
-      groups:Array
+      data: Array, //les types a afficher dans le tableau
+      groups:Array //tableau des groupes passes en parametre
     },
     data() {
     return {
-      showModal: false,
+      showModal: false, //initialisation du flag showModal
       objectId: null,
       selectedType: '',
-      searchText: '',
+      searchText: '', //initialisation du texte du recherche
       searchTextFocus: false,
       selectedTypeFocus: false
     };
   },
+    //filtrage des donnees selon les groupes ou le label
   computed: {
     filteredData() {
       if (!this.selectedType) {
@@ -98,11 +107,13 @@ import Notifications from 'vue-notification'
     const group = this.groups.find(group => group.value === groupId);
     return group ? group.text : '';
   },
+  //methode pour afficher le message de confirmation
 
       showConfirmationModal(id) {
       this.objectId = id;
       this.showModal = true;
     },
+    //methode pour cacher le message de confirmation
     hideConfirmationModal() {
       this.showModal = false;
     },
@@ -114,6 +125,7 @@ import Notifications from 'vue-notification'
         return item[column.toLowerCase()]
       },
 
+       //methode delete pour supprimer un type de la base de donnees apres la confirmation
   async deleteObject() {
     const id=this.objectId;
     const requestOptions = {
@@ -132,7 +144,23 @@ import Notifications from 'vue-notification'
 
       // reload the page
       this.hideConfirmationModal();
+      //afficher la notification
+      this.$toast.success("Type supprimé avec succes !", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
       location.reload();
+      
     })
     .catch(error => {
       this.errorMessage = error;
