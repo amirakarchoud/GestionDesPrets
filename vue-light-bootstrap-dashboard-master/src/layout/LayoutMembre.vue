@@ -2,7 +2,7 @@
   <div class="wrapper">
     <side-bar>
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/admin/overview">
+      <sidebar-link to="/membre/overview">
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Tableau de bord</p>
       </sidebar-link>
@@ -10,7 +10,7 @@
         <i class="nc-icon nc-circle-09"></i>
         <p>Gestion des demandes</p>
       </sidebar-link>
-      <sidebar-link to="/admin/objet">
+      <sidebar-link to="/membre/objet">
         <i class="nc-icon nc-notes"></i>
         <p>Afficher les objets</p>
       </sidebar-link>

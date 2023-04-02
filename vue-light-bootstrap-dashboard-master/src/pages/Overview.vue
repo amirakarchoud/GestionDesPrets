@@ -353,6 +353,7 @@ const data = await response.json();
 if (!response.ok) {
   // get error message from body or default to response statusText
   const error = (data && data.message) || response.statusText;
+  
   return Promise.reject(error);
 }
 
