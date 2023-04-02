@@ -13,7 +13,7 @@
           </div>
           
         </div>
-
+<!--
         <div class="row">
             <div class="col-md-5">
                 <div> Type Signature </div>
@@ -26,7 +26,7 @@
             <label for="manuel">  Manuel </label>
         </div>
         </div>
-      
+    -->  
         <div class="text-center">
           <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="validate">
             Valider Demande

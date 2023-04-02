@@ -17,8 +17,8 @@
       </div></div>
       
       <div class="row justify-content-center">
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> <router-link to="/admin/pret">Retour</router-link></button></div>
-  </div>
+     <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts-->
+      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> <router-link to="/admin/pret">Retour</router-link></button></div></div>
        
       </div>
       </div>
@@ -37,8 +37,7 @@
             </template>
             <lo-table class="table-hover table-striped"
                      :columns="table1.columns"
-                     :data="result"
-                     :prets="prets">
+                     :data="result">
                      
             </lo-table>
           </card>
@@ -60,26 +59,24 @@ components: {
   LoTable,
   Card
 },
+ // Déclaration de l'ensemble des variables nécessaires
 data () {
   return {
     table1: {
       columns: [...tableColumns],
-      data: [...tableData],
+      data: [...tableData]
     },
     result:[],
-    prets:[],
 responseAvailable: false
   }
 },
 
 
 methods: {
-test () { 
-  console.log(this.result);
-},
+//Méthode pour récperer tous les prêts  retournés
 afficherPret () { 
   this.responseAvailable = false;
-
+//Appel à l'API de prêt  retourné
   fetch("http://localhost:3000/loan/returned", {
 "method": "GET",
 headers: {
@@ -89,27 +86,14 @@ headers: {
 .then(async response => {
   const data = await response.json();
 
-  // check for error response
+  // Test sur la reponse
   if (!response.ok) {
-    // get error message from body or default to response statusText
     const error = (data && data.message) || response.statusText;
     return Promise.reject(error);
   }
   this.responseAvailable=true;
 
-  console.log(data);
-  let i = 0;
-  while (i < data.length) {
-  //console.log("SIGNATURE",data[i].signature);
-  if (data[i].signature.proof != null)
-  {
-    //console.log("SIGNATURE PROOF",data[i].signature.proof);
-    this.prets.push(data[i]);
-  }
-    i++;
-  }
-  
-  
+  //console.log(data);
   this.result = data;
 })
 .catch(error => {
@@ -118,11 +102,8 @@ headers: {
 });
 },
 },
-
-
-
+//Appel à la fonction pour exécution
 beforeMount(){
-//this.test();
 this.afficherPret();
 },
 

@@ -33,6 +33,7 @@ const routes = [
     component: Index,
     name: 'index'
   },
+   //Declaration des chemins pour le membre
   {
     path: '/admin',
     component: DashboardLayout,
@@ -89,11 +90,6 @@ const routes = [
         component: AfficherDemande
       },
       {
-        path: 'validerdemande',
-        name: 'ValiderDemande',
-        component: ValiderDemande
-      },
-      {
         path: 'demandebyid/:id',
         name: 'DemandeById',
         component: AfficherDemandeById 
@@ -135,6 +131,7 @@ const routes = [
       }
     ]
   },
+  //Declaration des chemins pour le membre
   {
     path: '/membre',
     component: LayoutMembre,
@@ -149,6 +146,11 @@ const routes = [
         path: 'demande',
         name: 'Demandeaff',
         component: AfficherDemandeMember
+      },
+      {
+        path: 'validerdemande',
+        name: 'ValiderDemande',
+        component: ValiderDemande
       },
     ]}
       ,

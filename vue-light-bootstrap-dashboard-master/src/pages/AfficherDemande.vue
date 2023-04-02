@@ -6,9 +6,6 @@
   <div class="card"><!----><!---->
   <div class="card-body">
   
-  
-  
-  
   <div class="places-buttons">
   <div class="row justify-content-center">
   <div class="col-12 ">
@@ -17,20 +14,13 @@
         </div></div>
         
         <div class="row justify-content-center">
-      <!--  <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un prêt</router-link> </button></div>
       
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretNonRetourne">Prêts Non Retournés</router-link></button></div>
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to ="/admin/pretAssigne">Prêts Assignés</router-link> </button></div>
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretRetourne">Prêts Retournés</router-link></button></div>
-    -->
     </div>
          
         </div>
         </div>
         </div><!----></div>
-         <!---------------->
-  
-  
+        
         <div class="row">
           <div class="col-12">
             <card class="strpied-tabled-with-hover"
@@ -65,6 +55,8 @@ export default {
     LoTable,
     Card
   },
+
+  // Déclaration de l'ensemble des variables nécessaires 
   data () {
     return {
       table1: {
@@ -72,7 +64,7 @@ export default {
         data: [...tableData],
         
       },
-      result:[],
+      result:[], 
       demandes:[],
   responseAvailable: false
     }
@@ -80,12 +72,11 @@ export default {
 
 
 methods: {
-  test () { 
-    console.log(this.result);
-  },
+
+  // cette méthode permet de récupérer la liste de tous les demandes pour le gestionnaire 
   afficherDemande () { 
     this.responseAvailable = false;
-
+// Appel à l'API de tous les prets 
     fetch("http://localhost:3000/loan", {
   "method": "GET",
   headers: {
@@ -95,47 +86,48 @@ methods: {
 .then(async response => {
     const data = await response.json();
 
-    // check for error response
+    // Test sur la response
     if (!response.ok) {
-      // get error message from body or default to response statusText
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
     this.responseAvailable=true;
 
-    console.log(data);
+    //console.log(data);
     let i = 0;
     while (i < data.length) {
-    //console.log("DEMANDEUR",data[i].requester);
-    console.log("SIGNATURE",data[i].signature);
-    if (data[i].signature.proof == null )
+    //console.log("SIGNATURE",data[i].signature);
+    //if (data[i].signature.proof == null )
+
+    // pour distinguer les demandes et prêts 
+    //test sur le champ status récupérer lors de récupération de tous les prêts s'il est égale à Request alors c'est une demande 
+    // et donc on va ajouter ce "loan" à la liste de demandes avec la méthode push
+    if(data[i].status == "Request" )
     {
-      console.log("SIGNATURE PROOF",data[i].signature.proof);
+      //console.log("SIGNATURE PROOF",data[i].signature.proof);
       this.demandes.push(data[i]);
     }
       i++;
     }
 
-    console.log("DATAPRET", this.demandes);
-    console.log("DATA1111", data[0].borrower);
-    console.log("DATA2222", this.demandes[0].borrower);
+   // console.log("DATAPRET", this.demandes);
+    //console.log("DATA1111", data[0].borrower);
+    //console.log("DATA2222", this.demandes[0].borrower);
     
     this.result = data;
   })
   .catch(error => {
     this.errorMessage = error;
-    console.error("There was an error!", error);
+    console.error("OOps il y a un problème !", error);
   });
   },
 },
 
 
-
+// Appel à la fonction 
 beforeMount(){
  this.afficherDemande();
 },
-
-
 
 }
 

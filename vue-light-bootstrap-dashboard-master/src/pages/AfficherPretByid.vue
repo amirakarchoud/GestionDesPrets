@@ -17,17 +17,14 @@
         </div></div>
         
         <div class="row justify-content-center">
-      <!--  <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un prêt</router-link> </button></div>
-      -->
+      <!-- Exécution de la méthode goback() suite au clic sur le bouton de Retour -->
       <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div></div>
       </div>
          
         </div>
         </div>
         </div><!----></div>
-         <!---------------->
-  
-  
+      
         <div class="row">
           <div class="col-12">
             <card class="strpied-tabled-with-hover"
@@ -54,19 +51,17 @@
 
 <script>
 import LoTable from 'src/components/FichePret.vue'
-import Card from 'src/components/Cards/Card.vue'
-const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire', 'Etat', 'Commentaires', 'Objets', 'Signature']
 const tableData = []
 
 export default {
   components: {
-    LoTable,
-    Card
+    LoTable
   },
+  // Déclaration de l'ensemble des variables nécessaires
   data () {
     return {
       table1: {
-        columns: [...tableColumns],
+        
         data: [...tableData],
         dataobj: [...tableData]
       },
@@ -81,18 +76,16 @@ export default {
 
 
 methods: {
-
-  test () { 
-    console.log(this.result);
-  },
+  //Méthode pour le reour à la page précedente
   goBack() {
       window.history.go(-1);
     },
+  //Méthode pour récupérer un prêt spécifique selon son identifiant unique
   afficherPretById () { 
     
     const id = this.$route.params.id;
     this.responseAvailable = false;
-
+  //Appel à l'API de loan/id en lui fournissant l'identifiant récupérer dans l'URL
     fetch(`http://localhost:3000/loan/${id}`, {
   "method": "GET",
   headers: {
@@ -100,57 +93,53 @@ methods: {
   }
 })
 .then(async response => {
+    // conversion de réponse récupéré en JSON et le mettre sous format de tableau 
     const data = [await response.json()];
-
-    // check for error response
     if (!response.ok) {
-      // get error message from body or default to response statusText
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
     this.responseAvailable=true;
-
-    console.log("DATA",data);
-    console.log("OBJECT",data[0].objects)
+    // récupération des objets de ce demande (loan) dans un tableau
     this.tableObject=data[0].objects
-    console.log("OBJECT 2",this.tableObject)
-
     this.result = data;
     console.log(this.result);
-    // HEDHA JDID 
-    let i = 0; // declare and initialize i here
-const promises = [];
-while (i < this.tableObject.length) {
-  console.log(this.tableObject[i]);
-  const idObj = this.tableObject[i];
-  const promise = fetch(`http://localhost:3000/object/${idObj}`, {
-    "method": "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(async response => {
-    const dataobj = [await response.json()];
-    if (!response.ok) {
-      const error = (dataobj && dataobj.message) || response.statusText;
-      return Promise.reject(error);
-    }
-    console.log("DATAO_BJECT",dataobj);
-    this.objects.push(dataobj); // add the dataobj to the array
-  })
-  .catch(error => {
-    console.error("There was an error fetching objects.", error);
-  });
+    /**  Sur chaque objet on va faire l'appel de l'API  object/id pour récupérer tous les informations 
+     * relatives à cet objet pour avoir afficher ce dernier par son nom au lieu de son id 
+    */
+     
+          let i = 0; 
+          const promises = [];
+          while (i < this.tableObject.length) {
+            console.log(this.tableObject[i]);
+            const idObj = this.tableObject[i];
+            //  Appel à l'API d'un objet selon son id 
+            const promise = fetch(`http://localhost:3000/object/${idObj}`, {
+              "method": "GET",
+              headers: {
+                "Content-Type": "application/json"
+              }
+            })
+            .then(async response => {
+              // conversion de réponse récupéré en JSON et le mettre sous format de tableau 
+              const dataobj = [await response.json()];
+              if (!response.ok) {
+                const error = (dataobj && dataobj.message) || response.statusText;
+                return Promise.reject(error);
+              }
+              this.objects.push(dataobj); 
+            })
+            .catch(error => {
+              console.error("There was an error fetching objects.", error);
+            });
 
-  promises.push(promise);
-  i++;
-}
+            promises.push(promise);
+            i++;
+          }
 
 Promise.all(promises).then(() => {
-  console.log("DataObj", this.objects); // this will log the final value of this.objects
-  // do something with this.objects here
+  console.log("DataObj", this.objects); 
 });
-
 
   //YOUFA HOUNI
   })
@@ -161,14 +150,9 @@ Promise.all(promises).then(() => {
   },
 },
 
-
-
 beforeMount(){
  this.afficherPretById();
 },
-
-
-
 }
 
 </script>

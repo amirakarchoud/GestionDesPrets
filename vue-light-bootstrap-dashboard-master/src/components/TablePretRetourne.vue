@@ -3,20 +3,24 @@
     <thead>
       <slot name="columns">
         <tr>
-          <th v-for="column in columns" :key="column">{{column}}</th>
-          <th> Actions </th>
+            <!-- Parcour de l'ensemble des clonnes déclarées dans la Page Afficher Pret Non Retournés pour afficher les différents champs de notre table-->
+            <th v-for="column in columns" :key="column">{{column}}</th>
+            <!-- Ajout d'un champ Action à cette table-->
+            <th> Actions </th>
           
         </tr>
       </slot>
     </thead>
     <tbody>
-    <tr v-for="(item, index) in prets" :key="index">
+      <!-- Parcour de données sauvgarder dans la  table prets-->
+    <tr v-for="(item, index) in data" :key="index">
       <slot :row="item">
-        <td>{{ index +1 }}</td>
+        <td>{{ index +1 }}</td> <!-- Pour afficher l'id comme un index et non pas l'id réel (Juste pour amélioration d'affichage)-->
         <td >{{itemValue(item, "borrower")}}</td>
         <td >{{itemValue(item, "requester")}}</td>
         <td >{{itemValue(item, "manager")}}</td>
         <td >{{itemValue(item, "status")}}</td>
+        <!-- Pour transmettre en URL l'id d'un prêt spécifique suite à la clic sur le bouton Loupe-->
         <td><router-link :to="{ name: 'PretById', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
     </tr>
     </tbody>
@@ -27,13 +31,10 @@
     name: 'lo-table',
     props: {
       columns: Array,
-      data: Array,
-      prets:Array
+      data:Array
     },
     methods: {
-      hasValue (item, column) {
-        return item[column.toLowerCase()] !== 'undefined'
-      },
+      // Méthode pour retourner la valeur d'un élément récupéré
       itemValue (item, column) {
         return item[column.toLowerCase()]
       }

@@ -1,56 +1,55 @@
 <template>
 
-    <table class="table">
-      <thead>
-        <slot name="columns">
+    <table class="table"> 
+      <!-- Parcour de données sauvgarder dans la  table data-->
+      <tbody v-for="(item, index) in data" :key="index">
+        <!-- Création de chaque champ avec sa valeur dans une une même ligne, Pour afficher les détails d'une demnade sous forme d'une Fiche et non pas un table à un seul ligne -->
+          <tr><td><b> ID </b></td><td>{{ index +1 }}</td> </tr>
+          <tr><td> <b> Prêtteur </b> </td><td >{{itemValue(item, "borrower")}}</td></tr>
+          <tr><td> <b> Demandeur </b> </td><td >{{itemValue(item, "requester")}}</td></tr>
+          <tr><td> <b> Gestionnaire </b> </td><td >{{itemValue(item, "manager")}}</td></tr>
+          <tr><td> <b> Etat </b> </td><td >{{itemValue(item, "status")}}</td></tr>
+          <tr><td> <b> Commentaires </b> </td><td >{{itemValue(item, "comments")}}</td></tr>
+          
           <tr>
-            <th v-for="column in columns" :key="column">{{column}}</th>
-            <th> Actions </th>
-            
-          </tr>
-        </slot>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in data" :key="index">
-        <slot :row="item">
-          <td>{{ index +1 }}</td>
-          <td >{{itemValue(item, "borrower")}}</td>
-          <td >{{itemValue(item, "requester")}}</td>
-          <td >{{itemValue(item, "manager")}}</td>
-          <td >{{itemValue(item, "status")}}</td>
-          <td >{{itemValue(item, "comments")}}</td>
-        
-          <td>
-          <tr v-for="(obj, index3) in dataobj" :key="index3">
-
-              <td>
-              <b>Objet {{ index3 +1 }} :</b> {{ obj[0].label }}
+            <td> 
+              <b> Objets </b> 
             </td>
-            
-          </tr>
-        </td>
-          <td>
-              <b>Détails Signature :</b> 
-              <br></br>
-              <b>Electronique : </b>{{ item.signature.electronic_signature}}
-              <br></br>
-              <b>Preuve : </b>
-              {{ item.signature.proof}}
-              <br></br>
-              <b>Code : </b>
-              {{ item.signature.validation_code}}
+            <td>
+            <tr>
+            <!-- Parcour de données sauvgarder dans la  table dataobj qui définit tous les détails de chaque objet récupérer dans l'ensemble des objets de prêt  -->
+            <tbody v-for="(obj, index3) in dataobj" :key="index3">
+                <td>
+                <b>Objet {{ index3 +1 }} :</b> {{ obj[0].label }} <!-- Affichage de numéro et label l'objet -->
+                </td>
+            </tbody>
+            </tr>
           </td>
-          <td>
-            <button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button>
-            <button class="btn btn-info"><i class="fa fa-trash-o"></i></button> 
-            <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button> 
-            <br></br>
-            <button class="btn btn-info"><i class="fa fa-question-circle" ></i></i>Perdu</button>
-            <button class="btn btn-info"><i class="fa fa-refresh"></i>Retourné</button>
-          </td>
+        </tr>
 
-        </slot>
-      </tr>
+        <tr>
+          <td><b> Signature </b> </td>
+          <td>
+            <!-- Affichage de détails de signature -->
+            <tr> <td><b>Electronique : </b> {{ item.signature.electronic_signature}}</td></tr> 
+            <tr> <td><b>Preuve : </b>{{ item.signature.proof}}</td></tr> 
+            <tr> <td><b>Code : </b>{{ item.signature.validation_code}}</td></tr> 
+            
+          </td>
+        </tr>
+
+        <tr>
+          <td> <b>Actions</b> </td>
+          <td>
+             <!-- Définitions de l'ensemble des boutons (Action) possible sur cette pret-->
+            <button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button><!-- Bouton de modification-->
+            <button class="btn btn-info"><i class="fa fa-trash-o"></i></button> <!-- Bouton de suppresion-->
+            <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button> <!-- Bouton de téléchargement de prêt -->
+            <br></br>
+            <button class="btn btn-info"><i class="fa fa-question-circle" ></i></i>Perdu</button> <!-- Bouton de déclaration d'objet comme perdu -->
+            <button class="btn btn-info"><i class="fa fa-refresh"></i>Retourné</button> <!-- Bouton de déclaration d'objet comme retourné -->
+          </td>
+        </tr>
       </tbody>
     </table>
 
@@ -65,16 +64,15 @@
         dataobj :Array
       },
       methods: {
-        hasValue (item, column) {
-          return item[column.toLowerCase()] !== 'undefined'
-        },
+        // Méthode pour retourner la valeur d'un élément récupéré
         itemValue (item, column) {
           return item[column.toLowerCase()]
         },
+        // Méthode exécuté suite au clic sur le bouton de télechargement, qui utilise l'id de prêt sélcionné pour fait appel à l'API de téléchargement
         downloadPret () { 
               
               const id = this.$route.params.id;
-              console.log("ID: ", id);
+              //console.log("ID: ", id);
               this.responseAvailable = false;
               fetch(`http://localhost:3000/loan/${id}/download`, {
                 "method": "GET",
@@ -102,4 +100,6 @@
   <style>
   
   </style>
+  
+
   
