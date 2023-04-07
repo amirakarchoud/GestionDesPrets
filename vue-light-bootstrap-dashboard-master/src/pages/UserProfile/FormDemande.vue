@@ -61,13 +61,13 @@
           </select>
         </div>
       </div>
-
-      <!--<div class="row">
+     <!--
+      <div class="row">
         <div class="col-md-6" >
           <label for="group">Objet </label>
           <br>
-          <select v-model="selectedObject">
-            <option disabled value="">Veuillez selectionner un objet</option>
+          <select @change="addObject($event)" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+            <option disabled selected value="">Veuillez selectionner un objet</option>
             <option v-for="option in getFilterObject" :value="option._id">
               {{ option.label }}
             </option>
@@ -75,20 +75,23 @@
         </div>
       </div> -->
 
-      <vue-multi-select
-        ref="multiSelect"
-        v-model="selectedObject"
-        search
-        :options="options"
-        :btnLabel="btnLabel"
-        @open="open"
-        @close="close"
-        :selectOptions="getFilterObject">
-        <template v-slot:option="{option}">
-          <input type="checkbox" :checked="option.selected"/>
-          <span>  {{option.label}}</span>
-        </template>
-      </vue-multi-select>
+      <div class="row">
+        <div class="col-md-6" >
+          <label for="group">Objet </label>
+          <Multiselect
+            v-model="selectedObject"
+            :options="getFilterObject"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :preserve-search="true"
+            placeholder="Veuillez selectionner un objet"
+            label="label" track-by="label"
+            :preselect-first="true"
+          />
+      </div>
+      </div>
+
 
       <div class="row">
         <div class="col-md-5">
@@ -99,23 +102,6 @@
             ></b-form-textarea>
         </div>
       </div>
-      <!--
-      <div class="row">
-        <div class="col-md-6" >
-          <label for="group">Date du pret </label>
-          <br>
-          <date-picker v-model="date" type="datetime"></date-picker>
-        </div>
-      </div>  -->
-
-      <!--<div class="row">
-        <div class="col-md-6" >
-          <label for="group">Signature éléctronique </label>
-          <br>
-          <input type="checkbox" id="checkbox" v-model="checked" style="border:1px solid #d8e1e6;">
-          <label for="checkbox" style="margin-left:10px;">{{ checked }}</label>
-        </div>
-      </div> -->
 
       <div class="text-center">
         <router-link to="/membre/demande">
@@ -136,14 +122,18 @@
   </card>
 </template>
 
+
 <script>
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import moment from "moment";
-import vueMultiSelect from 'vue-multi-select';
-import 'vue-multi-select/dist/lib/vue-multi-select.css';
+//import Multiselect from '@vueform/multiselect/dist/multiselect.vue2.js'
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+import './Css/vue-multiselect.min.css'
+
 export default {
-  components: { DatePicker, vueMultiSelect },
+  components: { DatePicker, Multiselect},
   name: "FormDemande",
   data() {
     return {
@@ -160,17 +150,17 @@ export default {
       checked: false,
       objectsId: [],
       comments: '',
-      values: [],
-      btnLabel: values => `${this.selectedObject.map(object => object.label )}`,
-      options: {
-        multi: true,
-        groups: false,
-      },
     }
   },
   methods: {
+    addTag (newTag) {
+      this.selectedObject.push(newTag)
+    },
     findLoanById(id) {
       return this.listLoans.find(loan => loan._id === id);
+    },
+    addObject(event){
+      this.selectedObject.push(event.target.value);
     },
     async getGroup() {
       const res = await fetch("http://localhost:3000/objectGroup");
@@ -244,15 +234,6 @@ export default {
           console.error('There was an error!', error);
         });
     },
-    openManually() {
-      this.$refs.multiSelect.openMultiSelect();
-    },
-    open() {
-      console.log('open');
-    },
-    close() {
-      console.log('close');
-    },
   },
   mounted() {
     this.getGroup();
@@ -261,7 +242,7 @@ export default {
   },
   computed:{
     getFilterType(){console.log(this.selectedGroup); return this.listType.filter(t=> t.group===this.selectedGroup); },
-    getFilterObject(){console.log(this.selectedType); return this.listObject.filter(o=> (o.type._id===this.selectedType) && !o.borrowed);},
+    getFilterObject(){console.log(this.selectedObject); return this.listObject.filter(o=> (o.type._id===this.selectedType) && !o.borrowed);},
   },
 
 }
