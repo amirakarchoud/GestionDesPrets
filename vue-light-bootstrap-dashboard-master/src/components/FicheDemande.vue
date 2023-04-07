@@ -43,6 +43,7 @@
         <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'ValiderDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
           <button class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
         </router-link>
+        <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info">Choisir type de signature</button>
         <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
         <button v-b-modal.receivedLoan v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="fa fa-check-circle"></i></button>
 
@@ -217,8 +218,8 @@
                 borrower: this.data[0].borrower,
                 requester: this.data[0].requester,
                 manager: this.data[0].manager,
-                date: {borrow: this.dateBorrow},
-                status: this.data[0].status,
+                date: {request: this.data[0].date.request,borrow: this.dateBorrow},
+                status: 'InProgress',
                 objects: this.data[0].objects,
                 signature: {electronic_signature: this.signatureType, proof: this.data[0].signature.proof, validation_code: this.data[0].signature.validation_code }
               }

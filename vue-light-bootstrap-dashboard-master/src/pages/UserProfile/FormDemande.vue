@@ -62,16 +62,41 @@
         </div>
       </div>
 
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-6" >
           <label for="group">Objet </label>
           <br>
-          <select v-model="selectedObject" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+          <select v-model="selectedObject">
             <option disabled value="">Veuillez selectionner un objet</option>
             <option v-for="option in getFilterObject" :value="option._id">
               {{ option.label }}
             </option>
           </select>
+        </div>
+      </div> -->
+
+      <vue-multi-select
+        ref="multiSelect"
+        v-model="selectedObject"
+        search
+        :options="options"
+        :btnLabel="btnLabel"
+        @open="open"
+        @close="close"
+        :selectOptions="getFilterObject">
+        <template v-slot:option="{option}">
+          <input type="checkbox" :checked="option.selected"/>
+          <span>  {{option.label}}</span>
+        </template>
+      </vue-multi-select>
+
+      <div class="row">
+        <div class="col-md-5">
+          <label for="textarea-default">COMMENTAIRES</label>
+          <b-form-textarea type="text"
+                           placeholder="COMMENTAIRE"
+                           v-model="comments">
+            ></b-form-textarea>
         </div>
       </div>
       <!--
@@ -115,10 +140,10 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 import moment from "moment";
-
-
+import vueMultiSelect from 'vue-multi-select';
+import 'vue-multi-select/dist/lib/vue-multi-select.css';
 export default {
-  components: { DatePicker },
+  components: { DatePicker, vueMultiSelect },
   name: "FormDemande",
   data() {
     return {
@@ -132,10 +157,15 @@ export default {
       selectedGroup:'',
       selectedType:'',
       selectedObject: [],
-      date: '2030-12-30' ,
-      dateReturn: '2090-12-30',
       checked: false,
-      objectsId: []
+      objectsId: [],
+      comments: '',
+      values: [],
+      btnLabel: values => `${this.selectedObject.map(object => object.label )}`,
+      options: {
+        multi: true,
+        groups: false,
+      },
     }
   },
   methods: {
@@ -166,7 +196,7 @@ export default {
       //console.log(this.date);
       //alert(this.date);
       //alert(moment(this.date).format());
-      this.date = moment(this.date).format();
+      this.date = moment().format();
       this.$toast.success("La demande du prêt a été crée avec succès!", {
         position: "top-right",
         timeout: 5000,
@@ -189,8 +219,9 @@ export default {
             borrower: this.selectedBorrower,
             requester: this.requester,
             manager: this.manager,
-            date: {borrow: this.date},
-            status: 'InProgress',
+            date: {request: this.date},
+            status: 'Request',
+            comments: this.comments,
             objects: this.getObjectId(),
             signature: {}
           }
@@ -212,6 +243,15 @@ export default {
           this.errorMessage = error;
           console.error('There was an error!', error);
         });
+    },
+    openManually() {
+      this.$refs.multiSelect.openMultiSelect();
+    },
+    open() {
+      console.log('open');
+    },
+    close() {
+      console.log('close');
     },
   },
   mounted() {

@@ -3,7 +3,7 @@
       <h4 slot="header" class="card-title">Valider Demande </h4>
       <form>
 
-      <div class="row">
+        <div v-if="this.signatureType===true" class="row">
           <div class="col-md-5">
             <div>Code de Validation</div>
             <base-input type="text"
@@ -14,7 +14,7 @@
 
         </div>
 
-        <div class="row">
+        <div v-if="this.signatureType===false" class="row">
             <div class="col-md-5">
               <b-form-file
                 browse-text="Parcourir"
@@ -57,11 +57,13 @@
             type: '',
             picked:false,
             file: null,
+            signatureType: false,
           }
         },
       methods: {
          validate() {
-          console.log(this.data[0]);
+          //console.log(this.data[0]);
+          console.log(this.file);
           const id = this.$route.params.id;
           const requestOptions = {
             method: 'PUT',
@@ -114,6 +116,9 @@
               console.error('There was an error!', error);
             });
         }
+      },
+      mounted() {
+        this.signatureType = this.data[0].signature.electronic_signature;
       }
     }
 

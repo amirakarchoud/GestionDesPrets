@@ -76,6 +76,16 @@
           </select>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-5">
+          <label for="textarea-default">COMMENTAIRES</label>
+          <b-form-textarea type="text"
+                           placeholder="COMMENTAIRE"
+                           v-model="comments">
+            ></b-form-textarea>
+        </div>
+      </div>
       <!--
       <div class="row">
         <div class="col-md-6" >
@@ -134,7 +144,8 @@ export default {
       date: '2023-12-14' ,
       dateReturn: '2090-12-30',
       checked: false,
-      objectsId: []
+      objectsId: [],
+      comments: '',
     }
   },
   methods: {
@@ -176,7 +187,7 @@ export default {
       const requestOptions = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, manager: this.manager, date: {borrow: this.date}, status: 'InProgress', objects: this.getObjectId(), signature: {electronic_signature: this.checked}   }})
+        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, manager: this.manager, date: {borrow: this.date}, status: 'InProgress', comments: this.comments , objects: this.getObjectId(), signature: {electronic_signature: this.checked}   }})
       };
       const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
         .then(async response => {

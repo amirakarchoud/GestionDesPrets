@@ -162,7 +162,7 @@
                 borrower: this.data[0].borrower,
                 requester: this.data[0].requester,
                 manager: this.data[0].manager,
-                date: {borrow: this.data[0].date.borrow},
+                date: {request: this.data[0].date.request, return: returndate},
                 status: this.loanStatus,
                 objects: this.data[0].objects,
                 signature: {electronic_signature: this.data[0].signature.electronic_signature, proof: this.data[0].signature.proof, validation_code: this.data[0].signature.validation_code }

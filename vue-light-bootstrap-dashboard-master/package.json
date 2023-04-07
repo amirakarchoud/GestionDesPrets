@@ -13,6 +13,7 @@
     "lint-fix": "vue-cli-service lint --fix"
   },
   "dependencies": {
+    "@coreui/vue-pro": "^4.8.1",
     "@vuepic/vue-datepicker": "^4.2.0",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.23.1",
@@ -20,14 +21,16 @@
     "chartist": "0.11.0",
     "google-maps": "3.2.1",
     "localStorage": "^1.0.4",
+    "moment": "^2.29.4",
     "register-service-worker": "1.7.2",
     "v-tooltip": "2.0.0-rc.33",
     "vue": "^2.7.14",
+    "vue-multi-select": "^4.6.0",
+    "vue-multiselect": "^2.1.7",
     "vue-router": "3.0.2",
+    "vue-toastification": "^1.7.14",
     "vue2-datepicker": "^3.11.1",
-    "vue2-google-maps": "0.10.7",
-    "moment": "^2.29.4",
-    "vue-toastification": "^1.7.14"
+    "vue2-google-maps": "0.10.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "3.12.1",
