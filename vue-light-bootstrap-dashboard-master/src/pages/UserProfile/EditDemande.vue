@@ -66,13 +66,17 @@
       <div class="row">
         <div class="col-md-6" >
           <label for="group">Objet </label>
-          <br>
-          <select v-model="selectedObject" style="width:280px; height:40px; border:1px solid #d8e1e6;">
-            <option disabled value="">Veuillez selectionner un objet</option>
-            <option v-for="option in getFilterObject" :value="option._id">
-              {{ option.label }}
-            </option>
-          </select>
+          <Multiselect
+            v-model="selectedObject"
+            :options="getFilterObject"
+            :multiple="true"
+            :close-on-select="false"
+            :clear-on-select="false"
+            :preserve-search="true"
+            placeholder="Veuillez selectionner un objet"
+            label="label" track-by="label"
+            :preselect-first="true"
+          />
         </div>
       </div>
 
@@ -125,8 +129,11 @@
 <script>
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
+import Multiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+import './Css/vue-multiselect.min.css'
 export default {
-  components: {DatePicker},
+  components: {DatePicker, Multiselect},
   name: "EditDemande",
   data(){
     return{
@@ -165,8 +172,12 @@ export default {
       const finalRes = await res.json();
       this.listObject = finalRes;
       console.log(this.listObject);
+      this.selectedObject = this.listObject.filter(obj1=> {
+        return this.$route.params.data[0].objects.some(obj2 => obj2 === obj1._id);
+      });
+      console.log(this.selectedObject)
     },
-    getObjectId(){this.objectsId = [];this.getFilterObject.forEach(item => this.objectsId.push(item._id)); return this.objectsId;},
+    getObjectId(){this.objectsId = [];this.selectedObject.forEach(item => this.objectsId.push(item._id)); return this.objectsId;},
     async editRequest() {
       this.$toast.success("La demande du prêt a été modifiée avec succès!", {
         position: "top-right",
@@ -186,7 +197,7 @@ export default {
       const requestOptions = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, manager: this.manager, date: {borrow: this.date}, status: 'InProgress', comments: this.comments , objects: this.getObjectId(), signature: {electronic_signature: this.checked}   }})
+        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, status: 'Request', comments: this.comments , objects: this.getObjectId()}})
       };
       const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
         .then(async response => {
@@ -207,10 +218,11 @@ export default {
         });
     },
     showLoan(){
-      console.log(this.$route.params.data);
-      this.borrower = this.$route.params.data[0].borrower;
+      console.log(this.listObject);
+      this.selectedBorrower = this.$route.params.data[0].borrower;
       this.requester = this.$route.params.data[0].requester;
-      this.manager = this.$route.params.data[0].manager;
+      //this.selectedObject = this.$route.params.data[0].objects;
+      this.comments = this.$route.params.data[0].comments;
       /*this.date = '2023-03-14 00:00:00';
       console.log(this.date);*/
       //this.selectedGroup =
