@@ -19,7 +19,7 @@
         <div class="row justify-content-center">
         <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts non retounées -->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretNonRetourne">Prêts Non Retournés</router-link></button></div>
-        <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Assignées -->
+        <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Assignés -->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to ="/admin/pretAssigne">Prêts Assignés</router-link> </button></div>
         <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Retournés-->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretRetourne">Prêts Retournés</router-link></button></div></div>

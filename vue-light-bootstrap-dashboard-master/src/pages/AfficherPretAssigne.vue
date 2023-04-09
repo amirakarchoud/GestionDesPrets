@@ -2,27 +2,7 @@
   <div class="content">
     <div class="container-fluid">
       <!---------------->
-       <div class="col-12 ">
-<div class="card"><!----><!---->
-<div class="card-body">
 
-
-
-
-<div class="places-buttons">
-<div class="row justify-content-center">
-<div class="col-12 ">
-<h5>
-              <p class="category"></p></h5>
-      </div></div>
-      
-      <div class="row justify-content-center">
-     <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts-->
-      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> <router-link to="/admin/pret">Retour</router-link></button></div></div>
-       
-      </div>
-      </div>
-      </div><!----></div>
        <!---------------->
 
 
@@ -32,7 +12,7 @@
                 body-classes="table-full-width table-responsive"
           >
             <template slot="header">
-              <h4 class="card-title">Les Prêts</h4>
+              <h4 class="card-title">Les Prêts Assignés</h4>
               <p class="card-category"></p>
             </template>
             <lo-table class="table-hover table-striped"
@@ -44,6 +24,12 @@
 
         </div>
       </div>
+
+      
+      <div class="row justify-content-center">
+     <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts-->
+      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> <router-link to="/admin/pret">Retour</router-link></button></div></div>
+       
     </div>
 </div>
 </template>
@@ -51,7 +37,7 @@
 <script>
 import LoTable from 'src/components/TablePretRetourne.vue'
 import Card from 'src/components/Cards/Card.vue'
-const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire', 'Etat']
+const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire']
 const tableData = []
 
 export default {

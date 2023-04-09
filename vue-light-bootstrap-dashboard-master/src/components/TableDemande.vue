@@ -19,7 +19,12 @@
           <td >{{itemValue(item, "borrower")}}</td>
           <td >{{itemValue(item, "requester")}}</td>
           <td >{{itemValue(item, "manager")}}</td>
-          <td >{{itemValue(item, "status")}}</td>
+          <!--<td >{{itemValue(item, "status")}}</td>
+          <td>
+            <span v-if="itemValue(item, 'status') === 'Request'"> En cours de traitement</span>
+          </td>
+          -->
+          
           <!-- Pour transmettre en URL l'id d'une demande spécifique suite à la clic sur le bouton Loupe-->
           <td><router-link :to="{ name: 'DemandeById', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
       </tr>

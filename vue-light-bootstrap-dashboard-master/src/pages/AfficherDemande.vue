@@ -47,7 +47,7 @@
 <script>
 import LoTable from 'src/components/TableDemande.vue'
 import Card from 'src/components/Cards/Card.vue'
-const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire', 'Etat']
+const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire']
 const tableData = []
 
 export default {
