@@ -59,7 +59,7 @@
   <div>
   <b-modal id="modal-1" title="Confirmation" @ok="setLoanStatus()" ok-title-html= "Oui" cancel-title-html="Non" >
     <div class="d-block text-center">
-      <h5>Êtes-vous sur de modifier ce prêt?</h5>
+      <h5>Êtes-vous sur de déclarer <span v-if="this.loanStatus==='NotReturned'">la perte</span><span v-if="this.loanStatus==='Returned'">le retour</span> de ce prêt?</h5>
     </div>
   </b-modal>
     <b-modal id="delete" title="Confirmation" @ok="deleteLoan()" ok-title-html= "Oui" cancel-title-html="Non" >

@@ -63,7 +63,7 @@
     </div>
 
     <div>
-      <b-modal id="validate" title="Confirmer le mode de signature" @ok="modifySignatureType()" ok-title-html= "Valider la demande" cancel-title-html="Retour" >
+      <b-modal id="validate" title="Confirmer le mode de signature" @ok="modifySignatureType()" ok-title-html= "Valider" cancel-title-html="Retour" >
         <div class="d-block text-center">
           <label for="group">Signature éléctronique </label>
           <br>
@@ -167,10 +167,9 @@
                 borrower: this.data[0].borrower,
                 requester: this.data[0].requester,
                 manager: this.data[0].manager,
-                date: {borrow: this.data[0].date.borrow},
                 status: this.data[0].status,
                 objects: this.data[0].objects,
-                signature: {electronic_signature: this.signatureType, proof: this.data[0].signature.proof, validation_code: this.data[0].signature.validation_code }
+                signature: {electronic_signature: this.signatureType}
               }
             })
           };

@@ -1,4 +1,9 @@
 <template>
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+      <div class="col-md-8">
+
   <card>
     <h4 slot="header" class="card-title">Modifier la demande</h4>
     <form>
@@ -124,6 +129,10 @@
 
     </form>
   </card>
+      </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

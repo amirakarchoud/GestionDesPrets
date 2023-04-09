@@ -99,14 +99,14 @@
         </div>
       </div> -->
 
-      <!--<div class="row">
+      <div class="row">
         <div class="col-md-6" >
           <label for="group">Signature éléctronique </label>
           <br>
           <input type="checkbox" id="checkbox" v-model="checked" style="border:1px solid #d8e1e6;">
-          <label for="checkbox" style="margin-left:10px;">{{ checked }}</label>
+          <label for="checkbox" style="margin-left:10px;">{{ checked? "oui":"non" }}</label>
         </div>
-      </div>-->
+      </div>
 
       <div class="text-center">
         <router-link :to="{name: 'DemandeByIdAdmin'}">
@@ -197,7 +197,7 @@ export default {
       const requestOptions = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, status: 'Request', comments: this.comments , objects: this.getObjectId()}})
+        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, status: 'Request', comments: this.comments , objects: this.getObjectId(), signature: {electronic_signature: this.checked}}})
       };
       const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
         .then(async response => {
@@ -221,6 +221,7 @@ export default {
       this.selectedBorrower = this.$route.params.data[0].borrower;
       this.requester = this.$route.params.data[0].requester;
       this.comments = this.$route.params.data[0].comments;
+      this.checked = this.$route.params.data[0].signature.electronic_signature;
     }
   },
   mounted() {
