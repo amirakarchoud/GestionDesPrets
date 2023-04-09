@@ -73,11 +73,9 @@
                 borrower: this.data[0].borrower,
                 requester: this.data[0].requester,
                 manager: this.data[0].manager,
-                date: {borrow: this.data[0].date.borrow},
                 status: this.data[0].status,
                 objects: this.data[0].objects,
                 signature: {
-                  electronic_signature: this.data[0].signature.electronic_signature,
                   proof: '/home/proofs/signature.pdf',
                   validation_code: this.code
                 }

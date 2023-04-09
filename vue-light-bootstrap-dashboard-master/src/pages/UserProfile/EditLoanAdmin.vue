@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-8">
   <card>
-    <h4 slot="header" class="card-title">Modifier la demande</h4>
+    <h4 slot="header" class="card-title">Modifier le pret</h4>
     <form>
       <div class="row">
         <div class="col-md-5">
@@ -18,16 +18,16 @@
           </select>
         </div>
       </div>
-     <!--
-      <div class="row">
-        <div class="col-md-5">
-          <base-input type="text"
-                      label="DEMANDEUR"
-                      placeholder="NOM"
-                      v-model="requester">
-          </base-input>
-        </div>
-      </div> -->
+      <!--
+       <div class="row">
+         <div class="col-md-5">
+           <base-input type="text"
+                       label="DEMANDEUR"
+                       placeholder="NOM"
+                       v-model="requester">
+           </base-input>
+         </div>
+       </div> -->
 
       <!--
       <div class="row">
@@ -113,12 +113,12 @@
       </div>
 
       <div class="text-center">
-        <router-link :to="{name: 'DemandeByIdAdmin'}">
+        <router-link :to="{name: 'PretById'}">
           <button class="btn btn-info btn-fill float-right" @click="editRequest()">
-            Modifier la demande
+            Modifier le pret
           </button>
         </router-link>
-        <router-link :to="{name: 'DemandeByIdAdmin'}">
+        <router-link :to="{name: 'PretById'}">
           <button type="submit" class="btn btn-info btn-fill float-right"  style="margin-right:10px">
             Retour
           </button>
@@ -133,7 +133,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -144,7 +143,7 @@ import 'vue-multiselect/dist/vue-multiselect.min.css'
 import './Css/vue-multiselect.min.css'
 export default {
   components: {DatePicker, Multiselect},
-  name: "EditDemande",
+  name: "EditLoanAdmin",
   data(){
     return{
       listBorrower: ['lipn admin','fatma','omar'],
@@ -206,7 +205,7 @@ export default {
       const requestOptions = {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester, status: 'Request', comments: this.comments , objects: this.getObjectId(), signature: {electronic_signature: this.checked}}})
+        body: JSON.stringify({data: {borrower: this.selectedBorrower, requester: this.requester,comments: this.comments , objects: this.getObjectId(), signature: {electronic_signature: this.checked}}})
       };
       const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
         .then(async response => {
@@ -244,8 +243,5 @@ export default {
     getFilterType(){return this.listType.filter(t=> t.group==this.selectedGroup)},
     getFilterObject(){return this.listObject.filter(o=> (o.type._id==this.selectedType) && !o.borrowed)},
   },
-
 }
 </script>
-
-

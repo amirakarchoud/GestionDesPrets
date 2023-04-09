@@ -29,6 +29,7 @@ import Upgrade from 'src/pages/Upgrade.vue'
 import AjouterDemande from "@/pages/AjouterDemande.vue";
 import EditDemande from "@/pages/UserProfile/EditDemande.vue";
 import EditDemandeAdmin from "@/pages/UserProfile/EditDemandeAdmin.vue";
+import EditLoanAdmin from "@/pages/UserProfile/EditLoanAdmin.vue";
 
 
 const routes = [
@@ -137,6 +138,11 @@ const routes = [
         path: 'edit/demande/:id',
         name: 'EditDemandeAdmin',
         component: EditDemandeAdmin
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditLoanAdmin',
+        component: EditLoanAdmin
       },
     ]
   },

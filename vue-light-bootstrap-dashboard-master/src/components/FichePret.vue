@@ -41,7 +41,9 @@
       {{ item.signature.validation_code}}
     </td>
     <td>
-      <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
+      <router-link :to="{ name: 'EditLoanAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+        <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
+      </router-link>
       <button class="btn btn-info" v-b-modal.delete><i class="fa fa-trash-o"></i></button>
       <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button>
       <br></br>
