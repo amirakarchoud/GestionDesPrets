@@ -1,6 +1,6 @@
  <!-- Ce fichier représente la fiche de demande affichées suite au choix d'une demande particulière -->
 
-<template>
+ <template>
 
     <table class="table"> 
 
@@ -36,13 +36,8 @@
           <td> <b>Actions</b> </td>
           <td>
              <!-- Définitions de l'ensemble des boutons (Action) possible sur cette pret-->
-            <button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button><!-- Bouton de modification-->
-            <button class="btn btn-info"><i class="fa fa-trash-o"></i></button> <!-- Bouton de suppresion-->
             <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button> <!-- Bouton de téléchargement de prêt -->
-            <br></br>
-            <button class="btn btn-info"><i class="fa fa-question-circle" ></i></i>Perdu</button> <!-- Bouton de déclaration d'objet comme perdu -->
-            <button class="btn btn-info"><i class="fa fa-refresh"></i>Retourné</button> <!-- Bouton de déclaration d'objet comme retourné -->
-          </td>
+            </td>
         </tr>
       </tbody>
     </table>

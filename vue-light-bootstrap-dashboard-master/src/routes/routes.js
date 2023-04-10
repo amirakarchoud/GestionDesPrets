@@ -20,6 +20,9 @@ import AfficherDemande from 'src/pages/AfficherDemande.vue'
 import AfficherDemandeById from 'src/pages/AfficherDemandeById.vue'
 import ValiderDemande from 'src/pages/ValiderDemande.vue'
 import AfficherDemandeMember from 'src/pages/AfficherDemandeMember.vue'
+import AfficherPretMembre from 'src/pages/AfficherPretMembre.vue'
+import AfficherPretByidMembre from 'src/pages/AfficherPretByidMembre.vue'
+import AfficherDemandeByIdMembre  from 'src/pages/AfficherDemandeByIdMembre.vue'
 
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
@@ -143,9 +146,24 @@ const routes = [
         component: Overview
       },
       {
+        path: 'pret',
+        name: 'Pretaff',
+        component: AfficherPretMembre
+      },
+      {
+        path: 'pretbyidmembre/:id',
+        name: 'PretByIdMembre',
+        component: AfficherPretByidMembre 
+      },
+      {
         path: 'demande',
         name: 'Demandeaff',
         component: AfficherDemandeMember
+      },
+      {
+        path: 'demandebyidmembre/:id',
+        name: 'DemandeByIdMembre',
+        component: AfficherDemandeByIdMembre 
       },
       {
         path: 'validerdemande',

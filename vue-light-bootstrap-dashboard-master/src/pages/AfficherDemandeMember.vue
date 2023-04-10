@@ -34,7 +34,7 @@
                   body-classes="table-full-width table-responsive"
             >
               <template slot="header">
-                <h4 class="card-title">Les Demandes</h4>
+                <h4 class="card-title">Vos Demandes</h4>
                 <p class="card-category"></p>
               </template>
               <lo-table class="table-hover table-striped"
@@ -109,9 +109,6 @@ methods: {
     console.log(data);
     let i = 0;
     while (i < data.length) {
-    console.log("DEMANDEUR",data[i].requester);
-    console.log("DEMANDEUR4",this.username);
-    console.log("SIGNATURE",data[i].signature);
     
     //if (data[i].signature.proof == null && data[i].requester == this.username)
     //if (data[i].signature.proof == null)
@@ -128,10 +125,6 @@ methods: {
       i++;
     }
 
-    //console.log("DEMANDE", this.demandes);
-    //console.log("DATA1111", data[0].borrower);
-    //console.log("DATA2222", this.demandes[0].borrower);
-    
     this.result = data;
   })
   .catch(error => {
