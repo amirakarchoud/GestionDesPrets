@@ -1,5 +1,3 @@
- <!-- Ce fichier représente la récupération des données d'un prêt particulière -->
-
  <template>
   <div class="content">
     <div class="container-fluid">
@@ -18,6 +16,7 @@
             <lop-table class="table-hover table-striped"
                      :columns="table1.columns"
                      :data="result" 
+                     :dataobj="objects"
                      >
                      
             </lop-table>
@@ -55,7 +54,8 @@ const tableData = []
 export default {
 components: {
   LopTable,
-  LoTable
+  LoTable,
+  Card
 },
 // Déclaration de l'ensemble des variables nécessaires
 data () {
@@ -81,6 +81,7 @@ data () {
 
 
 methods: {
+
 
 //methode  pour reccuperer les groupes de la base de donnees 
 async getGroupes () { 

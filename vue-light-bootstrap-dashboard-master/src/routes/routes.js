@@ -35,9 +35,16 @@ import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
 import Upgrade from 'src/pages/Upgrade.vue'
+
+import AjouterDemande from "@/pages/AjouterDemande.vue";
+import EditDemande from "@/pages/UserProfile/EditDemande.vue";
+import EditDemandeAdmin from "@/pages/UserProfile/EditDemandeAdmin.vue";
+import EditLoanAdmin from "@/pages/UserProfile/EditLoanAdmin.vue";
+
 import AfficherGroupe from 'src/pages/AfficherGroupe.vue'
 import AjouterGroupe from 'src/pages/AjouterGroupe.vue'
 import modifierGroupe from 'src/pages/modifierGroupe.vue'
+
 const routes = [
   {
     path: '/',
@@ -47,6 +54,7 @@ const routes = [
    //Declaration des chemins pour le membre
   {
     path: '/admin',
+    name: 'admin',
     component: DashboardLayout,
     redirect: '/admin/overview',
     children: [
@@ -103,7 +111,7 @@ const routes = [
       {
         path: 'pretbyid/:id',
         name: 'PretById',
-        component: AfficherPretByid 
+        component: AfficherPretByid
       },
       {
         path: 'demande',
@@ -112,8 +120,8 @@ const routes = [
       },
       {
         path: 'demandebyid/:id',
-        name: 'DemandeById',
-        component: AfficherDemandeById 
+        name: 'DemandeByIdAdmin',
+        component: AfficherDemandeById
 },{
         path: 'type',
         name: 'Typeaff',
@@ -134,7 +142,6 @@ const routes = [
         path: 'modifierGroupe/:id',
         name: 'Groupeupdate',
         component: modifierGroupe
-
       },
       {
         path: 'ajouterType',
@@ -170,12 +177,23 @@ const routes = [
         path: 'upgrade',
         name: 'Upgrade to PRO',
         component: Upgrade
-      }
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditDemandeAdmin',
+        component: EditDemandeAdmin
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditLoanAdmin',
+        component: EditLoanAdmin
+      },
     ]
   },
   //Declaration des chemins pour le membre
   {
     path: '/membre',
+    name: 'membre',
     component: LayoutMembre,
     redirect: '/membre/overview',
     children: [
@@ -188,6 +206,21 @@ const routes = [
         path: 'demande',
         name: 'Demandeaff',
         component: AfficherDemandeMember
+      },
+      {
+        path: 'demandeAdd',
+        name: 'DemandeAdd',
+        component: AjouterDemande
+      },
+      {
+        path: 'demandebyid/:id',
+        name: 'DemandeByIdMembre',
+        component: AfficherDemandeById
+      },
+      {
+        path: 'edit/demande/:id',
+        name: 'EditDemande',
+        component: EditDemande
       },
       {
         path: 'validerdemande',

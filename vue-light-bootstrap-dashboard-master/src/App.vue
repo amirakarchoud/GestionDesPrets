@@ -6,7 +6,10 @@
 </template>
 
 <script>
-  export default {}
+
+  export default {
+
+  }
 </script>
 <style lang="scss">
   .vue-notifyjs.notifications{

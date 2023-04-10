@@ -21,27 +21,69 @@
       <tr>
           <td> <b>Actions</b> </td>
           <td>
-            <!-- Définitions de l'ensemble des boutons (Action) possible sur cette demande-->
-            <button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> <!-- Bouton de modification-->
-          <button class="btn btn-info"><i class="fa fa-trash-o"></i></button> <!-- Bouton de suppresion-->
-          <button @click="downloadDemande()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button> <!-- Bouton de téléchargement de demande -->
-          <router-link to="/membre/validerdemande">
-            <button class="btn btn-info"><i class="nc-icon nc-check-2"></i></button> <!-- Bouton de formulaire de validation de demande-->
-          </router-link>
-          <button class="btn btn-info"> Objet Reçu </button> <!-- Bouton de déclaration d'objet comme réçu par le demandeur-->
-          </td>
+ <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'EditDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+          <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
+        </router-link>
+        <router-link v-if="getParentRoute()==='admin'" :to="{ name: 'EditDemandeAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+          <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
+        </router-link>
+
+        <!--<button  v-if="getParentRoute()==='admin'" class="btn btn-info" v-b-modal.signature><i class="fa fa-pencil" ></i></button> -->
+
+        <button class="btn btn-info" v-b-modal.delete><i class="fa fa-trash-o"></i></button>
+        <button @click="downloadDemande()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button>
+        <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'ValiderDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+          <button class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
+        </router-link>
+        <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info">Choisir type de signature</button>
+        <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
+        <button v-b-modal.receivedLoan v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="fa fa-check-circle"></i>Objet Reçu</button>
+ </td>
         </tr>
     </tbody>
   </table>
 
+ <div>
+      <b-modal id="delete" title="Confirmation" @ok="deleteRequest()" ok-title-html= "Oui" cancel-title-html="Non" >
+        <div class="d-block text-center">
+          <h5>Êtes-vous sur de supprimer cette demande?</h5>
+        </div>
+      </b-modal>
+    </div>
+
+    <div>
+      <b-modal id="validate" title="Confirmer le mode de signature" @ok="modifySignatureType()" ok-title-html= "Valider" cancel-title-html="Retour" >
+        <div class="d-block text-center">
+          <label for="group">Signature éléctronique </label>
+          <br>
+          <input type="checkbox" id="checkbox" v-model="signatureType" style="border:1px solid #d8e1e6;">
+          <label for="checkbox" style="margin-left:10px;">{{ signatureType?"Oui":"Non" }}</label>
+        </div>
+      </b-modal>
+    </div>
+
+    <div>
+      <b-modal id="receivedLoan" title="Confirmation" @ok="setLoanToReceived()" ok-title-html= "Confirmer la reception" cancel-title-html="Retour" >
+        <div class="d-block text-center">
+          <label for="group">Êtes-vous sur de confirmer la réception du prêt par le demandeur? </label>
+        </div>
+      </b-modal>
+    </div>
+
+
+  </div>
+
 
 </template>
 <script>
+ import routes from "@/routes/routes";
+    import moment from "moment/moment";
   export default {
     name: 'lop-table',
     props: {
       columns: Array,
-      data: Object
+      data: Object,
+        dataobj :Array
     },
     data() {
   return {
@@ -52,46 +94,168 @@
     selectedTypeFocus: false,
     groups:[],
     loanObjects:[],
-    objects:[]
+    objects:[],
+      signatureType: false,
+          dateBorrow:'',
   };
 },
    
     methods: {
-      
+       getParentRoute(){return this.$route.matched[0].name;},
+        hasValue (item, column) {
+          return item[column.toLowerCase()] !== 'undefined'
+        },
+        itemValue (item, column) {
+          return item[column.toLowerCase()]
+        },
+        downloadDemande () {
+              //console.log(this.$route.matched);
+              const id = this.$route.params.id;
+              console.log("ID: ", id);
+              this.responseAvailable = false;
+              fetch(`http://localhost:3000/loan/${id}/download`, {
+                "method": "GET",
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+              .then(response => response.blob())
+              .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'Demande.pdf';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              })
+              .catch(error => console.error(error));
 
-      // Méthode pour retourner la valeur d'un élément récupéré
-      itemValue (item, column) {
-        return item[column.toLowerCase()]
-      },
-      // Méthode exécuté suite au clic sur le bouton de télechargement, qui utilise l'id de prêt sélcionné pour fait appel à l'API de téléchargement
-      downloadDemande () { 
-            
-            const id = this.$route.params.id;
-            //console.log("ID: ", id);
-            this.responseAvailable = false;
-            fetch(`http://localhost:3000/loan/${id}/download`, {
-              "method": "GET",
-              headers: {
-                "Content-Type": "application/json"
+       },
+        async deleteRequest(){
+          const id = this.$route.params.id;
+          await fetch(`http://localhost:3000/loan/${id}`, { method: 'DELETE' });
+          this.$router.go(-1);
+          this.$toast.success("La demande du prêt a été supprimée avec succès!", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+          });
+        },
+        async modifySignatureType(){
+          //this.$router.go();
+          const id = this.$route.params.id;
+          const requestOptions = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              data: {
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                status: this.data.status,
+                objects: this.data.objects,
+                signature: {electronic_signature: this.signatureType}
               }
             })
-            .then(response => response.blob())
-            .then(blob => {
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              link.href = url;
-              link.download = 'Demande.pdf';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-              URL.revokeObjectURL(url);
+          };
+          const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
+            .then(async response => {
+              const data = await response.json();
+
+              // check for error response
+              if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+              }
+              this.$toast.success("La signature a été bien choisi et la demande a été validée!", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
+              this.postId = data.id;
             })
-            .catch(error => console.error(error));
+            .catch(error => {
+              this.errorMessage = error;
+              console.error('There was an error!', error);
+            });
 
-     }
-     
+        },
+        async setLoanToReceived(){
+          this.dateBorrow = moment().add(1, 'minutes').format();
+          console.log(this.dateBorrow);
+          const id = this.$route.params.id;
+          const requestOptions = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              data: {
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                date: {request: this.data.date.request,borrow: this.dateBorrow},
+                status: 'InProgress',
+                objects: this.data.objects,
+                signature: {electronic_signature: this.signatureType, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }
+              }
+            })
+          };
+          const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
+            .then(async response => {
+              const data = await response.json();
 
-    }
+              // check for error response
+              if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+              }
+              this.$toast.success("Le prêt a été réceptionné par le demandeur !", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
+              this.postId = data.id;
+            })
+            .catch(error => {
+              this.errorMessage = error;
+              console.error('There was an error!', error);
+            });
+        },
+
+      },
+      mounted() {
+        this.signatureType = this.data.signature.electronic_signature;
+      }
   }
  
 </script>
@@ -155,5 +319,4 @@ transition: border-color 0.3s ease-out;
 
 }
 </style>
-
 

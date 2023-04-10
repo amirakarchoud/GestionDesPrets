@@ -37,25 +37,49 @@
           <td> <b>Actions</b> </td>
           <td>
              <!-- Définitions de l'ensemble des boutons (Action) possible sur cette pret-->
-            <button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button><!-- Bouton de modification-->
-            <button class="btn btn-info"><i class="fa fa-trash-o"></i></button> <!-- Bouton de suppresion-->
-            <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button> <!-- Bouton de téléchargement de prêt -->
-            <br></br>
-            <button class="btn btn-info"><i class="fa fa-question-circle" ></i></i>Perdu</button> <!-- Bouton de déclaration d'objet comme perdu -->
-            <button class="btn btn-info"><i class="fa fa-refresh"></i>Retourné</button> <!-- Bouton de déclaration d'objet comme retourné -->
-          </td>
+      <router-link :to="{ name: 'EditLoanAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+        <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
+      </router-link>
+      <button class="btn btn-info" v-b-modal.delete><i class="fa fa-trash-o"></i></button>
+      <button @click="downloadPret()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button>
+      <br></br>
+      <button @click="changeStatus('NotReturned')" class="btn btn-info" v-b-modal.modal-1><i class="fa fa-question-circle" ></i>Perdu</button>
+      <button @click="changeStatus('Returned')" class="btn btn-info" v-b-modal.modal-1><i class="fa fa-refresh"></i>Retourné</button>
+    </td>
         </tr>
       </tbody>
     </table>
 
 
+  <div>
+  <b-modal id="modal-1" title="Confirmation" @ok="setLoanStatus()" ok-title-html= "Oui" cancel-title-html="Non" >
+    <div class="d-block text-center">
+      <h5>Êtes-vous sur de déclarer <span v-if="this.loanStatus==='NotReturned'">la perte</span><span v-if="this.loanStatus==='Returned'">le retour</span> de ce prêt?</h5>
+    </div>
+  </b-modal>
+    <b-modal id="delete" title="Confirmation" @ok="deleteLoan()" ok-title-html= "Oui" cancel-title-html="Non" >
+      <div class="d-block text-center">
+        <h5>Êtes-vous sur de supprimer ce prêt?</h5>
+      </div>
+    </b-modal>
+</div>
+
+
+</div>
+
   </template>
   <script>
+    import DatePicker from 'vue2-datepicker';
+  import 'vue2-datepicker/index.css';
+  import moment from 'moment';
+  import Notif from "@/components/NotificationPlugin/Notif.vue";
     export default {
+    components: { DatePicker },
       name: 'lop-table',
       props: {
         columns: Array,
-        data: Object
+        data: Object,
+         dataobj :Array
       },
       data() {
     return {
@@ -66,22 +90,21 @@
       selectedTypeFocus: false,
       groups:[],
       loanObjects:[],
-      objects:[]
+      objects:[],
+      loanStatus: ''
     };
   },
      
       methods: {
-        
-
-        // Méthode pour retourner la valeur d'un élément récupéré
+        hasValue (item, column) {
+          return item[column.toLowerCase()] !== 'undefined'
+        },
         itemValue (item, column) {
           return item[column.toLowerCase()]
         },
-        // Méthode exécuté suite au clic sur le bouton de télechargement, qui utilise l'id de prêt sélcionné pour fait appel à l'API de téléchargement
-        downloadPret () { 
-              
+        downloadPret () {
               const id = this.$route.params.id;
-              //console.log("ID: ", id);
+              console.log("ID: ", id);
               this.responseAvailable = false;
               fetch(`http://localhost:3000/loan/${id}/download`, {
                 "method": "GET",
@@ -101,10 +124,98 @@
                 URL.revokeObjectURL(url);
               })
               .catch(error => console.error(error));
-
-       }
-       
-
+       },
+        async changeStatus(status){ this.loanStatus = await status; console.log(this.loanStatus)},
+        async setLoanStatus() {
+          //this.$router.go();
+          this.data.status= this.loanStatus;
+          this.$router.push('');
+          this.$toast.success("L'état du prêt a été modifié avec succès!", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+          });
+          let returndate='';
+          if(this.loanStatus=='Returned')
+            returndate = moment().format();
+          else if (this.loanStatus=='NotReturned')
+            returndate = '';
+          const id = this.$route.params.id;
+          const requestOptions1 = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              data: {
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                date: {request: this.data.date.request, return: returndate},
+                status: this.loanStatus,
+                objects: this.data.objects,
+                signature: {electronic_signature: this.data.signature.electronic_signature, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }
+              }
+            })
+          };
+          const requestOptions2 = {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              data: {
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                date: {borrow: this.data.date.borrow, return: returndate},
+                status: this.loanStatus,
+                objects: this.data.objects,
+                signature: {electronic_signature: this.data.signature.electronic_signature, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }
+              }
+            })
+          };
+          const requestOptions = (this.loanStatus=='Returned')?requestOptions2:requestOptions1;
+          const res = await fetch(`http://localhost:3000/loan/${id}`, requestOptions)
+            .then(async response => {
+              const data = await response.json();
+              // check for error response
+              if (!response.ok) {
+                // get error message from body or default to response status
+                const error = (data && data.message) || response.status;
+                return Promise.reject(error);
+              }
+              this.postId = data.id;
+            })
+            .catch(error => {
+              this.errorMessage = error;
+              console.error('There was an error!', error);
+            });
+        },
+        async deleteLoan(){
+          const id = this.$route.params.id;
+          await fetch(`http://localhost:3000/loan/${id}`, { method: 'DELETE' });
+          this.$router.go(-1);
+          this.$toast.success("Le prêt a été supprimée avec succès!", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+          });
+        }
       }
     }
    

@@ -1,0 +1,11 @@
+.multiselect__tag {
+  background: #346dc6;
+}
+
+.multiselect__option--highlight {
+  background: #346dc6;
+}
+
+.multiselect__option--highlight span {
+  background: #346dc6;
+}

@@ -5,29 +5,29 @@
          <div class="col-12 ">
   <div class="card"><!----><!---->
   <div class="card-body">
-  
-  
-  
-  
+
+
+
+
   <div class="places-buttons">
   <div class="row justify-content-center">
   <div class="col-12 ">
   <h5>
                 <p class="category"></p></h5>
         </div></div>
-        
+
         <div class="row justify-content-center">
-     
-    <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  Ajouter une Demande </button></div>
+
+    <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i> <router-link to="/membre/demandeAdd">Ajouter une Demande</router-link>  </button></div>
 
     </div>
-         
+
         </div>
         </div>
         </div><!----></div>
          <!---------------->
-  
-  
+
+
         <div class="row">
           <div class="col-12">
             <card class="strpied-tabled-with-hover"
@@ -41,10 +41,10 @@
                        :columns="table1.columns"
                        :data="result"
                        :demandes="demandes">
-                       
+
               </lo-table>
             </card>
-  
+
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default {
       table1: {
         columns: [...tableColumns],
         data: [...tableData],
-        
+
       },
       username:'',
       result:[],
@@ -80,10 +80,10 @@ export default {
 
 
 methods: {
-  test () { 
+  test () {
     console.log(this.result);
   },
-  afficherDemande () { 
+  afficherDemande () {
     //Decommenter cette ligne qd vous fait la laison entre le ms Auth et ms loan
     //this.username = localStorage.getItem('Username');
     // et commenter / supprimer celui-ci
@@ -112,8 +112,7 @@ methods: {
     console.log("DEMANDEUR",data[i].requester);
     console.log("DEMANDEUR4",this.username);
     console.log("SIGNATURE",data[i].signature);
-    
-    //if (data[i].signature.proof == null && data[i].requester == this.username)
+
     //if (data[i].signature.proof == null)
 
      // pour distinguer les demandes d'un Demandeur particulier de l'ensemble de tous les prêts 
@@ -128,10 +127,11 @@ methods: {
       i++;
     }
 
+
     //console.log("DEMANDE", this.demandes);
     //console.log("DATA1111", data[0].borrower);
     //console.log("DATA2222", this.demandes[0].borrower);
-    
+
     this.result = data;
   })
   .catch(error => {

@@ -7,7 +7,7 @@
             <th v-for="column in columns" :key="column">{{column}}</th>
             <!-- Ajout d'un champ Action à cette table-->
             <th> Actions </th>
-            
+
           </tr>
         </slot>
       </thead>
@@ -21,7 +21,8 @@
           <td >{{itemValue(item, "manager")}}</td>
           <td >{{itemValue(item, "status")}}</td>
           <!-- Pour transmettre en URL l'id d'une demande spécifique suite à la clic sur le bouton Loupe-->
-          <td><router-link :to="{ name: 'DemandeById', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
+          <td><router-link :to="{ name: 'DemandeByIdMembre', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
+
       </tr>
       </tbody>
     </table>
@@ -42,6 +43,5 @@
     }
   </script>
   <style>
-  
+
   </style>
-  
