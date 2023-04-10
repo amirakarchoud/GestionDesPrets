@@ -182,7 +182,7 @@ export default {
       this.listObject = finalRes;
       console.log(this.listObject);
       this.selectedObject = this.listObject.filter(obj1=> {
-        return this.$route.params.data[0].objects.some(obj2 => obj2 === obj1._id);
+        return this.$route.params.data.objects.some(obj2 => obj2 === obj1._id);
       });
       console.log(this.selectedObject)
     },
@@ -228,16 +228,17 @@ export default {
     },
     showLoan(){
       console.log(this.listObject);
-      this.selectedBorrower = this.$route.params.data[0].borrower;
-      this.requester = this.$route.params.data[0].requester;
+      this.selectedBorrower = this.$route.params.data.borrower;
+      this.requester = this.$route.params.data.requester;
       //this.selectedObject = this.$route.params.data[0].objects;
-      this.comments = this.$route.params.data[0].comments;
+      this.comments = this.$route.params.data.comments;
       /*this.date = '2023-03-14 00:00:00';
       console.log(this.date);*/
       //this.selectedGroup =
     }
   },
   mounted() {
+    //console.log(this.);
     this.getGroup();
     this.getType();
     this.getObject();

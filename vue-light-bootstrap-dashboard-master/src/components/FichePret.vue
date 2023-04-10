@@ -1,7 +1,7 @@
  <!-- Ce fichier représente la fiche de demande affichées suite au choix d'une demande particulière -->
 
 <template>
-
+<div>
     <table class="table"> 
 
       <!-- Parcour de données sauvgarder dans la  table data-->
@@ -12,7 +12,7 @@
           <tr><td> <b> Demandeur </b> </td><td >{{data.requester}}</td></tr>
           <tr><td> <b> Gestionnaire </b> </td><td >{{data.manager}}</td></tr>
           <tr>
-            <td v-if="data.comments == 'No comment' "> <b> Commentaires </b> </td>
+            <td> <b> Commentaires </b> </td>
             <td ><span v-if="data.comments == 'No comment'"> Aucun commentaire</span>
             <span v-else>{{data.comments}}</span></td>
           </tr>
@@ -37,7 +37,7 @@
           <td> <b>Actions</b> </td>
           <td>
              <!-- Définitions de l'ensemble des boutons (Action) possible sur cette pret-->
-      <router-link :to="{ name: 'EditLoanAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+      <router-link :to="{ name: 'EditLoanAdmin', params: { id: data._id, data: data, objects: loanObjects  } }">
         <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
       </router-link>
       <button class="btn btn-info" v-b-modal.delete><i class="fa fa-trash-o"></i></button>
@@ -150,6 +150,8 @@
           else if (this.loanStatus=='NotReturned')
             returndate = '';
           const id = this.$route.params.id;
+          console.log('date');
+          console.log(returndate);
           const requestOptions1 = {
             method: 'PUT',
             headers: {'Content-Type': 'application/json'},
@@ -158,7 +160,7 @@
                 borrower: this.data.borrower,
                 requester: this.data.requester,
                 manager: this.data.manager,
-                date: {request: this.data.date.request, return: returndate},
+                date: {request: this.data.date.request},
                 status: this.loanStatus,
                 objects: this.data.objects,
                 signature: {electronic_signature: this.data.signature.electronic_signature, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }
@@ -173,7 +175,7 @@
                 borrower: this.data.borrower,
                 requester: this.data.requester,
                 manager: this.data.manager,
-                date: {borrow: this.data.date.borrow, return: returndate},
+                date: {request: this.data.date.request,borrow: this.data.date.borrow,return:returndate},
                 status: this.loanStatus,
                 objects: this.data.objects,
                 signature: {electronic_signature: this.data.signature.electronic_signature, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }

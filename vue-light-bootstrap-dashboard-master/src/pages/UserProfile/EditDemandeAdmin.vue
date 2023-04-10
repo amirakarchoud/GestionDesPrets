@@ -183,7 +183,7 @@ export default {
       this.listObject = finalRes;
       console.log(this.listObject);
       this.selectedObject = this.listObject.filter(obj1=> {
-        return this.$route.params.data[0].objects.some(obj2 => obj2 === obj1._id);
+        return this.$route.params.data.objects.some(obj2 => obj2 === obj1._id);
       });
     },
     getObjectId(){this.objectsId = [];this.selectedObject.forEach(item => this.objectsId.push(item._id)); return this.objectsId;},
@@ -227,10 +227,10 @@ export default {
         });
     },
     showLoan(){
-      this.selectedBorrower = this.$route.params.data[0].borrower;
-      this.requester = this.$route.params.data[0].requester;
-      this.comments = this.$route.params.data[0].comments;
-      this.checked = this.$route.params.data[0].signature.electronic_signature;
+      this.selectedBorrower = this.$route.params.data.borrower;
+      this.requester = this.$route.params.data.requester;
+      this.comments = this.$route.params.data.comments;
+      this.checked = this.$route.params.data.signature.electronic_signature;
     }
   },
   mounted() {

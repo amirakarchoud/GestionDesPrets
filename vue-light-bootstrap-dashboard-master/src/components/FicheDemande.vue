@@ -1,6 +1,7 @@
  <!-- Ce fichier représente la fiche de demande affichées suite au choix d'une demande particulière -->
 
  <template>
+  <div>
 
   <table class="table"> 
 
@@ -12,7 +13,7 @@
         <tr><td> <b> Demandeur </b> </td><td >{{data.requester}}</td></tr>
         <tr><td> <b> Gestionnaire </b> </td><td >{{data.manager}}</td></tr>
         <tr>
-            <td v-if="data.comments == 'No comment' "> <b> Commentaires </b> </td>
+            <td> <b> Commentaires </b> </td>
             <td ><span v-if="data.comments == 'No comment'"> Aucun commentaire</span>
             <span v-else>{{data.comments}}</span></td>
         </tr>
@@ -21,10 +22,10 @@
       <tr>
           <td> <b>Actions</b> </td>
           <td>
- <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'EditDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+ <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'EditDemande', params: { id: data._id, data: data, objects: loanObjects  } }">
           <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
         </router-link>
-        <router-link v-if="getParentRoute()==='admin'" :to="{ name: 'EditDemandeAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+        <router-link v-if="getParentRoute()==='admin'" :to="{ name: 'EditDemandeAdmin', params: { id: data._id, data: data, objects: loanObjects  } }">
           <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
         </router-link>
 
@@ -32,11 +33,11 @@
 
         <button class="btn btn-info" v-b-modal.delete><i class="fa fa-trash-o"></i></button>
         <button @click="downloadDemande()" class="btn btn-info"><i class="nc-icon nc-cloud-download-93"></i></button>
-        <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'ValiderDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+        <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'ValiderDemande', params: { id: data._id, data: data, objects: loanObjects  } }">
           <button class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
         </router-link>
         <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info">Choisir type de signature</button>
-        <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
+        <!-- <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>-->
         <button v-b-modal.receivedLoan v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="fa fa-check-circle"></i>Objet Reçu</button>
  </td>
         </tr>
@@ -108,10 +109,11 @@
         itemValue (item, column) {
           return item[column.toLowerCase()]
         },
-        downloadDemande () {
-              //console.log(this.$route.matched);
+        // Méthode exécuté suite au clic sur le bouton de télechargement, qui utilise l'id de prêt sélcionné pour fait appel à l'API de téléchargement
+        downloadDemande () { 
+              
               const id = this.$route.params.id;
-              console.log("ID: ", id);
+              //console.log("ID: ", id);
               this.responseAvailable = false;
               fetch(`http://localhost:3000/loan/${id}/download`, {
                 "method": "GET",
@@ -131,7 +133,7 @@
                 URL.revokeObjectURL(url);
               })
               .catch(error => console.error(error));
-
+  
        },
         async deleteRequest(){
           const id = this.$route.params.id;

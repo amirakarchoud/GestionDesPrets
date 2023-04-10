@@ -71,12 +71,13 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               data: {
-                borrower: this.data[0].borrower,
-                requester: this.data[0].requester,
-                manager: this.data[0].manager,
-                status: this.data[0].status,
-                objects: this.data[0].objects,
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                status: this.data.status,
+                objects: this.data.objects,
                 signature: {
+                  electronic_signature: this.data.signature.electronic_signature,
                   proof: '/home/proofs/signature.pdf',
                   validation_code: this.code
                 }
@@ -117,7 +118,7 @@
         }
       },
       mounted() {
-        this.signatureType = this.data[0].signature.electronic_signature;
+        this.signatureType = this.data.signature.electronic_signature;
       }
     }
 

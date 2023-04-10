@@ -16,7 +16,7 @@
             <lop-table class="table-hover table-striped"
                      :columns="table1.columns"
                      :data="result" 
-                     :dataobj="objects"
+                     :dataobj="loanObjects"
                      >
                      
             </lop-table>
@@ -54,8 +54,7 @@ const tableData = []
 export default {
 components: {
   LopTable,
-  LoTable,
-  Card
+  LoTable
 },
 // Déclaration de l'ensemble des variables nécessaires
 data () {
