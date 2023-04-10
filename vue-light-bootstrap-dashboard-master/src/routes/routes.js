@@ -114,7 +114,7 @@ const routes = [
         path: 'demandebyid/:id',
         name: 'DemandeById',
         component: AfficherDemandeById 
-},
+},{
         path: 'type',
         name: 'Typeaff',
         component: AfficherType
