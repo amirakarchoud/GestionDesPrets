@@ -63,6 +63,7 @@ export default {
     LoTable,
     Card
   },
+  // Déclaration de l'ensemble des variables nécessaires 
   data () {
     return {
       table1: {
@@ -84,7 +85,7 @@ methods: {
   },
   afficherDemande () {
     //Decommenter cette ligne qd vous fait la laison entre le ms Auth et ms loan
-    //this.username = localStorage.getItem('requester');
+    //this.username = localStorage.getItem('Username');
     // et commenter / supprimer celui-ci
     this.username = 'lipn requester';
     this.responseAvailable = false;
@@ -98,9 +99,8 @@ methods: {
 .then(async response => {
     const data = await response.json();
 
-    // check for error response
+    // Test sur la response
     if (!response.ok) {
-      // get error message from body or default to response statusText
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
@@ -113,29 +113,35 @@ methods: {
     console.log("DEMANDEUR4",this.username);
     console.log("SIGNATURE",data[i].signature);
 
-    if (data[i].signature.proof == null && data[i].requester == this.username)
     //if (data[i].signature.proof == null)
 
+     // pour distinguer les demandes d'un Demandeur particulier de l'ensemble de tous les prêts 
+    //test sur le champ status de chaque prêt  récupérer lors de récupération de tous les prêts s'il est égale à Request alors c'est une demande 
+    // et test sur le champ requester de chaque prêt s'il est égale au nom de demandeur connécté  
+    // et donc on va ajouter ce "loan" à la liste de demandes relatives à ce demandeur avec la méthode push
+    if (data[i].status == "Request"  && data[i].requester == this.username)
     {
-      console.log("SIGNATURE PROOF",data[i].signature.proof);
+      //console.log("SIGNATURE PROOF",data[i].signature.proof);
       this.demandes.push(data[i]);
     }
       i++;
     }
 
-    console.log("DEMANDE", this.demandes);
-    console.log("DATA1111", data[0].borrower);
-    console.log("DATA2222", this.demandes[0].borrower);
+
+    //console.log("DEMANDE", this.demandes);
+    //console.log("DATA1111", data[0].borrower);
+    //console.log("DATA2222", this.demandes[0].borrower);
 
     this.result = data;
   })
   .catch(error => {
     this.errorMessage = error;
-    console.error("There was an error!", error);
+    console.error("Oops il y a un problème !", error);
   });
   },
 },
 
+//Appel à la fonction 
 beforeMount(){
  this.afficherDemande();
 }

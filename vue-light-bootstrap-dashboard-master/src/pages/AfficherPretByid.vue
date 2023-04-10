@@ -1,33 +1,11 @@
+ <!-- Ce fichier représente la récupération des données d'un prêt particulière -->
+
 <template>
     <div class="content">
       <div class="container-fluid">
         <!---------------->
          <div class="col-12 ">
-  <div class="card"><!----><!---->
-  <div class="card-body">
-  
-  
-  
-  
-  <div class="places-buttons">
-  <div class="row justify-content-center">
-  <div class="col-12 ">
-  <h5>
-                <p class="category"></p></h5>
-        </div></div>
-        
-        <div class="row justify-content-center">
-      <!--  <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un prêt</router-link> </button></div>
-      -->
-      <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div></div>
-      </div>
-         
-        </div>
-        </div>
-        </div><!----></div>
-         <!---------------->
-  
-  
+      
         <div class="row">
           <div class="col-12">
             <card class="strpied-tabled-with-hover"
@@ -37,141 +15,183 @@
                 <h4 class="card-title">Le Prêt</h4>
                 <p class="card-category"></p>
               </template>
-              <lo-table class="table-hover table-striped"
+              <lop-table class="table-hover table-striped"
                        :columns="table1.columns"
-                       :data="result"
-                       :dataobj="objects"
+                       :data="result" 
                        >
                        
-              </lo-table>
+              </lop-table>
+              <br>
+              <table class="table"> 
+              <tbody > 
+                <tr><td> <b> Objets </b> </td><td ><lo-table class="table-hover table-striped"
+                     :columns="table1.columns"
+                     :data="loanObjects"
+                     :groups="groups">
+                     
+            </lo-table></td></tr>
+              </tbody>
+            </table>
+              
             </card>
-  
           </div>
+        </div>
+        <div class="row justify-content-center">
+      <!-- Exécution de la méthode goback() suite au clic sur le bouton de Retour -->
+      <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div></div>
+      </div>
+    
         </div>
       </div>
   </div>
   </template>
 
 <script>
-import LoTable from 'src/components/FichePret.vue'
-import Card from 'src/components/Cards/Card.vue'
-const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire', 'Etat', 'Commentaires', 'Objets', 'Signature']
+import LopTable from 'src/components/FichePret.vue'
+
+import LoTable from 'src/components/TableObjetPret.vue'
 const tableData = []
 
 export default {
   components: {
-    LoTable,
-    Card
+    LopTable,
+    LoTable
   },
+  // Déclaration de l'ensemble des variables nécessaires
   data () {
     return {
       table1: {
-        columns: [...tableColumns],
+        
         data: [...tableData],
-        dataobj: [...tableData]
+        dataobj: [...tableData],
+        datatype: [...tableData],
+        datagroupe: [...tableData]
       },
       
-      result:[],
+      result:{},
       objects: [],
       responseAvailable: false,
+      groups:[],
+      loanObjects:[],
+      isLoading: true
+     
    
     }
   },
  
 
-
 methods: {
 
-  test () { 
-    console.log(this.result);
-  },
+//methode  pour reccuperer les groupes de la base de donnees 
+async getGroupes () { 
+      this.responseAvailable = false;
+
+     await fetch("http://localhost:3000/objectGroup", {
+      "method": "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(async response => {
+      const data = await response.json();
+
+      // Vérification des erreurs
+      if (!response.ok) {
+        // Récupération du message d'erreur depuis le corps de la réponse ou le texte par défaut
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      //remplir la liste des groupes pour le filtre
+      //format text,value 
+      this.groups= data.map(o => {
+      return {
+        text: o.label,
+        value: o._id
+      };
+      });
+
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("There was an error!", error);
+    });
+    },
+
+
+  //Méthode pour le reour à la page précedente
   goBack() {
       window.history.go(-1);
     },
-  afficherPretById () { 
+
+  //Méthode pour récupérer un prêt spécifique selon son identifiant unique
+  async afficherPretById () { 
     
     const id = this.$route.params.id;
     this.responseAvailable = false;
-
-    fetch(`http://localhost:3000/loan/${id}`, {
-  "method": "GET",
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-.then(async response => {
-    const data = [await response.json()];
-
-    // check for error response
-    if (!response.ok) {
-      // get error message from body or default to response statusText
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
-    }
-    this.responseAvailable=true;
-
-    console.log("DATA",data);
-    console.log("OBJECT",data[0].objects)
-    this.tableObject=data[0].objects
-    console.log("OBJECT 2",this.tableObject)
-
-    this.result = data;
-    console.log(this.result);
-    // HEDHA JDID 
-    let i = 0; // declare and initialize i here
-const promises = [];
-while (i < this.tableObject.length) {
-  console.log(this.tableObject[i]);
-  const idObj = this.tableObject[i];
-  const promise = fetch(`http://localhost:3000/object/${idObj}`, {
+  //Appel à l'API de loan/id en lui fournissant l'identifiant récupérer dans l'URL
+   await fetch(`http://localhost:3000/loan/${id}`, {
     "method": "GET",
     headers: {
       "Content-Type": "application/json"
     }
-  })
-  .then(async response => {
-    const dataobj = [await response.json()];
-    if (!response.ok) {
-      const error = (dataobj && dataobj.message) || response.statusText;
-      return Promise.reject(error);
+    }).then(async response => {
+     
+      const data = await response.json();
+      // Vérification des erreurs
+      if (!response.ok) {
+        // Récupération du message d'erreur depuis le corps de la réponse ou le texte par défaut
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      this.result= data;
+      //objj
+      this.responseAvailable = false;
+      await fetch("http://localhost:3000/object", {
+      "method": "GET",
+      headers: {
+      "Content-Type": "application/json"
     }
-    console.log("DATAO_BJECT",dataobj);
-    this.objects.push(dataobj); // add the dataobj to the array
-  })
-  .catch(error => {
-    console.error("There was an error fetching objects.", error);
-  });
+    })
+    .then(async response => {
+      const data = await response.json();
+      // Vérification des erreurs
+      if (!response.ok) {
+        // Récupération du message d'erreur depuis le corps de la réponse ou le texte par défaut
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+      this.responseAvailable=true;
+      //remplir la liste des groupes pour le filtre
+      //format text,value 
+      this.objects= data;
+      this.loanObjects = this.objects.filter((obj) => this.result.objects.includes(obj._id));
+      this.isLoading = false;
 
-  promises.push(promise);
-  i++;
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("Erreur dans la récupération de déatils de prêt", error);
+    });
+    console.log("DATAATATAT", data);
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("Erreur dans la récupération de déatils de prêt", error);
+    });
+
 }
 
-Promise.all(promises).then(() => {
-  console.log("DataObj", this.objects); // this will log the final value of this.objects
-  // do something with this.objects here
-});
 
-
-  //YOUFA HOUNI
-  })
-  .catch(error => {
-    this.errorMessage = error;
-    console.error("There was an error!", error);
-  });
-  },
 },
-
-
-
-beforeMount(){
- this.afficherPretById();
-},
-
-
-
+async beforeMount(){
+  await this.afficherPretById();
+  this.isLoading = true;
+  await Promise.all([this.afficherPretById(), this.getGroupes()]);
+}
 }
 
 </script>
-
 <style>
 </style>

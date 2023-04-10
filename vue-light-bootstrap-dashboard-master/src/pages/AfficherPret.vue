@@ -17,10 +17,11 @@
         </div></div>
         
         <div class="row justify-content-center">
-      <!--  <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un prêt</router-link> </button></div>
-      -->
+        <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts non retounées -->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretNonRetourne">Prêts Non Retournés</router-link></button></div>
+        <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Assignés -->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to ="/admin/pretAssigne">Prêts Assignés</router-link> </button></div>
+        <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Retournés-->
         <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretRetourne">Prêts Retournés</router-link></button></div></div>
          
         </div>
@@ -63,6 +64,7 @@ export default {
     LoTable,
     Card
   },
+  //Déclarations de variables nécessaires
   data () {
     return {
       table1: {
@@ -77,12 +79,10 @@ export default {
 
 
 methods: {
-  test () { 
-    console.log(this.result);
-  },
+  // Méthode pour récupérer tous les pre^ts
   afficherPret () { 
     this.responseAvailable = false;
-
+  //Appel à l'API de récupérations de tous les prêts (loan)
     fetch("http://localhost:3000/loan", {
   "method": "GET",
   headers: {
@@ -90,11 +90,11 @@ methods: {
   }
 })
 .then(async response => {
+  //conversion de resultat en JSON
     const data = await response.json();
 
-    // check for error response
+    // Test response
     if (!response.ok) {
-      // get error message from body or default to response statusText
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
@@ -103,22 +103,16 @@ methods: {
     console.log(data);
     let i = 0;
     while (i < data.length) {
-    console.log("SIGNATURE",data[i].signature);
-    if (data[i].signature.proof != null)
+    //if (data[i].signature.proof != null)
+
+    //On test sur le status de loan récupéré, s'il est différent de Request alors c'est un prêt et on l'ajout par la suite à la table des pre^ts par la méthode push 
+    // Sinon on l'ignore car il s'agit d'une demande 
+    if(data[i].status != "Request" )
     {
-      console.log("SIGNATURE PROOF",data[i].signature.proof);
       this.prets.push(data[i]);
     }
       i++;
     }
-    //const dataPrets = { prets: this.prets };
-    console.log("DATAPRET", this.prets);
-    console.log("DATA1111", data[0].borrower);
-    console.log("DATA2222", this.prets[0].borrower);
-    
-    //let dataPrets = JSON.parse(JSON.stringify(this.prets));
-    //console.log(dataPrets);
-    //console.log("DATAPRETPRET", dataPrets);
     
     this.result = data;
   })
@@ -128,16 +122,10 @@ methods: {
   });
   },
 },
-
-
-
+//Appel à la fonction 
 beforeMount(){
-//this.test();
  this.afficherPret();
-},
-
-
-
+}
 }
 
 </script>

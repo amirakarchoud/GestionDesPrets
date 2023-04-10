@@ -6,8 +6,10 @@ import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
 import Overview from 'src/pages/Overview.vue'
+import OverviewMembre from 'src/pages/OverviewMembre.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
+
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
@@ -21,16 +23,27 @@ import AfficherDemandeById from 'src/pages/AfficherDemandeById.vue'
 import ValiderDemande from 'src/pages/ValiderDemande.vue'
 import AfficherDemandeMember from 'src/pages/AfficherDemandeMember.vue'
 
+
+import ModifierObjet from 'src/pages/ModifierObjet.vue'
+
+import ModifierType from 'src/pages/ModifierType.vue'
+
+import AfficherObjetMembre from 'src/pages/AfficherObjetMembre.vue'
+import AfficherType from 'src/pages/AfficherType.vue'
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
 import Maps from 'src/pages/Maps.vue'
 import Notifications from 'src/pages/Notifications.vue'
 import Upgrade from 'src/pages/Upgrade.vue'
+
 import AjouterDemande from "@/pages/AjouterDemande.vue";
 import EditDemande from "@/pages/UserProfile/EditDemande.vue";
 import EditDemandeAdmin from "@/pages/UserProfile/EditDemandeAdmin.vue";
 import EditLoanAdmin from "@/pages/UserProfile/EditLoanAdmin.vue";
 
+import AfficherGroupe from 'src/pages/AfficherGroupe.vue'
+import AjouterGroupe from 'src/pages/AjouterGroupe.vue'
+import modifierGroupe from 'src/pages/modifierGroupe.vue'
 
 const routes = [
   {
@@ -38,6 +51,7 @@ const routes = [
     component: Index,
     name: 'index'
   },
+   //Declaration des chemins pour le membre
   {
     path: '/admin',
     name: 'admin',
@@ -58,6 +72,16 @@ const routes = [
         path: 'objetadd',
         name: 'Ob',
         component: AjouterObjet
+      },
+      {
+        path: 'objetmodif/:id',
+        name: 'Obmod',
+        component: ModifierObjet
+      },
+      {
+        path: 'typemodif/:id',
+        name: 'Typemod',
+        component: ModifierType
       },
       {
         path: 'objet',
@@ -98,6 +122,26 @@ const routes = [
         path: 'demandebyid/:id',
         name: 'DemandeByIdAdmin',
         component: AfficherDemandeById
+},{
+        path: 'type',
+        name: 'Typeaff',
+        component: AfficherType
+        },
+
+      {
+        path: 'groupe',
+        name: 'Groupeaff',
+        component: AfficherGroupe
+      },
+      {
+        path: 'ajouterGroupe',
+        name: 'Groupeadd',
+        component: AjouterGroupe
+      },
+      {
+        path: 'modifierGroupe/:id',
+        name: 'Groupeupdate',
+        component: modifierGroupe
       },
       {
         path: 'ajouterType',
@@ -146,6 +190,7 @@ const routes = [
       },
     ]
   },
+  //Declaration des chemins pour le membre
   {
     path: '/membre',
     name: 'membre',
@@ -155,7 +200,7 @@ const routes = [
       {
         path: 'overview',
         name: 'Overview',
-        component: Overview
+        component: OverviewMembre
       },
       {
         path: 'demande',
@@ -182,7 +227,12 @@ const routes = [
         name: 'ValiderDemande',
         component: ValiderDemande
       },
-    ]}
+
+      {
+        path: 'objet',
+        name: 'Objetaff',
+        component: AfficherObjetMembre
+      }]}
       ,
   { path: '*', component: NotFound }
 ]

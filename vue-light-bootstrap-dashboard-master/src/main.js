@@ -42,7 +42,6 @@ Vue.use(Toast, {
   newestOnTop: true
 });
 
-
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes

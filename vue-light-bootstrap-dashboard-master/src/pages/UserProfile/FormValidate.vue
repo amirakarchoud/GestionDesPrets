@@ -15,6 +15,7 @@
         </div>
 
         <div v-if="this.signatureType===false" class="row">
+
             <div class="col-md-5">
               <b-form-file
                 browse-text="Parcourir"

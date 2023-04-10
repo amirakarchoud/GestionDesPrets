@@ -1,35 +1,27 @@
-<template>
-  <div>
-    <table class="table">
-      <thead>
-      <slot name="columns">
+ <!-- Ce fichier représente la fiche de demande affichées suite au choix d'une demande particulière -->
+
+ <template>
+
+  <table class="table"> 
+
+    <!-- Parcour de données sauvgarder dans la  table data-->
+    <tbody  >
+      <!-- Création de chaque champ avec sa valeur dans une une même ligne, Pour afficher les détails d'une demnade sous forme d'une Fiche et non pas un table à un seul ligne -->
+     
+        <tr><td> <b> Prêtteur </b> </td><td >{{data.borrower}}</td></tr>
+        <tr><td> <b> Demandeur </b> </td><td >{{data.requester}}</td></tr>
+        <tr><td> <b> Gestionnaire </b> </td><td >{{data.manager}}</td></tr>
         <tr>
-          <th v-for="column in columns" :key="column">{{column}}</th>
-          <th> Actions </th>
+            <td v-if="data.comments == 'No comment' "> <b> Commentaires </b> </td>
+            <td ><span v-if="data.comments == 'No comment'"> Aucun commentaire</span>
+            <span v-else>{{data.comments}}</span></td>
         </tr>
-      </slot>
-      </thead>
-      <tbody>
-      <tr v-for="(item, index) in data" :key="index">
-        <slot :row="item">
-          <td>{{ index +1 }}</td>
-          <td >{{itemValue(item, "borrower")}}</td>
-          <td >{{itemValue(item, "requester")}}</td>
-          <td >{{itemValue(item, "manager")}}</td>
-          <td >{{itemValue(item, "status")}}</td>
-          <td >{{itemValue(item, "comments")}}</td>
+        
 
+      <tr>
+          <td> <b>Actions</b> </td>
           <td>
-      <tr v-for="(obj, index3) in dataobj" :key="index3">
-
-        <td>
-          <b>Objet {{ index3 +1 }} :</b> {{ obj[0].label }}
-        </td>
-
-      </tr>
-      </td>
-      <td>
-        <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'EditDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
+ <router-link v-if="getParentRoute()==='membre'" :to="{ name: 'EditDemande', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
           <button class="btn btn-info"><i class="fa fa-pencil" ></i></button>
         </router-link>
         <router-link v-if="getParentRoute()==='admin'" :to="{ name: 'EditDemandeAdmin', params: { id: itemValue(item, '_id'), data: data, objects: dataobj  } }">
@@ -45,16 +37,13 @@
         </router-link>
         <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info">Choisir type de signature</button>
         <button v-b-modal.validate v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="nc-icon nc-check-2"></i></button>
-        <button v-b-modal.receivedLoan v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="fa fa-check-circle"></i></button>
+        <button v-b-modal.receivedLoan v-if="getParentRoute()==='admin'" class="btn btn-info"><i class="fa fa-check-circle"></i>Objet Reçu</button>
+ </td>
+        </tr>
+    </tbody>
+  </table>
 
-      </td>
-
-      </slot>
-      </tr>
-      </tbody>
-    </table>
-
-    <div>
+ <div>
       <b-modal id="delete" title="Confirmation" @ok="deleteRequest()" ok-title-html= "Oui" cancel-title-html="Non" >
         <div class="d-block text-center">
           <h5>Êtes-vous sur de supprimer cette demande?</h5>
@@ -84,28 +73,35 @@
 
   </div>
 
+
 </template>
-
-
-
-  <script>
-    import routes from "@/routes/routes";
+<script>
+ import routes from "@/routes/routes";
     import moment from "moment/moment";
-    export default {
-      name: 'lo-table',
-      props: {
-        columns: Array,
-        data: Array,
+  export default {
+    name: 'lop-table',
+    props: {
+      columns: Array,
+      data: Object,
         dataobj :Array
-      },
-      data(){
-        return{
-          signatureType: false,
+    },
+    data() {
+  return {
+    selectedType: '', // new property for selected type filter
+    selectedGroup: '', // new property for selected group filter
+    selectedLabel: '',
+    searchTextFocus: false,
+    selectedTypeFocus: false,
+    groups:[],
+    loanObjects:[],
+    objects:[],
+      signatureType: false,
           dateBorrow:'',
-        }
-      },
-      methods: {
-        getParentRoute(){return this.$route.matched[0].name;},
+  };
+},
+   
+    methods: {
+       getParentRoute(){return this.$route.matched[0].name;},
         hasValue (item, column) {
           return item[column.toLowerCase()] !== 'undefined'
         },
@@ -164,11 +160,11 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               data: {
-                borrower: this.data[0].borrower,
-                requester: this.data[0].requester,
-                manager: this.data[0].manager,
-                status: this.data[0].status,
-                objects: this.data[0].objects,
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                status: this.data.status,
+                objects: this.data.objects,
                 signature: {electronic_signature: this.signatureType}
               }
             })
@@ -214,13 +210,13 @@
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
               data: {
-                borrower: this.data[0].borrower,
-                requester: this.data[0].requester,
-                manager: this.data[0].manager,
-                date: {request: this.data[0].date.request,borrow: this.dateBorrow},
+                borrower: this.data.borrower,
+                requester: this.data.requester,
+                manager: this.data.manager,
+                date: {request: this.data.date.request,borrow: this.dateBorrow},
                 status: 'InProgress',
-                objects: this.data[0].objects,
-                signature: {electronic_signature: this.signatureType, proof: this.data[0].signature.proof, validation_code: this.data[0].signature.validation_code }
+                objects: this.data.objects,
+                signature: {electronic_signature: this.signatureType, proof: this.data.signature.proof, validation_code: this.data.signature.validation_code }
               }
             })
           };
@@ -258,10 +254,69 @@
 
       },
       mounted() {
-        this.signatureType = this.data[0].signature.electronic_signature;
+        this.signatureType = this.data.signature.electronic_signature;
       }
-    }
-  </script>
-  <style>
+  }
+ 
+</script>
+<style>
+.search-select-container {
+display: flex;
+align-items: center;
+justify-content: flex-end;
+}
 
-  </style>
+.search-box {
+display: flex;
+align-items: center;
+margin-right: 10px;
+
+padding: 5px;
+}
+.search-box input[type="text"] {
+width: 300px;
+padding: 10px;
+font-size: 16px;
+padding-right: 30px;
+border: none;
+border-radius: 20px; /* added border-radius */
+background-color: #f9f9f9;
+transition: border-radius 0.1s ease-out;
+}
+.search-box input[type="text"]:focus {
+outline: none;
+border: 2px solid #68d7ed;
+transition: border-color 0.3s ease-out;
+}
+
+.search-box i {
+color: #ccc;
+margin-left: 5px;
+}
+
+
+.search-box button:hover {
+background-color: #ddd;
+}
+
+.select-box select {
+width: 200px;
+padding: 8px 16px;
+border: solid;
+border-radius: 20px; /* added border-radius */
+font-size: 16px;
+border-color:lightgrey;
+background-color: #fff;
+transition: background-color 0.3s;
+
+}
+
+.select-box select:focus {
+background-color: #fff;
+outline: none;
+border: 2px solid #68d7ed;
+transition: border-color 0.3s ease-out;
+
+}
+</style>
+

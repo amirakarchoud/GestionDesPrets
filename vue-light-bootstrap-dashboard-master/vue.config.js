@@ -21,6 +21,7 @@ module.exports = {
       })
     ]
   },
+  
   pwa: {
     name: 'Vue Light Bootstrap Dashboard',
     themeColor: '#344675',
