@@ -1,127 +1,142 @@
+<!--définit le composant Vue qui est une page de tableau de bord de l'application de gestion de prêts d'objets.-->
 <template>
   <div class="content">
     <div class="container-fluid">
+      <!-- Stats cards -->
       <div class="row">
+        <!-- Carte du nombre total des objets  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-warning">
-              <i class="nc-icon nc-chart text-warning"></i>
+              <i class="nc-icon nc-app text-warning"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Capacity</p>
-              <h4 class="card-title">105GB</h4>
+              <p class="card-category">Nombre des Objets</p>
+              <h4 class="card-title" >{{nbrObj}}</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
+              <i class="fa fa-refresh"></i>Mis à jour
             </div>
           </stats-card>
         </div>
 
+         <!-- Carte du nombre des prets  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-success">
-              <i class="nc-icon nc-light-3 text-success"></i>
+              <i class="nc-icon nc-single-copy-04 text-success"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Revenue</p>
-              <h4 class="card-title">$1,345</h4>
+              <p class="card-category">Nombre des Prêts</p>
+              <h4 class="card-title">{{nbrPret}}</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-calendar-o"></i>Last day
+              <i class="fa fa-calendar-o"></i>Mis à jour
             </div>
           </stats-card>
         </div>
 
+         <!-- Carte du nombre des prets ce mois  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-danger">
-              <i class="nc-icon nc-vector text-danger"></i>
+              <i class="nc-icon nc-badge text-danger"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Errors</p>
-              <h4 class="card-title">23</h4>
+              <p class="card-category">objets empruntés ce mois</p>
+              <h4 class="card-title">{{numLoansThisMonth}}</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-clock-o"></i>Last day
+              <i class="fa fa-clock-o"></i>Mis à jour
             </div>
           </stats-card>
         </div>
 
+         <!-- Carte du nombre total des types  -->
         <div class="col-xl-3 col-md-6">
           <stats-card>
             <div slot="header" class="icon-info">
-              <i class="nc-icon nc-favourite-28 text-primary"></i>
+              <i class="nc-icon nc-tag-content text-primary"></i>
             </div>
             <div slot="content">
-              <p class="card-category">Followers</p>
-              <h4 class="card-title">+45</h4>
+              <p class="card-category">Nombre des types</p>
+              <h4 class="card-title">{{nbrType}}</h4>
             </div>
             <div slot="footer">
-              <i class="fa fa-refresh"></i>Updated now
+              <i class="fa fa-refresh"></i>Mis à jour
             </div>
           </stats-card>
         </div>
 
       </div>
-      <div class="row">
-        <div class="col-md-8">
-          <chart-card :chart-data="lineChart.data"
-                      :chart-options="lineChart.options"
-                      :responsive-options="lineChart.responsiveOptions">
-            <template slot="header">
-              <h4 class="card-title">Users Behavior</h4>
-              <p class="card-category">24 Hours performance</p>
-            </template>
-            <template slot="footer">
-              <div class="legend">
-                <i class="fa fa-circle text-info"></i> Open
-                <i class="fa fa-circle text-danger"></i> Click
-                <i class="fa fa-circle text-warning"></i> Click Second Time
-              </div>
-              <hr>
-              <div class="stats">
-                <i class="fa fa-history"></i> Updated 3 minutes ago
-              </div>
-            </template>
-          </chart-card>
-        </div>
 
-        <div class="col-md-4">
-          <chart-card :chart-data="pieChart.data" chart-type="Pie">
+
+
+
+      <div class="row">
+         <!-- Carte contenant le logo et texte  -->
+        <div class="col-md-8">
+          <div class="card"><!----><!---->
+<div class="card-body">
+  <div class="container">
+    <div class="image-container">
+      <br>
+      <br>
+      <img src="../../public/img/logo.jpeg" class="blurred-image" alt="img">
+    </div>
+    <div class="text-container">
+      <h1>Gestion des <u style="text-decoration: underline;
+  text-decoration-color: #68d7ed;">Prêts</u> et des <u style="text-decoration: underline;
+  text-decoration-color: #68d7ed;">objets</u></h1>
+  <br>
+      <p>Interface de gestion des prêts et objets du laboratoire d'informatique de Paris-Nord . </p>
+      <br>
+      <br>
+      <br>
+      <br>
+      
+    </div>
+  </div>
+
+        </div>
+      </div>
+        </div>
+ <!-- Pie chart -->
+        <div class="col-md-4" v-if="nbrObj > 0">
+          <chart-card :chart-data="pieChart.data" chart-type="Pie" >
             <template slot="header">
-              <h4 class="card-title">Email Statistics</h4>
-              <p class="card-category">Last Campaign Performance</p>
+              <h4 class="card-title">Les objets</h4>
+              <p class="card-category">Statistiques selon l'etat</p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Open
-                <i class="fa fa-circle text-danger"></i> Bounce
-                <i class="fa fa-circle text-warning"></i> Unsubscribe
+                <i class="fa fa-circle text-info"></i> Emprunté
+                <i class="fa fa-circle text-danger"></i> Disponible
               </div>
               <hr>
               <div class="stats">
-                <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
+                <i class="fa fa-clock-o"></i> 
               </div>
             </template>
           </chart-card>
         </div>
       </div>
-
+ <!-- Bar chart  -->
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" v-if="done > 0">
           <chart-card
             :chart-data="barChart.data"
             :chart-options="barChart.options"
             :chart-responsive-options="barChart.responsiveOptions"
             chart-type="Bar">
             <template slot="header">
-              <h4 class="card-title">2014 Sales</h4>
-              <p class="card-category">All products including Taxes</p>
+              <h4 class="card-title">Les Prêts</h4>
+              <p class="card-category">Statistiques</p>
             </template>
             <template slot="footer">
               <div class="legend">
-                <i class="fa fa-circle text-info"></i> Tesla Model S
-                <i class="fa fa-circle text-danger"></i> BMW 5 Series
+                <i class="fa fa-circle text-info"></i> Demandes de prêt
+                <i class="fa fa-circle text-danger"></i>Prêt En cours
               </div>
               <hr>
               <div class="stats">
@@ -132,12 +147,13 @@
         </div>
 
         <div class="col-md-6">
+           <!-- Carte du l'histprique des demandes  -->
           <card>
             <template slot="header">
-              <h5 class="title">Tasks</h5>
-              <p class="category">Backend development</p>
+              <h5 class="title">Les demandes des Prêts</h5>
+              <p class="category">Historique</p>
             </template>
-            <l-table :data="tableData.data"
+            <l-table :data="this.pret"
                      :columns="tableData.columns">
               <template slot="columns"></template>
 
@@ -145,7 +161,7 @@
                 <td>
                   <base-checkbox v-model="row.checked"></base-checkbox>
                 </td>
-                <td>{{row.title}}</td>
+                <td>{{row.requester}} veut emprunter {{row.objects[0].label}} le {{new Date(row.date.borrow).toLocaleDateString('en-CA')}}</td>
                 <td class="td-actions text-right">
                   <button type="button" class="btn-simple btn btn-xs btn-info" v-tooltip.top-center="editTooltip">
                     <i class="fa fa-edit"></i>
@@ -182,55 +198,36 @@
     },
     data () {
       return {
+        done:0, 
+        showChart: false,
+        test:0,
+        nbrObj:0,
+        nbrType:0,
+        nbrPret:0,
+        borr:0,
+        dispo:0,
+        obj:[],
+        pret:[],
+        numLoansThisMonth:0,
         editTooltip: 'Edit Task',
         deleteTooltip: 'Remove',
+        //initialisation du pie chart
         pieChart: {
           data: {
-            labels: ['40%', '20%', '40%'],
-            series: [40, 20, 40]
+            labels: [],
+            series: []
           }
         },
-        lineChart: {
-          data: {
-            labels: ['9:00AM', '12:00AM', '3:00PM', '6:00PM', '9:00PM', '12:00PM', '3:00AM', '6:00AM'],
-            series: [
-              [287, 385, 490, 492, 554, 586, 698, 695],
-              [67, 152, 143, 240, 287, 335, 435, 437],
-              [23, 113, 67, 108, 190, 239, 307, 308]
-            ]
-          },
-          options: {
-            low: 0,
-            high: 800,
-            showArea: false,
-            height: '245px',
-            axisX: {
-              showGrid: false
-            },
-            lineSmooth: true,
-            showLine: true,
-            showPoint: true,
-            fullWidth: true,
-            chartPadding: {
-              right: 50
-            }
-          },
-          responsiveOptions: [
-            ['screen and (max-width: 640px)', {
-              axisX: {
-                labelInterpolationFnc (value) {
-                  return value[0]
-                }
-              }
-            }]
-          ]
-        },
+
+        serieR:[0,0,0,0,0,0,0,0,0,0,0,0], // séries de valeurs des demandes de prets pour le graphique à barres
+        serieB:[0,0,0,0,0,0,0,0,0,0,0,0], // séries de valeurs des prets en cours pour le graphique à barres
+        //initialisation du bar chart
         barChart: {
           data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             series: [
-              [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-              [412, 243, 280, 580, 453, 353, 300, 364, 368, 410, 636, 695]
+            [],
+            []
             ]
           },
           options: {
@@ -251,23 +248,213 @@
             }]
           ]
         },
-        tableData: {
-          data: [
-            {title: 'Sign contract for "What are conference organizers afraid of?"', checked: false},
-            {title: 'Lines From Great Russian Literature? Or E-mails From My Boss?', checked: true},
-            {
-              title: 'Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit',
-              checked: true
-            },
-            {title: 'Create 4 Invisible User Experiences you Never Knew About', checked: false},
-            {title: 'Read "Following makes Medium better"', checked: false},
-            {title: 'Unfollow 5 enemies from twitter', checked: false}
-          ]
-        }
+        tableData: {}
+      }
+    },
+    //surveiller les changements dans nbrObj et done pour appeler les méthodes updatePieChart() et updateBChart() lorsque ces variables changent.
+    watch: {
+  nbrObj: {
+    handler(newVal, oldVal) {
+      if (newVal !== 0) {
+        this.updatePieChart();
       }
     }
+  
+    
+  },
+  done: {
+    handler(newVal, oldVal) {
+      if (newVal !== 0) {
+        this.updateBChart();
+      }
+    }
+  
   }
+},
+
+    methods:{
+
+      // met à jour les données du graphique du pieChart en fonction du nombre d'objets empruntés et non empruntés dans obj.
+      updatePieChart() {
+        console.log('nbr obj');
+        console.log(this.nbrObj);
+        if(this.nbrObj!== 0)
+    this.pieChart = {
+      data: {
+        labels: [`${this.borr} (${Math.round(this.borr/(this.nbrObj)*100)}%)`, `${this.dispo} (${Math.round(this.dispo/(this.nbrObj)*100)}%)`],
+        series: [this.borr, this.dispo]
+      }
+    };
+  },
+
+  //met à jour les données du barChart en fonction des séries de valeurs de demandes de prêts et de prêts en cours dans serieR et serieB.
+  updateBChart() {
+    console.log('update');
+    this.barChart = {
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [
+              this.serieR,
+              this.serieB
+            ]
+      }
+    };
+  },
+
+  //méthode qui envoie une requête GET à l'API pour récupérer les données d'objets, puis met à jour le nombre des objets (nbrObj), 
+  // nombre des objets empruntes (borr) et nombre des objets disponibles (dispo)
+  async  countOb () { 
+
+    await fetch("http://localhost:3000/object", {
+    "method": "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+})
+.then(async response => {
+      const data = await response.json();
+
+      // check for error response
+      if (!response.ok) {
+        // get error message from body or default to response statusText
+        const error = (data && data.message) || response.statusText;
+        return Promise.reject(error);
+      }
+
+      this.obj=data;
+      const borrowedObjs = data.filter(obj => obj.borrowed === true);
+    this.borr = borrowedObjs.length;
+    const NotborrowedObjs = data.filter(obj => obj.borrowed === false);
+    this.dispo = NotborrowedObjs.length;
+      this.nbrObj = data.length;
+      
+    })
+    .catch(error => {
+      this.errorMessage = error;
+      console.error("There was an error!", error);
+    });
+    },
+
+
+
+// méthode qui envoie une requête GET à l'API pour récupérer les données de types d'objets, puis met à jour nbrType
+countType () { 
+
+fetch("http://localhost:3000/objectType", {
+"method": "GET",
+headers: {
+"Content-Type": "application/json"
+}
+})
+.then(async response => {
+const data = await response.json();
+
+// check for error response
+if (!response.ok) {
+  // get error message from body or default to response statusText
+  const error = (data && data.message) || response.statusText;
+  
+  return Promise.reject(error);
+}
+
+this.nbrType = data.length;
+})
+.catch(error => {
+this.errorMessage = error;
+console.error("There was an error!", error);
+});
+},
+
+
+
+//méthode qui envoie une requête GET à l'API pour récupérer les données de prêts, puis met à jour
+//le nombre total des prets nbrPret et remplit la variable pret avec les 8 derniers prêts enregistrés(historique des prets).
+async fetchLoansAndCountThisMonth() {
+  const today = new Date();
+  const thisMonth = today.getMonth() + 1;
+  await fetch('http://localhost:3000/loan')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      this.nbrPret = data.length;
+      this.pret=data.slice(0, 8);
+      data.forEach(loan => {
+        const r = new Date(loan.date.request);
+        const rm = r.getMonth() + 1;
+        if(loan.status=='Request')
+        {      
+          this.serieR[rm-1]=this.serieR[rm-1]+1;
+        }
+        else if(loan.status=='InProgress')
+        {  const borrowDate = new Date(loan.date.borrow);
+        const borrowMonth = borrowDate.getMonth() + 1;
+        console.log(borrowMonth);
+        this.serieB[borrowMonth-1]=this.serieB[borrowMonth-1]+1;
+          if (borrowMonth === thisMonth) {
+          this.numLoansThisMonth++;
+        }
+        }
+        
+        
+      });
+      //afficher le bar chart quand les donnees sont reccuperees 
+      this.done=1;
+      this.barChart = {
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [
+              this.serieR,
+              this.serieB
+            ]
+      }
+    };
+    })
+    .catch(error => {
+      console.error('Error fetching loans:', error);
+    });
+}
+
+
+
+
+    },
+    mounted() {
+  Promise.all([this.countOb(), this.countType(), this.fetchLoansAndCountThisMonth()]).then(() => {
+    this.updatePieChart();
+  });
+},
+
+async beforeMount(){
+   
+  await this.countOb();
+  this.countType();
+  await this.fetchLoansAndCountThisMonth();
+  }
+  
+   
+ }
 </script>
 <style>
+.container {
+  display: flex;
+}
 
+.image-container {
+  width: 50%;
+  overflow: hidden;
+}
+
+.blurred-image {
+  border-radius: 8px;
+  width: 100%;
+}
+
+.text-container {
+  width: 50%;
+  padding: 20px;
+}
 </style>
