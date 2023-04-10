@@ -6,17 +6,17 @@
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Tableau de bord</p>
       </sidebar-link>
-      <sidebar-link to="#">
-        <i class="nc-icon nc-circle-09"></i>
-        <p>Gestion des demandes</p>
-      </sidebar-link>
       <sidebar-link to="/admin/objet">
-        <i class="nc-icon nc-notes"></i>
+        <i class="nc-icon nc-app"></i>
         <p>Gestion des objets</p>
       </sidebar-link>
-      <sidebar-link to="/admin/typography">
+      <sidebar-link to="/admin/pret">
         <i class="nc-icon nc-paper-2"></i>
         <p>Gestion des Prets</p>
+      </sidebar-link>
+      <sidebar-link to="/admin/demande">
+        <i class="nc-icon nc-notes"></i>
+        <p>Gestion des Demandes</p>
       </sidebar-link>
       <!---
       <sidebar-link to="/admin/icons">

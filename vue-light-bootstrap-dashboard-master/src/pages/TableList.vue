@@ -50,12 +50,6 @@
 
       </div>
 
-
-
-
-
-
-      
     </div>
   </div>
 </template>

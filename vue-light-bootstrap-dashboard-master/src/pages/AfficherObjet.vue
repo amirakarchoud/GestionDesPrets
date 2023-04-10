@@ -59,12 +59,6 @@ La méthode "beforeMount" est appelée avant que le composant ne soit monté et 
 
       </div>
 
-     
-     
-
-
-
-      
     </div>
   </div>
 </template>
@@ -103,6 +97,7 @@ La méthode "beforeMount" est appelée avant que le composant ne soit monté et 
     etat: 'disponible',
     type: 'Carte'
   }]
+
   export default {
     components: {
       LoTable,
@@ -208,13 +203,6 @@ beforeMount(){
 
 
   }
-
-
-
-
-
- 
-
 
 </script>
 

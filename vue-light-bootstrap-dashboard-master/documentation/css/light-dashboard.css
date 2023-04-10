@@ -1200,9 +1200,6 @@ body.swal2-iosfix {
   padding: 8px !important;
 }
 
-.bootstrap-table .table > tbody > .selected {
-  background-color: rgba(122, 158, 159, 0.2);
-}
 
 .bootstrap-table .table.table-no-bordered > thead > tr > th,
 .bootstrap-table .table.table-no-bordered > tbody > tr > td {
@@ -7066,7 +7063,7 @@ star {
 }
 
 .table-striped tbody > tr:nth-of-type(2n+1) {
-  background-color: #F3F2EE;
+  background-color: #FFFFFF;
 }
 .table-striped > thead > tr > th,
 .table-striped > tbody > tr > th,

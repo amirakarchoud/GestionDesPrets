@@ -9,13 +9,25 @@ import Overview from 'src/pages/Overview.vue'
 import OverviewMembre from 'src/pages/OverviewMembre.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
-import ModifierObjet from 'src/pages/ModifierObjet.vue'
-
-import ModifierType from 'src/pages/ModifierType.vue'
 
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
+import AfficherPret from 'src/pages/AfficherPret.vue'
+import AfficherPretRetourne from 'src/pages/AfficherPretRetourne.vue'
+import AfficherPretNonRetourne from 'src/pages/AfficherPretNonRetourne.vue'
+import AfficherPretAssigne from 'src/pages/AfficherPretAssigne.vue'
+import AfficherPretByid from 'src/pages/AfficherPretByid.vue'
+import AfficherDemande from 'src/pages/AfficherDemande.vue'
+import AfficherDemandeById from 'src/pages/AfficherDemandeById.vue'
+import ValiderDemande from 'src/pages/ValiderDemande.vue'
+import AfficherDemandeMember from 'src/pages/AfficherDemandeMember.vue'
+
+
+import ModifierObjet from 'src/pages/ModifierObjet.vue'
+
+import ModifierType from 'src/pages/ModifierType.vue'
+
 import AfficherObjetMembre from 'src/pages/AfficherObjetMembre.vue'
 import AfficherType from 'src/pages/AfficherType.vue'
 import Typography from 'src/pages/Typography.vue'
@@ -32,6 +44,7 @@ const routes = [
     component: Index,
     name: 'index'
   },
+   //Declaration des chemins pour le membre
   {
     path: '/admin',
     component: DashboardLayout,
@@ -68,6 +81,40 @@ const routes = [
         component: AfficherObjet
       },
       {
+        path: 'pret',
+        name: 'Pretaff',
+        component: AfficherPret
+      },
+      {
+        path: 'pretRetourne',
+        name: 'PretRetourneaff',
+        component: AfficherPretRetourne
+      },
+      {
+        path: 'pretNonRetourne',
+        name: 'PretNonRetourneaff',
+        component: AfficherPretNonRetourne
+      },
+      {
+        path: 'pretAssigne',
+        name: 'PretAssigneaff',
+        component: AfficherPretAssigne
+      },
+      {
+        path: 'pretbyid/:id',
+        name: 'PretById',
+        component: AfficherPretByid 
+      },
+      {
+        path: 'demande',
+        name: 'Demandeaff',
+        component: AfficherDemande
+      },
+      {
+        path: 'demandebyid/:id',
+        name: 'DemandeById',
+        component: AfficherDemandeById 
+},
         path: 'type',
         name: 'Typeaff',
         component: AfficherType
@@ -126,6 +173,7 @@ const routes = [
       }
     ]
   },
+  //Declaration des chemins pour le membre
   {
     path: '/membre',
     component: LayoutMembre,
@@ -136,6 +184,17 @@ const routes = [
         name: 'Overview',
         component: OverviewMembre
       },
+      {
+        path: 'demande',
+        name: 'Demandeaff',
+        component: AfficherDemandeMember
+      },
+      {
+        path: 'validerdemande',
+        name: 'ValiderDemande',
+        component: ValiderDemande
+      },
+
       {
         path: 'objet',
         name: 'Objetaff',

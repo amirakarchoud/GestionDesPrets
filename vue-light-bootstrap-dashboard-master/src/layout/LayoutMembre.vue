@@ -14,9 +14,9 @@
         <i class="nc-icon nc-notes"></i>
         <p>Afficher les objets</p>
       </sidebar-link>
-      <sidebar-link to="/admin/typography">
+      <sidebar-link to="/membre/demande">
         <i class="nc-icon nc-paper-2"></i>
-        <p>Gestion des Prets</p>
+        <p>Gestion des Demandes</p>
       </sidebar-link>
       <!---
       <sidebar-link to="/admin/icons">
