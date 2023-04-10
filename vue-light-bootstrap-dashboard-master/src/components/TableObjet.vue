@@ -1,10 +1,15 @@
+ <!-- Ce fichier contient un composant Vue appelé "lo-table", qui est une table de donnees des objets 
+   avec des fonctionnalités de recherche et de filtrage pour les données -->
 <template>
    <div>
+     <!-- Le conteneur de recherche et de sélection -->
     <div class="search-select-container">
+      <!-- Barre de recherche par label-->
     <div class="search-box">
       <input type="text" v-model="searchText" placeholder="Rechercher Label...">
       <i class="nc-icon nc-zoom-split"></i>
     </div>
+     <!-- liste déroulante pour le filtrage par groupe -->
     <div class="select-box">
       <select v-model="selectedType">
         <option value="">Tous les groupes</option>
@@ -12,7 +17,7 @@
       </select>
     </div>
   </div>
-
+<!-- Table des objets -->
   <table class="table">
     <thead>
       <slot name="columns">
@@ -34,7 +39,9 @@
         <td >{{borrowedStatus(item.borrowed)}}</td>
         <td >{{item.type.label}}</td>
         <td >{{item.type.group.label}}</td>
+        <!-- Bouton pour modifier l'objet -->
         <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
+        <!-- Bouton pour supprimer l'objet -->
         <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
     </tr>
@@ -42,7 +49,8 @@
   </table>
 
 
- 
+ <!-- Modale de confirmation pour la suppression d'un objet -->
+ <!-- Son affichage depend de la valeur du flag showModal-->
   <div class="modal" v-if="showModal">
     <div class="modal-content">
       <p>Etes vous sur de supprimer cet objet ?</p>
@@ -68,19 +76,20 @@ import Notifications from 'vue-notification'
     name: 'lo-table',
     props: {
       columns: Array,
-      data: Array,
-      groups:Array
+      data: Array, //les objets a afficher dans le tableau
+      groups:Array //tableau des groupes passes en parametre
     },
     data() {
     return {
-      showModal: false,
+      showModal: false,//initialisation du flag showModal
       objectId: null,
       selectedType: '',
-      searchText: '',
+      searchText: '', //initialisation du texte du recherche 
       searchTextFocus: false,
       selectedTypeFocus: false
     };
   },
+  //filtrage des donnees selon les groupes ou le label
   computed: {
     filteredData() {
       if (!this.selectedType) {
@@ -97,10 +106,12 @@ import Notifications from 'vue-notification'
   },
     methods: {
 
+      //methode pour afficher le message de confirmation
       showConfirmationModal(id) {
       this.objectId = id;
       this.showModal = true;
     },
+    //methode pour cacher le message de confirmation
     hideConfirmationModal() {
       this.showModal = false;
     },
@@ -111,10 +122,12 @@ import Notifications from 'vue-notification'
       itemValue (item, column) {
         return item[column.toLowerCase()]
       },
+      //methode pour transformer le flag borrowed en 'emprunte' si il est a vrai sinon en 'disponible' si il est a faux
       borrowedStatus(borrowed) {
     return borrowed ? 'Emprunte' : 'Disponible';
   },
 
+  //methode delete pour supprimer un objet de la base de donnees apres la confirmation
   async deleteObject() {
     const id=this.objectId;
     const requestOptions = {
@@ -134,6 +147,21 @@ import Notifications from 'vue-notification'
       // reload the page
       this.hideConfirmationModal();
       location.reload();
+      //afficher la notification
+      this.$toast.success("Objet supprimé avec succes !", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
     })
     .catch(error => {
       this.errorMessage = error;

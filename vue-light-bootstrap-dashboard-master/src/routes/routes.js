@@ -6,6 +6,7 @@ import NotFound from '../pages/NotFoundPage.vue'
 
 // Admin pages
 import Overview from 'src/pages/Overview.vue'
+import OverviewMembre from 'src/pages/OverviewMembre.vue'
 import UserProfile from 'src/pages/UserProfile.vue'
 import AjouterObjet from 'src/pages/AjouterObjet.vue'
 import ModifierObjet from 'src/pages/ModifierObjet.vue'
@@ -15,6 +16,7 @@ import ModifierType from 'src/pages/ModifierType.vue'
 import AjouterType from 'src/pages/AjouterType.vue'
 import TableList from 'src/pages/TableList.vue'
 import AfficherObjet from 'src/pages/AfficherObjet.vue'
+import AfficherObjetMembre from 'src/pages/AfficherObjetMembre.vue'
 import AfficherType from 'src/pages/AfficherType.vue'
 import Typography from 'src/pages/Typography.vue'
 import Icons from 'src/pages/Icons.vue'
@@ -72,6 +74,7 @@ const routes = [
         },
         {
 
+      {
         path: 'groupe',
         name: 'Groupeaff',
         component: AfficherGroupe
@@ -132,7 +135,12 @@ const routes = [
       {
         path: 'overview',
         name: 'Overview',
-        component: Overview
+        component: OverviewMembre
+      },
+      {
+        path: 'objet',
+        name: 'Objetaff',
+        component: AfficherObjetMembre
       }]}
       ,
   { path: '*', component: NotFound }

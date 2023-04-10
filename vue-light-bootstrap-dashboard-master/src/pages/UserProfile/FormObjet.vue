@@ -1,11 +1,13 @@
+<!-- Composant FormObjet.vue pour ajouter un nouvel objet dans la base de données-->
 <template>
   <card>
     <h4 slot="header" class="card-title">Ajouter un objet</h4>
+    <!-- Formulaire pour saisir les informations de l'objet -->
     <form>
 
+<!-- -->
 
-
-
+<!-- Champ pour saisir le label de l'objet-->
       <div class="row">
         <div class="col-md-5">
           <base-input type="text"
@@ -17,7 +19,7 @@
         
       </div>
 
-
+<!--Champ pour sélectionner le groupe de l'objet -->
 
 
       <div class="row">
@@ -36,7 +38,7 @@
 
 
 
-
+<!-- Champ pour sélectionner le type de l'objet-->
 
 
       <div class="row">
@@ -56,7 +58,7 @@
 
 
 
-      
+ <!-- Les boutons pour confirmer l'ajout ou annuler et retourner a la page precendente du tableau des objets-->    
        
       <div class="text-center">
         <button type="submit" class="btn btn-info btn-fill float-right" @click.prevent="created" :disabled="hasEmptyRequiredFields">
@@ -74,19 +76,21 @@
 <script>
   import Card from 'src/components/Cards/Card.vue'
   import Notifications from 'vue-notification'
-
+// Définition des propriétés du composant FormObjet
   export default {
     components: {
       Card
     },
     data () {
       return {
+        //initialisation du data a remplir de l'objet cree
         data:{
           label:'',
           type:'',
           borrowed:false
           
         },
+        //declaration des notifications a utiliser
         notifications: {
           success:{
           title: 'Objet a été ajouté avec succès!',
@@ -108,19 +112,26 @@
           }
         
       },
+      //initialisation des types 
         types:[],
+        //initialisation du groupe d'objet selectionne
         group:'',
        
       selectedT: 'A',
+      //liste des options de la liste deroulante des types
       optionsT: [
         
       ],
+      //liste des options de la liste deroulante des groupes
       optionsG: [
         
       ]
       }
     },
+     // Fonction de surveillance pour les changements de groupe de l'objet
     watch: {
+      //si le groupe change on met a jour la liste deroulante des types 
+      //si la valeur ancienne est la meme que la nouvelle valeur alors on change rien , sinon on met a jour la liste deroulante des types
   'group'(newValue, oldValue) {
     console.log("watch");
     if (newValue !== oldValue) {
@@ -132,21 +143,15 @@
   }
 },
 computed: {
+  //verification que les champs ne sont pas vides
     hasEmptyRequiredFields() {
       return !this.data.label || !this.data.type;
     }
   },
+  //definition des methodes
     methods: {
-      updateProfile () {
-        alert('Your data: ' + JSON.stringify(this.user))
-      },
 
-      testClic(){
-          console.log(this.data);
-      },
-
-
-
+      //methode POST pour ajouter un objet 
       created() {
   // POST request using fetch with error handling
   console.log(this.data);
@@ -168,8 +173,22 @@ computed: {
       }
 
       this.postId = data.id;
-
-      this.$notify(this.notifications.success);
+//affichage de notification du succes
+      this.$toast.success("Objet ajoute avec succes !", {
+                position: "top-right",
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+              });
+              //redirection vers le tableau des objets apres l'ajout
       this.$router.push('/admin/objet');
     })
     .catch(error => {
@@ -178,14 +197,15 @@ computed: {
       console.error('There was an error!', error);
     });
 },
-
+//methode pour recuperer les type selon l'id du groupe 
+//id: id du groupe
 getTypes (id) { 
   console.log("types");
 
   console.log(this.types);
    
        this.optionsT=[];
-       
+       //remplir les options de la liste deroulante par les types du groupe selectionne
        
       this.optionsT= this.types.filter(o=>o.group==id).map(o => {
   return {
@@ -201,7 +221,7 @@ getTypes (id) {
 
 
 
-
+//methode GET pour recuperer tous les types de la base
     getTypesAll () { 
       this.responseAvailable = false;
 
@@ -234,7 +254,7 @@ getTypes (id) {
 
 
 
-
+//methode GET pour recuperer tous les groupes de la base
     getGroupes () { 
       this.responseAvailable = false;
 
@@ -254,6 +274,7 @@ getTypes (id) {
         return Promise.reject(error);
       }
       this.responseAvailable=true;
+      //remplir la liste des options des groupes
       this.optionsG= data.map(o => {
   return {
     text: o.label,
@@ -269,12 +290,10 @@ getTypes (id) {
     },
 
     },
-
+//Appel des methodes avant que le composant FormObjet soit monté
 beforeMount(){
-  //this.test();
-  this.getTypesAll ()
-  this.getGroupes();
-  // this.getTypes(id);
+  this.getTypesAll (); //pour reccuperer les types
+  this.getGroupes();//pour reccuperer les groupes
  },
 
   }
