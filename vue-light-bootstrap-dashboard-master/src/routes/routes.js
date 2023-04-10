@@ -72,6 +72,7 @@ const routes = [
         name: 'Typeaff',
         component: AfficherType
         },
+        {
 
       {
         path: 'groupe',

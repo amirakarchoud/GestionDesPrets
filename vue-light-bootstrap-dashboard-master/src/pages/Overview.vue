@@ -269,11 +269,11 @@
       }
     }
   
-    
   }
 },
 
     methods:{
+
       // met à jour les données du graphique du pieChart en fonction du nombre d'objets empruntés et non empruntés dans obj.
       updatePieChart() {
         console.log('nbr obj');
@@ -422,6 +422,11 @@ async fetchLoansAndCountThisMonth() {
 
 
     },
+    mounted() {
+  Promise.all([this.countOb(), this.countType(), this.fetchLoansAndCountThisMonth()]).then(() => {
+    this.updatePieChart();
+  });
+},
 
 async beforeMount(){
    
