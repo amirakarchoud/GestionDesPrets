@@ -6,9 +6,9 @@
         <i class="nc-icon nc-chart-pie-35"></i>
         <p>Tableau de bord</p>
       </sidebar-link>
-      <sidebar-link to="/admin/user">
-        <i class="nc-icon nc-circle-09"></i>
-        <p>Gestion des demandes</p>
+      <sidebar-link to="/membre/pret">
+        <i class="nc-icon nc-paper-2"></i>
+        <p>Afficher les prets</p>
       </sidebar-link>
       <sidebar-link to="/membre/objet">
         <i class="nc-icon nc-notes"></i>

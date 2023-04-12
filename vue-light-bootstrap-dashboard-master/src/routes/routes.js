@@ -22,7 +22,8 @@ import AfficherDemande from 'src/pages/AfficherDemande.vue'
 import AfficherDemandeById from 'src/pages/AfficherDemandeById.vue'
 import ValiderDemande from 'src/pages/ValiderDemande.vue'
 import AfficherDemandeMember from 'src/pages/AfficherDemandeMember.vue'
-
+import AfficherPretMembre from 'src/pages/AfficherPretMembre.vue'
+import AfficherPretByidMembre from 'src/pages/AfficherPretByidMembre.vue'
 
 import ModifierObjet from 'src/pages/ModifierObjet.vue'
 
@@ -206,6 +207,16 @@ const routes = [
         path: 'demande',
         name: 'Demandeaff',
         component: AfficherDemandeMember
+      },
+      {
+        path: 'pret',
+        name: 'Pretaff',
+        component: AfficherPretMembre
+      },
+      {
+        path: 'pretbyidmembre/:id',
+        name: 'PretByIdMembre',
+        component: AfficherPretByidMembre 
       },
       {
         path: 'demandeAdd',
