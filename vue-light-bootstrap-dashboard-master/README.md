@@ -127,8 +127,8 @@ Le fichier main.js est le point d'entrée du projet. Il importe le composant App
 
 ## Déploiement
 
-Pour déployer ce projet 
+Pour récupérer l'image Docker du projet 
 
 ```bash
-  npm run deploy
+  docker pull fatmakahloun/frontend_vue_vf1
 ```
