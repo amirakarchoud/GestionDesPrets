@@ -25,7 +25,7 @@
         <div class="col-md-6" >
         <label for="group">Groupe </label>
          <br>
-          <select v-model="group" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+          <select id="g" v-model="group" style="width:280px; height:40px; border:1px solid #d8e1e6;">
           <option disabled value="">Veuillez selectionner un groupe</option>
         <option v-for="option in optionsG" :value="option.value">
              {{ option.text }}
@@ -86,12 +86,12 @@
 
 </template>
 <script>
-  import Card from 'src/components/Cards/Card.vue'
+  //import Card from 'src/components/Cards/Card.vue'
   import Notifications from 'vue-notification'
 // Définition des propriétés du composant FormObjetModif
   export default {
     components: {
-      Card,
+    //  Card,
       Notifications
     },
     data () {
@@ -203,7 +203,20 @@ computed: {
       if (!response.ok) {
         // get error message from body or default to response status
         const error = (data && data.message) || response.status;
-        this.$notify(this.notifications.failure);
+        this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         return Promise.reject(error);
       }
 

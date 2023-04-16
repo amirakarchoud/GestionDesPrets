@@ -37,8 +37,12 @@
           </div>
         </div>
         <div class="row justify-content-center">
-      <!-- Exécution de la méthode goback() suite au clic sur le bouton de Retour -->
-      <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div></div>
+      <!-- Exécution de la méthode goback() suite au clic sur le bouton de Retour 
+      <div class="col-md-3"><button  @click="goBack()" class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></div>
+    -->
+  
+      <div class="col-md-3"><router-link to="/membre/pret"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></router-link></div>
+    </div>
       </div>
     
         </div>

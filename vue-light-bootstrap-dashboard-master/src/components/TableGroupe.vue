@@ -59,7 +59,7 @@
       <div class="modal-content">
         <p>Etes vous sûr de supprimer ce groupe ?</p>
         <div class="modal-buttons">
-          <button class="btn btn-danger" @click="deleteGrp()">Supprimer</button>
+          <button id="del" class="btn btn-danger" @click="deleteGrp()">Supprimer</button>
           <button class="btn btn-secondary" @click="hideConfirmationModal()">
             Cancel
           </button>

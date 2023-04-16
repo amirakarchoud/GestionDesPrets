@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  vue:
+    build:
+      context: "vue-light-bootstrap-dashboard-master/"
+    image: fatmakahloun/frontend_vue_vf1
+    env_file:
+      - "./vue-light-bootstrap-dashboard-master/.env"
+    ports:
+      - 8080:8080

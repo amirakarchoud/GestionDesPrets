@@ -19,7 +19,6 @@
           <td >{{itemValue(item, "borrower")}}</td>
           <td >{{itemValue(item, "requester")}}</td>
           <td >{{itemValue(item, "manager")}}</td>
-          <td >{{itemValue(item, "status")}}</td>
           <!-- Pour transmettre en URL l'id d'une demande spécifique suite à la clic sur le bouton Loupe-->
           <td><router-link :to="{ name: 'DemandeByIdMembre', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="nc-icon nc-zoom-split" ></i></i></button> </router-link></td>        </slot>
 

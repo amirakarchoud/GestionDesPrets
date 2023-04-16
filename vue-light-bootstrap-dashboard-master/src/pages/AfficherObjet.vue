@@ -23,7 +23,7 @@ La méthode "beforeMount" est appelée avant que le composant ne soit monté et 
       </div></div><div class="row justify-content-center">
       <div class="col-md-3 col-md-offset-1"><router-link to="/admin/objetadd"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i> Ajouter un objet </button></router-link></div>
       <div class="col-md-3"><router-link to="/admin/groupe"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i>  Gestion des groupes</button></router-link></div>
-      <div class="col-md-3"><router-link to="/admin/type"><button class="btn btn-default btn-block btn-info">Gestion des types</button></router-link></div></div>
+      <div class="col-md-3"><router-link to="/admin/type"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-layers-3"></i> Gestion des types</button></router-link></div></div>
 
       
       

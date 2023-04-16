@@ -36,7 +36,7 @@
         <td >{{itemValue(item, "label")}}</td>
         <td >{{borrowedStatus(item.borrowed)}}</td>
         <td >{{item.type.label}}</td>
-        <td >{{item.type.group.label}}</td>
+        <td v-if="item.type.group !== null">{{item.type.group.label}}</td>
  </slot>
     </tr>
     </tbody>

@@ -21,7 +21,7 @@ La méthode "beforeMount" est appelée avant que le composant ne soit monté et 
 <h5>
               <p class="category"></p></h5>
       </div></div><div class="row justify-content-center">
-      <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/ajouterType">Ajouter un Type</router-link> </button></div>
+      <div class="col-md-3 col-md-offset-1"><router-link to="/admin/ajouterType"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  Ajouter un Type</button></router-link></div>
 
       
       

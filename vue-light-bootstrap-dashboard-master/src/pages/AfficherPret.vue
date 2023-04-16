@@ -18,11 +18,12 @@
         
         <div class="row justify-content-center">
         <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts non retounées -->
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretNonRetourne">Prêts Non Retournés</router-link></button></div>
+        <div class="col-md-3"><router-link to="/admin/pretNonRetourne"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> Prêts Non Retournés</button></router-link></div>
         <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Assignés -->
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to ="/admin/pretAssigne">Prêts Assignés</router-link> </button></div>
+        <div class="col-md-3"><router-link to ="/admin/pretAssigne"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> Prêts Assignés </button></router-link></div>
         <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts Retournés-->
-        <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> <router-link to="/admin/pretRetourne">Prêts Retournés</router-link></button></div></div>
+        <div class="col-md-3"><router-link to="/admin/pretRetourne"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i> Prêts Retournés</button> </router-link></div>
+      </div>
          
         </div>
         </div>

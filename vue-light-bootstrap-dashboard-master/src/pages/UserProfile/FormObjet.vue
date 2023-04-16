@@ -10,7 +10,7 @@
 <!-- Champ pour saisir le label de l'objet-->
       <div class="row">
         <div class="col-md-5">
-          <base-input type="text"
+          <base-input id="labelOb" type="text"
                     label="Label"
                     placeholder="Nom objet"
                     v-model="data.label" style="width:280px;">
@@ -24,9 +24,9 @@
 
       <div class="row">
         <div class="col-md-6" >
-        <label for="group">Groupe </label>
+        <label  for="group">Groupe </label>
          <br>
-          <select v-model="group" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+          <select id="g" v-model="group" style="width:280px; height:40px; border:1px solid #d8e1e6;">
           <option disabled value="">Veuillez selectionner un groupe</option>
         <option v-for="option in optionsG" :value="option.value">
              {{ option.text }}
@@ -43,9 +43,9 @@
 
       <div class="row">
         <div class="col-md-6" >
-        <label for="group">Type </label>
+        <label  for="group">Type </label>
          <br>
-          <select v-model="data.type" style="width:280px; height:40px; border:1px solid #d8e1e6;">
+          <select id="t" v-model="data.type" style="width:280px; height:40px; border:1px solid #d8e1e6;">
           <option disabled value="">Veuillez selectionner un type</option>
         <option v-for="option in optionsT" :value="option.value">
              {{ option.text }}
@@ -74,12 +74,12 @@
   </card>
 </template>
 <script>
-  import Card from 'src/components/Cards/Card.vue'
+  //import Card from 'src/components/Cards/Card.vue'
   import Notifications from 'vue-notification'
 // Définition des propriétés du composant FormObjet
   export default {
     components: {
-      Card
+   //   Card
     },
     data () {
       return {
@@ -193,7 +193,20 @@ computed: {
     })
     .catch(error => {
       this.errorMessage = error;
-      this.$notify(this.notifications.failure);
+      this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
       console.error('There was an error!', error);
     });
 },

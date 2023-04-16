@@ -6,7 +6,7 @@
       <form>
         <div class="row">
           <div class="col-md-5">
-            <base-input
+            <base-input id="modiflabel"
               type="text"
               label="Label"
               placeholder="Label"
@@ -32,7 +32,7 @@
         </div>
 
         <div class="text-center">
-          <button
+          <button id="modifier"
             type="submit"
             class="btn btn-info btn-fill float-right"
             @click.prevent="showConfirmationModal"
@@ -57,7 +57,7 @@
       <div class="modal-content">
         <p>Etes vous sûr de modifier ce groupe ?</p>
         <div class="modal-buttons">
-          <button class="btn btn-danger" @click="update()">Modifier</button>
+          <button id="upd" class="btn btn-danger" @click="update()">Modifier</button>
           <button class="btn btn-secondary" @click="hideConfirmationModal()">
             Cancel
           </button>

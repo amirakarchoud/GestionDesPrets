@@ -18,7 +18,7 @@
 
         <div class="row justify-content-center">
 
-    <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i> <router-link to="/membre/demandeAdd">Ajouter une Demande</router-link>  </button></div>
+    <div class="col-md-3 col-md-offset-1"><router-link to="/membre/demandeAdd"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i> Ajouter une Demande </button></router-link></div>
 
     </div>
 
@@ -55,7 +55,7 @@
 import localStorage from 'localStorage';
 import LoTable from 'src/components/TableDemandeMember.vue'
 import Card from 'src/components/Cards/Card.vue'
-const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire', 'Etat']
+const tableColumns = ['Id', 'Prêtteur', 'Demandeur', 'Gestionnaire']
 const tableData = []
 
 export default {

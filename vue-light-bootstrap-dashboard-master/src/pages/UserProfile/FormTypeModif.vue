@@ -183,7 +183,20 @@
       if (!response.ok) {
         // get error message from body or default to response status
         const error = (data && data.message) || response.status;
-        this.$notify(this.notifications.failure);
+        this.$toast.error("Erreur !", {
+            position: "top-right",
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: true,
+            closeButton: "button",
+            icon: true,
+            rtl: false,
+          });
         return Promise.reject(error);
       }
 

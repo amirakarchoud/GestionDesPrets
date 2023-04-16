@@ -10,12 +10,12 @@
             <template slot="header">
               <div class="d-flex justify-content-between">
                 <h4 class="card-title">Les groupes</h4>
+                <router-link to="/admin/ajouterGroupe">
                 <button class="btn btn-default btn-info">
-                  <i class="nc-icon nc-simple-add"></i
-                  ><router-link to="/admin/ajouterGroupe">
-                    Ajouter un groupe</router-link
-                  >
+                  <i class="nc-icon nc-simple-add"></i>
+                    Ajouter un groupe
                 </button>
+              </router-link>
               </div>
 
               <p class="card-category"></p>

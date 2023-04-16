@@ -15,7 +15,7 @@
 <h5>
               <p class="category"></p></h5>
       </div></div><div class="row justify-content-center">
-      <div class="col-md-3 col-md-offset-1"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  <router-link to="/admin/objetadd">Ajouter un objet</router-link> </button></div>
+      <div class="col-md-3 col-md-offset-1"><router-link to="/admin/objetadd"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-simple-add"></i>  Ajouter un objet </button></router-link></div>
       <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-notes"></i>  Ajouter un groupe</button></div>
       <div class="col-md-3"><button class="btn btn-default btn-block btn-info">Ajouter un type</button></div></div>
       

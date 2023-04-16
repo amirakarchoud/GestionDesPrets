@@ -24,7 +24,7 @@
       
       <div class="row justify-content-center">
      <!--Bouton pour redireger le gestionnaire à la page principale de tous les prêts-->
-      <div class="col-md-3"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> <router-link to="/admin/pret">Retour</router-link></button></div></div>
+      <div class="col-md-3"><router-link to="/admin/pret"><button class="btn btn-default btn-block btn-info"><i class="nc-icon nc-stre-left"></i> Retour</button></router-link></div></div>
        
     </div>
 </div>

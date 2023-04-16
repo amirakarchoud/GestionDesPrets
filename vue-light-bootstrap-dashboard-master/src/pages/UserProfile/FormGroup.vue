@@ -7,6 +7,7 @@
       <div class="row">
         <div class="col-md-5">
           <base-input
+          id ="binput"
             type="text"
             label="Label"
             placeholder="Label"
@@ -34,12 +35,11 @@
       <!-- Bouton de validation -->
       <div class="text-center">
         <button
+        id="valider"
           type="submit"
           class="btn btn-info btn-fill float-right"
-          @click.prevent="created"
-        >
-          Valider
-        </button>
+          @click.prevent="created">Valider </button>
+
         <!-- EN cas de validation, redirection vers la page de gestion des groupes -->
         <router-link to="/admin/groupe">
           <button

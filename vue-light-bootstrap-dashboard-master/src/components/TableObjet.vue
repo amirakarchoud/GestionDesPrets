@@ -38,9 +38,9 @@
         <td >{{itemValue(item, "label")}}</td>
         <td >{{borrowedStatus(item.borrowed)}}</td>
         <td >{{item.type.label}}</td>
-        <td >{{item.type.group.label}}</td>
+        <td v-if="item.type.group !== null">{{item.type.group.label}}</td>
         <!-- Bouton pour modifier l'objet -->
-        <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></i></button> </router-link></td>
+        <td><router-link :to="{ name: 'Obmod', params: { id: itemValue(item, '_id') } }"><button class="btn btn-info"><i class="fa fa-pencil" ></i></button> </router-link></td>
         <!-- Bouton pour supprimer l'objet -->
         <td><button class="btn btn-info" @click.prevent="showConfirmationModal(item._id)"><i class="fa fa-trash-o"></i></button> </td>
       </slot>
