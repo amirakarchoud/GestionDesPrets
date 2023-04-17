@@ -125,6 +125,16 @@ Le fichier App.vue est le composant racine de l’application. Il contient le co
 
 Le fichier main.js est le point d'entrée du projet. Il importe le composant App.vue et définit l'instance de Vue qui sera utilisée pour l'application.
 
+## Test
+
+Pour lancer la simulation des tests avec l'interface graphique de Cypress, veuillez saisir cette commande 
+
+```bash
+  npx cypress open
+```
+- Si vous avez choisi l'option E2E pour le test, vous trouverez les fichiers de tests sous le dossier /cypress/e2e
+- Si vous avez choisi l'option test par composant, vous trouverez les fichiers de tests sous le dossier src/components 
+
 ## Déploiement
 
 Pour récupérer l'image Docker du projet 
