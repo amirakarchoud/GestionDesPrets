@@ -55,7 +55,7 @@ Installez les dependences du projet
 Démarrez le serveur 
 
 ```bash
-  npm run dev
+  npm run serve
 ```
 
 Accédez à http://localhost:8080 pour accéder à l'application
